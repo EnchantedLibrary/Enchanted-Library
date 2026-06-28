@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Clinical Library | Enchanted Medical Aesthetics</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+  :root {
+    --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+    --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+    --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+    --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+    --cream:#fdf9f0;--cream-2:#f0e8d4;
+    --rose:#8a3a2a;--rose-light:#f5e8e4;
+    --sage:#4a6b4a;--sage-light:#e4ede4;
+    --teal:#2a6b6b;--teal-light:#e4f0f0;--teal-dark:#1a4a4a;
+    --purple:#5a4a7a;--purple-light:#ede8f5;
+    --amber:#b87a18;--amber-light:#f5eed8;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);line-height:1.6;min-height:100vh}
+  nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+  .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+  .nav-logo{width:32px;height:32px;background:var(--charcoal);border-radius:8px;display:flex;align-items:center;justify-content:center}
+  .nav-logo svg{width:18px;height:18px;fill:white}
+  .nav-name{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--cream);letter-spacing:-0.01em}
+  .nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:var(--gold-light);padding:2px 7px;border-radius:20px}
+  .nav-right{font-size:.8rem;color:var(--tan);font-weight:500;display:flex;align-items:center;gap:6px}
+  .nav-right::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--gold);display:inline-block}
+  .hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:3rem 2rem 2.5rem}
+  .hero-inner{max-width:900px;margin:0 auto}
+  .hero-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.75rem}
+  .hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;letter-spacing:-.02em;color:var(--cream);margin-bottom:.75rem}
+  .hero h1 em{font-style:italic;color:var(--gold)}
+  .hero p{font-size:.95rem;color:var(--tan);max-width:540px;margin-bottom:1.5rem}
+  .search-wrap{position:relative;max-width:540px}
+  .search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-3);width:16px;height:16px}
+  #search{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);background:var(--cream-2);outline:none;transition:border-color .15s}
+  #search:focus{border-color:var(--gold)}
+  #search::placeholder{color:var(--ink-3)}
+  .filter-bar{max-width:900px;margin:0 auto;padding:1.25rem 2rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+  .filter-label{font-size:.75rem;font-weight:600;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;margin-right:.25rem}
+  .filter-btn{padding:.35rem .85rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;transition:all .15s}
+  .filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+  .filter-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold)}
+  .filter-btn[onclick*="emergency"]{border-color:#8a2a1a;color:#8a2a1a}
+  .filter-btn[onclick*="emergency"]:hover,.filter-btn[onclick*="emergency"].active{background:#8a2a1a;border-color:#8a2a1a;color:var(--gold)}
+  .emergency-banner{background:#f9f0ee;border:2px solid #8a2a1a;border-radius:10px;padding:1rem 1.25rem;margin-bottom:1rem;font-size:.85rem;color:#5a1a0a;line-height:1.6}
+  .moa-block{background:var(--charcoal);border-radius:9px;overflow:hidden;margin-bottom:1.25rem}
+  .moa-header{background:var(--gold);color:var(--charcoal);padding:.6rem 1rem;font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .moa-row{border-bottom:1px solid var(--charcoal-light);padding:.65rem 1rem;display:grid;grid-template-columns:160px 1fr;gap:.75rem;align-items:baseline}
+  .moa-row:last-child{border-bottom:none}
+  .moa-label{font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--gold);flex-shrink:0}
+  .moa-text{font-size:.83rem;color:var(--cream);line-height:1.6}
+  @media(max-width:600px){.moa-row{grid-template-columns:1fr;gap:.25rem}}
+  .emergency-step{display:flex;gap:.6rem;margin-bottom:.35rem;align-items:flex-start}
+  .emergency-step .step-num{background:#8a2a1a;color:var(--gold-mid);font-size:.68rem;font-weight:700;border-radius:50%;width:20px;height:20px;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+  .emergency-step .step-text{font-size:.83rem;color:#4a1a0a}
+  .library-wrap{max-width:900px;margin:0 auto;padding:0 2rem 4rem}
+  .section-heading{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:1rem;margin-bottom:2.5rem}
+  .card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:1.25rem;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;display:flex;flex-direction:column;gap:.75rem;position:relative;overflow:hidden}
+  .card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(184,151,42,.15);transform:translateY(-1px)}
+  .card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+  .card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0}
+  .card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+  .badge{font-size:.65rem;font-weight:600;letter-spacing:.04em;padding:2px 7px;border-radius:20px;text-transform:uppercase}
+  .new-badge{font-size:.6rem;font-weight:700;padding:2px 6px;border-radius:20px;background:#fff3cd;color:#856404;border:1px solid #ffc107;text-transform:uppercase;letter-spacing:.04em}
+  .card h3{font-family:'DM Serif Display',serif;font-size:1.05rem;letter-spacing:-.01em;color:var(--ink);line-height:1.3}
+  .card p{font-size:.82rem;color:var(--ink-2);line-height:1.55;flex:1}
+  .card-meta{display:flex;gap:1rem;padding-top:.5rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--ink-3);font-family:'JetBrains Mono',monospace}
+  .card-meta span{display:flex;align-items:center;gap:4px}
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,9,7,.65);backdrop-filter:blur(4px);z-index:200;padding:1.5rem;overflow-y:auto}
+  .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+  .modal{background:var(--card);border-radius:14px;max-width:700px;width:100%;padding:2rem;margin:auto;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.18);animation:modalIn .2s ease}
+  @keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+  .modal-close{position:absolute;top:1rem;right:1rem;background:var(--surface);border:1px solid var(--border);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--ink-2);font-size:1.1rem;transition:background .15s}
+  .modal-close:hover{background:var(--border)}
+  .modal-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+  .modal h2{font-family:'DM Serif Display',serif;font-size:1.7rem;letter-spacing:-.02em;color:var(--ink);margin-bottom:.5rem;line-height:1.2}
+  .modal-summary{font-size:.9rem;color:var(--ink-2);margin-bottom:1.5rem;line-height:1.65}
+  .dosage-block{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:1.25rem}
+  .dosage-header{background:var(--charcoal);color:var(--gold-mid);padding:.6rem 1rem;font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+  .dosage-header span{opacity:.6;font-weight:400}
+  table{width:100%;border-collapse:collapse;font-size:.83rem}
+  th{padding:.5rem 1rem;text-align:left;font-size:.7rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--border)}
+  td{padding:.55rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:.8rem}
+  tr:last-child td{border-bottom:none}
+  td:first-child{color:var(--ink);font-weight:500}
+  .modal-section-title{font-size:.72rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.6rem;margin-top:1.25rem}
+  .note-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem}
+  .note-item{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:.75rem .9rem}
+  .note-item .note-label{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.25rem}
+  .note-item .note-val{font-size:.83rem;color:var(--ink);font-weight:500}
+  .warning-box{background:var(--tan-light);border:1px solid var(--tan);border-radius:7px;padding:.75rem 1rem;font-size:.82rem;color:var(--tan-dark);display:flex;gap:8px;align-items:flex-start;margin-top:1rem}
+  .warning-box::before{content:'⚠';flex-shrink:0}
+  .calc-box{background:var(--gold-light);border:1.5px solid var(--gold);border-radius:9px;padding:1rem 1.25rem;margin-top:1rem}
+  .calc-title{font-size:.75rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.75rem}
+  .calc-row{display:flex;gap:.75rem;align-items:center;flex-wrap:wrap;margin-bottom:.6rem}
+  .calc-row label{font-size:.8rem;color:var(--ink-2);white-space:nowrap;min-width:140px}
+  .calc-row input,.calc-row select{padding:.4rem .7rem;border:1.5px solid var(--border);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink);background:white;width:130px;outline:none}
+  .calc-row input:focus,.calc-row select:focus{border-color:var(--gold)}
+  .calc-result{background:white;border:1px solid var(--border);border-radius:6px;padding:.6rem 1rem;font-size:.85rem;color:var(--ink);margin-top:.5rem;display:flex;justify-content:space-between;align-items:center}
+  .calc-result .result-label{color:var(--ink-3);font-size:.78rem}
+  .calc-result .result-val{font-family:'JetBrains Mono',monospace;font-size:1rem;font-weight:600;color:var(--gold-dark)}
+  .empty{text-align:center;padding:3rem 1rem;color:var(--ink-3);font-size:.9rem}
+  .empty svg{width:40px;height:40px;margin-bottom:1rem;opacity:.3}
+  footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal)}
+  @media(max-width:600px){.hero{padding:2rem 1rem 1.5rem}.filter-bar{padding:1rem}.library-wrap{padding:0 1rem 3rem}.note-grid{grid-template-columns:1fr}.modal{padding:1.5rem 1rem}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="#">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="nav-name">Enchanted Medical Aesthetics</span>
+    <span class="nav-tag">Clinical Library</span>
+  </a>
+  <div class="nav-right">Internal use only — licensed staff</div>
+</nav>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Evidence-Referenced Clinical Reference</div>
+    <h1>Injectable &amp; Peptide<br><em>Protocol Library</em></h1>
+    <p>Dosing references, reconstitution guides, and clinical notes for injectables and peptide therapies used in medical aesthetics practice.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 100 12A6 6 0 009 3zM1 9a8 8 0 1114.32 4.906l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387A8 8 0 011 9z" clip-rule="evenodd"/></svg>
+      <input type="text" id="search" placeholder="Search by compound, category, or indication…" oninput="filterCards()">
+    </div>
+  </div>
+</div>
+<div class="filter-bar">
+  <span class="filter-label">Category:</span>
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('neuromodulator',this)">Neuromodulators</button>
+  <button class="filter-btn" onclick="setFilter('filler',this)">Fillers</button>
+  <button class="filter-btn" onclick="setFilter('peptide',this)">Peptides</button>
+  <button class="filter-btn" onclick="setFilter('biostimulator',this)">Biostimulators</button>
+  <button class="filter-btn" onclick="setFilter('weightloss',this)">Weight Management</button>
+  <button class="filter-btn" onclick="setFilter('hormone',this)">Hormones / GH</button>
+  <button class="filter-btn" onclick="setFilter('vitamin',this)">Vitamins / IV</button>
+  <button class="filter-btn" onclick="setFilter('ophthalmic',this)">Ophthalmic / Rx</button>
+  <button class="filter-btn" onclick="setFilter('emergency',this)">⚠ Emergencies</button>
+</div>
+<div class="library-wrap">
+  <div class="section-heading" id="results-label">All references</div>
+  <div class="grid" id="card-grid"></div>
+  <div class="empty" id="empty-state" style="display:none">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35M11 8v6M8 11h6"/></svg>
+    <div>No results for that search. Try a different term.</div>
+  </div>
+</div>
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Not a substitute for prescriber judgment</footer>
+<script>
+const ENTRIES = [
+  // ── NEUROMODULATORS ───────────────────────────────────────────────
+  {
+    id:'botox',category:'neuromodulator',icon:'💉',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'OnabotulinumtoxinA',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Botox (onabotulinumtoxinA)',
+    tagline:'Gold-standard neuromodulator for dynamic rhytids and hyperhidrosis.',
+    reconstitution:'2.5 mL NS → 4 U/0.1 mL (standard); 1 mL NS → 10 U/0.1 mL (concentrated)',
+    storage:'Refrigerate 2–8°C. Use within 24 h of reconstitution.',
+    onset:'3–5 days; peak 14 days',duration:'3–4 months',
+    warnings:'Contraindicated in myasthenia gravis, Lambert-Eaton. Avoid in pregnancy. Remote spread risk — black box warning.',
+    doses:[
+      {site:'Glabella (11s)',dose:'20–25 U',points:'5 points',notes:'F ~20 U; M up to 40 U'},
+      {site:'Frontalis',dose:'10–20 U',points:'4–6 points',notes:'Leave lower 2 cm untreated'},
+      {site:"Crow's feet",dose:'9–15 U/side',points:'3 pts lateral OO',notes:'Stay ≥1 cm from orbital rim'},
+      {site:'Brow lift',dose:'2–4 U',points:'Lateral OO depressor',notes:'Inject inferior lateral OO fibers'},
+      {site:'Bunny lines',dose:'5–10 U total',points:'2 pts nasalis',notes:'Watch lip elevator proximity'},
+      {site:'Lip flip',dose:'4–8 U OOM',points:'4 points',notes:'≤2 U/point; watch speech'},
+      {site:'Masseter',dose:'25–50 U/side',points:'3–5 deep IM',notes:'Palpate bulk to guide dose'},
+      {site:'Platysmal bands',dose:'15–25 U/band',points:'Pinch technique',notes:'Max 100 U total neck'},
+    ],
+    calc:true,calcType:'botox',
+  },
+  {
+    id:'dysport',category:'neuromodulator',icon:'💉',isNew:false,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'AbobotulinumtoxinA',color:'#3d3830',bg:'#f0eefb'},
+    name:'Dysport (abobotulinumtoxinA)',
+    tagline:'Broader diffusion profile; 2.5:1 conversion ratio vs. Botox.',
+    reconstitution:'2.5 mL NS → 10 U/0.1 mL (standard)',
+    storage:'Refrigerate. Use within 8 h reconstituted.',
+    onset:'2–3 days; faster than onabotulinumtoxinA',duration:'3–4 months',
+    warnings:'Same black box as all BoNT-A. Greater diffusion — caution near delicate structures. Contains lactose (milk allergy caution).',
+    doses:[
+      {site:'Glabella',dose:'50 U',points:'5 points',notes:'≈20 U Botox equiv. Up to 70 U males.'},
+      {site:'Frontalis',dose:'30–50 U',points:'5–8 points',notes:'Keep inferior row ≥2 cm above brow'},
+      {site:"Crow's feet",dose:'20–30 U/side',points:'3 points',notes:'2.5:1 conversion; adjust per response'},
+      {site:'Masseter',dose:'60–90 U/side',points:'3–5 deep IM',notes:'Higher volume required vs Botox'},
+    ],
+    calc:false,
+  },
+  {
+    id:'xeomin',category:'neuromodulator',icon:'💉',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'IncobotulinumtoxinA',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Xeomin (incobotulinumtoxinA)',
+    tagline:'Naked toxin — no complexing proteins. 1:1 conversion with Botox.',
+    reconstitution:'2.5 mL NS → 4 U/0.1 mL; room-temp stable up to 36 months unopened.',
+    storage:'Room temp ≤25°C unopened. Refrigerate after reconstitution. Use within 24 h.',
+    onset:'3–5 days',duration:'3–4 months',
+    warnings:'Lower immunogenicity — preferred if antibody resistance suspected. Same black box as all BoNT-A.',
+    doses:[
+      {site:'Glabella',dose:'20 U',points:'5 points',notes:'1:1 with Botox'},
+      {site:"Crow's feet",dose:'12–15 U/side',points:'3 points',notes:'1:1 with Botox'},
+      {site:'Frontalis',dose:'10–20 U',points:'4–6 points',notes:'Standard dosing'},
+    ],
+    calc:false,
+  },
+  // ── FILLERS — JUVÉDERM COLLECTION ────────────────────────────────
+  {
+    id:'juvederm-ultra',category:'filler',icon:'✨',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Hylacross HA',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'Juvéderm Ultra XC',
+    tagline:'Softer Hylacross HA — lip volume, lip contour definition, and medium-depth perioral lines.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution required.',
+    storage:'Room temp ≤25°C. Do not freeze. Shelf life per lot label.',
+    onset:'Immediate',duration:'6–9 months (lips metabolize faster than other sites)',
+    warnings:'Vascular occlusion risk — aspirate before each bolus, inject slowly, stay superficial in lips. Hyaluronidase (Hylenex) must be immediately available at every filler appointment. Avoid in patients on anticoagulants; discuss bruising risk. Not studied in patients under 18.',
+    doses:[
+      {site:'Lip body augmentation',dose:'0.5–1.0 mL total',points:'Linear threading / serial puncture',notes:'Inject into vermilion body; start conservative'},
+      {site:'Lip border / cupid\'s bow',dose:'0.2–0.5 mL',points:'Along vermilion border',notes:'Fine retrograde thread; stay at border'},
+      {site:'Perioral lines (moderate)',dose:'0.1–0.3 mL/line',points:'Retrograde threading along each line',notes:'Superficial dermis; blend well after'},
+      {site:'Oral commissures',dose:'0.1–0.2 mL/side',points:'1–2 injection pts/side',notes:'Superficial; avoid deep DAO territory'},
+    ],
+    calc:false,
+  },
+  {
+    id:'juvederm-ultraplus',category:'filler',icon:'✨',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Hylacross HA',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'Juvéderm Ultra Plus XC',
+    tagline:'Firmer Hylacross HA — deep nasolabial folds, marionette lines, and moderate volume loss.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution.',
+    storage:'Room temp ≤25°C. Do not freeze.',
+    onset:'Immediate',duration:'9–12 months',
+    warnings:'Vascular occlusion risk. Firmer gel — deep injection only; supraperiosteal or deep dermis. Hyaluronidase must be on hand. Do not inject intravascularly. Not studied in patients under 18.',
+    doses:[
+      {site:'Nasolabial folds',dose:'0.5–2.0 mL/side',points:'Retrograde threading or fanning',notes:'Deep dermis to supraperiosteal; start at 0.5 mL/side'},
+      {site:'Marionette lines',dose:'0.5–1.0 mL/side',points:'Retrograde linear / fanning',notes:'Deep dermis; periosteal anchoring at commissure'},
+      {site:'Pre-jowl sulcus',dose:'0.5–1.0 mL/side',points:'Linear retrograde',notes:'Along mandibular border; deep plane'},
+      {site:'Chin (moderate augmentation)',dose:'0.5–1.5 mL',points:'Bolus supraperiosteal',notes:'Central chin pad; mold immediately after'},
+    ],
+    calc:false,
+  },
+  {
+    id:'juvederm-volbella',category:'filler',icon:'✨',isNew:false,
+    color:'#7a4a38',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Vycross HA',color:'#7a4a38',bg:'#fdeef1'},
+    name:'Juvéderm Volbella XC',
+    tagline:'Thinnest, softest Vycross HA — lips, perioral lines, and tear trough / infraorbital hollows.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution.',
+    storage:'Room temp ≤25°C. Do not freeze.',
+    onset:'Immediate',duration:'Up to 12 months (lips); up to 12 months (tear trough)',
+    warnings:'FDA-approved for lips, perioral lines, and undereye hollows. Tear trough injection requires advanced training — only physicians who have completed Allergan\'s undereye training should inject this area. Tyndall effect risk if too superficial. Hyaluronidase must be on hand. Not studied under 22 years.',
+    doses:[
+      {site:'Lip augmentation (subtle)',dose:'0.5–1.0 mL total',points:'Linear threading / serial puncture',notes:'Softest option for natural lip enhancement; excellent for first-time lip patients'},
+      {site:'Perioral / lipstick lines',dose:'0.05–0.1 mL/line',points:'Retrograde threading into line',notes:'Superficial dermis; smallest possible aliquots'},
+      {site:'Tear trough / infraorbital hollow',dose:'0.3–0.7 mL/side',points:'Cannula preferred — 25G 1.5"',notes:'Deep plane on periosteum; advanced training required; inject slowly with microdroplets'},
+      {site:'Lower lid shadowing',dose:'0.2–0.4 mL/side',points:'Cannula supraperiosteal',notes:'Stay below orbital septum; massage gently after'},
+    ],
+    calc:false,
+  },
+  {
+    id:'juvederm-vollure',category:'filler',icon:'✨',isNew:false,
+    color:'#6a3828',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Vycross HA',color:'#6a3828',bg:'#fdeef1'},
+    name:'Juvéderm Vollure XC',
+    tagline:'Mid-density Vycross HA — moderate-to-severe facial wrinkles and folds; highly flexible gel.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution.',
+    storage:'Room temp ≤25°C. Do not freeze.',
+    onset:'Immediate',duration:'12–18 months',
+    warnings:'Vascular occlusion risk. Designed for dynamic areas — flexible enough to allow natural expression. Deep dermal injection recommended. Hyaluronidase must be available. Not studied under 22 years.',
+    doses:[
+      {site:'Nasolabial folds (mod–severe)',dose:'1.0–2.0 mL/side',points:'Retrograde threading deep dermis',notes:'FDA-approved primary indication; moldable after injection'},
+      {site:'Marionette lines',dose:'0.5–1.5 mL/side',points:'Retrograde threading or fanning',notes:'Deep dermis; Vollure preferred over Ultra Plus in dynamic areas'},
+      {site:'Melomental folds',dose:'0.3–0.8 mL/side',points:'Linear retrograde',notes:'Deep placement; stay above periosteum'},
+      {site:'Chin / prejowl blending',dose:'0.5–1.0 mL',points:'Bolus + threading',notes:'Complements Voluma or Volux structural work'},
+    ],
+    calc:false,
+  },
+  {
+    id:'juvederm-voluma',category:'filler',icon:'✨',isNew:false,
+    color:'#5a2a1a',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Vycross HA',color:'#5a2a1a',bg:'#fdeef1'},
+    name:'Juvéderm Voluma XC',
+    tagline:'Firmest volumizing Vycross HA — midface, cheeks, chin, and temples. Longest-lasting in the line.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution.',
+    storage:'Room temp ≤25°C. Do not freeze.',
+    onset:'Immediate structural lift',duration:'18–24 months (cheeks/chin); up to 24 months per FDA data',
+    warnings:'Deep injection only — supraperiosteal or deep subcutaneous. High G\' (lift capacity). Vascular occlusion risk especially in midface (angular, infraorbital arteries). Do not inject superficially. Hyaluronidase must be on hand. Temple hollowing indication: FDA-approved March 2024 — first HA approved for this site. Safety not studied under 35 for cheeks, under 22 for chin/temples.',
+    doses:[
+      {site:'Cheek / midface augmentation',dose:'1.0–3.0 mL/side',points:'Bolus supraperiosteal (3–4 depot pts)',notes:'Lateral cheek, anterior cheek, submalar — layer from deep to superficial'},
+      {site:'Chin augmentation',dose:'0.5–2.0 mL',points:'Central supraperiosteal bolus',notes:'FDA-approved; mold chin pad to shape; avoid mental nerve'},
+      {site:'Temple hollowing',dose:'1.0–3.0 mL/side',points:'Deep temporal plane bolus',notes:'FDA-approved March 2024; inject below temporalis fascia; aspirate — temporal artery proximity'},
+      {site:'Lateral cheek / zygomatic arch',dose:'0.5–1.5 mL/side',points:'Supraperiosteal',notes:'Restores zygomatic projection; deep only'},
+    ],
+    calc:false,
+  },
+  {
+    id:'juvederm-volux',category:'filler',icon:'✨',isNew:false,
+    color:'#3a1a0a',bgColor:'#f5e8e4',
+    badge:{text:'Juvéderm — Vycross HA',color:'#3a1a0a',bg:'#fdeef1'},
+    name:'Juvéderm Volux XC',
+    tagline:'Highest-cohesivity Vycross HA — jawline definition, chin projection, and jowl reduction.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution.',
+    storage:'Room temp ≤25°C. Do not freeze.',
+    onset:'Immediate structural definition',duration:'Up to 18 months',
+    warnings:'Thickest, most cohesive filler in the Juvéderm line — supraperiosteal placement only. Do NOT inject superficially or intramuscularly. Facial artery, inferior labial artery risk along jaw. Aspirate at each point; inject slowly. FDA-approved July 2022 for jawline definition. Not studied under 22 years. Hyaluronidase must be available.',
+    doses:[
+      {site:'Jawline / mandibular border',dose:'1.0–4.0 mL total',points:'Supraperiosteal boluses along mandible',notes:'Work from angle to symphysis; 0.2–0.5 mL per depot point; 3–6 pts/side'},
+      {site:'Chin (strong projection)',dose:'0.5–2.0 mL',points:'Central supraperiosteal bolus',notes:'Highest G\' in line — best for strong chin augmentation; mold immediately'},
+      {site:'Pre-jowl sulcus / jowl reduction',dose:'0.5–1.0 mL/side',points:'Supraperiosteal along mandibular body',notes:'Creates ledge effect to counteract jowl appearance'},
+      {site:'Jawline angle definition',dose:'0.5–1.5 mL/side',points:'Periosteal at mandibular angle',notes:'Restores gonial angle definition; stay on bone'},
+    ],
+    calc:false,
+  },
+  {
+    id:'skinvive',category:'filler',icon:'💧',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Juvéderm — HA Microdroplet',color:'#b8972a',bg:'#faf6e8'},
+    name:'Skinvive by Juvéderm (VYC-12L)',
+    tagline:'First FDA-approved HA intradermal microdroplet injection — improves cheek skin smoothness, hydration, and radiance. NOT a volumizer.',
+    reconstitution:'Pre-filled 1.0 mL syringe with lidocaine (0.3%). No reconstitution. Contains low-concentration, low-crosslink HA (12 mg/mL). More fluid than standard fillers — designed for intradermal plane only.',
+    storage:'Room temp ≤25°C. Do not freeze. Single-use syringe.',
+    onset:'Skin smoothness improvement visible within 1 month; peak hydration and glow effect 1–3 months',duration:'Results last through 6 months with optimal treatment (clinical trial endpoint); maintenance every 6 months',
+    warnings:'INTRADERMAL ONLY — inject at 0.01–0.05 mL per microdroplet. Do NOT inject deeply (not a structural filler). Injecting too deeply wastes product and loses skin-quality effect; too superficially causes visible papules. Use 32G needle. Vascular occlusion risk is lower than volumizing fillers due to intradermal plane and microdroplet size, but hyaluronidase must still be available. Not for use in lips, tear troughs, or periorbital area. FDA-approved for cheeks only (adults ≥21 years). Provider training required before use — Allergan requires Skinvive-specific training completion.',
+    doses:[
+      {site:'Cheek treatment (per side)',dose:'0.3–0.5 mL per cheek (total 0.6–1.0 mL/session)',points:'Microdroplets 0.01–0.05 mL; spaced 0.5–1.0 cm apart',notes:'32G needle; bevel up; inject intradermally (not subcutaneous); create a papule, not a bolus; grid or fanning pattern across cheek zone'},
+      {site:'Treatment zone — cheeks',dose:'Cover from zygomatic arch to jawline',points:'Approx. 10–20 injection points per side',notes:'Stay within cheek zone — medial cheek, lateral cheek; avoid periorbital and lip zones'},
+      {site:'Maintenance treatment',dose:'1.0 mL total (both cheeks)',points:'Repeat at 6 months',notes:'83% patient satisfaction with healthy-looking skin at 6 months in pivotal trial; 56% maintained ≥1-point ACSS improvement'},
+      {site:'Off-label — neck / décolleté (advanced)',dose:'0.5–1.0 mL per zone',points:'Same microdroplet technique',notes:'Off-label; same intradermal plane; popular for skin hydration in non-cheek zones; inform patient of off-label status'},
+    ],
+    calc:false,
+  },
+  {
+    id:'restylane',category:'filler',icon:'✨',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Restylane — NASHA/OBT HA',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Restylane / Lyft / Defyne / Kysse',
+    tagline:'NASHA & OBT technology — highly versatile HA filler line across face and hands.',
+    reconstitution:'Pre-filled syringe. Lidocaine included in XC versions.',
+    storage:'Room temp. Do not freeze.',
+    onset:'Immediate',duration:'6–18 months depending on product & site',
+    warnings:'Vascular occlusion risk as with all HA fillers. Tyndall effect risk with superficial injection in thin skin. Hyaluronidase must be available at every filler appointment.',
+    doses:[
+      {site:'Lips — Kysse',dose:'0.5–1.5 mL',points:'Linear threading',notes:'Natural feel; cross-linked for flexibility; FDA-approved for lips'},
+      {site:'Midface — Lyft',dose:'1–3 mL total',points:'Bolus supraperiosteal',notes:'Deep plane; cheek projection; FDA-approved midface & hands'},
+      {site:'Tear troughs',dose:'0.3–0.8 mL/side',points:'Cannula preferred',notes:'Use Restylane-L; deep supraperiosteal; advanced area'},
+      {site:'Nasolabials — Defyne',dose:'0.5–2.0 mL/side',points:'Retrograde threading',notes:'Defyne flex tech allows natural movement'},
+    ],
+    calc:false,
+  },
+  // ── BIOSTIMULATORS ────────────────────────────────────────────────
+  {
+    id:'radiesse',category:'biostimulator',icon:'🔬',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'CaHA Biostimulator',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Radiesse (Calcium Hydroxylapatite)',
+    tagline:'CaHA microspheres in CMC gel — immediate structural volume plus long-term collagen induction.',
+    reconstitution:'Standard: use as supplied (1.5 mL or 0.8 mL syringes). Hyperdilute: add 0.5–1.0 mL 1% lido + 0.5–1.0 mL NS per 1.5 mL syringe for skin quality/biostimulation use.',
+    storage:'Room temp. Do not freeze. Use within lot expiration — do not use if particulate matter or discoloration noted.',
+    onset:'Immediate structural (CaHA gel carrier); collagen induction begins within weeks, peaks 3–6 months',duration:'12–18 months structural volume; biostimulation benefit may persist longer',
+    warnings:'NOT reversible — no enzymatic antidote unlike HA fillers. Avoid lips (nodule risk), tear troughs, and any superficial plane. Deep (supraperiosteal or deep subcutaneous) injection only. Massage technique critical immediately post-injection to prevent nodule formation. Facial artery proximity on mandible — aspirate. If vascular compromise occurs, emergent hyaluronidase will NOT reverse; consider steroid, nitroglycerin paste, aspirin, and urgent vascular/plastic surgery referral.',
+    doses:[
+      {site:'Cheeks / midface',dose:'1.0–2.0 mL/side',points:'3–4 supraperiosteal depot pts',notes:'Lateral cheek, anterior malar; deep only; massage after each depot'},
+      {site:'Jawline',dose:'1.5–3.0 mL total',points:'Supraperiosteal along mandibular border',notes:'Work from angle to chin; 0.2–0.3 mL/depot × 5–8 pts; massage immediately'},
+      {site:'Pre-jowl / chin',dose:'0.5–1.0 mL',points:'Supraperiosteal central chin + prejowl',notes:'Complements jawline protocol'},
+      {site:'Dorsal hands',dose:'1.5–3.0 mL total',points:'4–5 bolus pts between extensor tendons',notes:'Aspirate; inject at subcutaneous plane; massage 3–5 min post; FDA-approved for hands'},
+      {site:'Hyperdilute — neck / décolleté',dose:'1.5 mL Rad + 1.0 mL NS + 0.5 mL 1% lido',points:'Fanning cannula technique',notes:'Skin quality / biostimulation protocol; superficial subcutaneous plane; 2–3 sessions 4–6 wks apart'},
+      {site:'Hyperdilute — face (skin quality)',dose:'1.5 mL Rad + 0.5 mL NS + 0.5 mL 1% lido',points:'Fanning cannula',notes:'Biostimulation for skin laxity; NOT structural filler dosing'},
+    ],
+    calc:false,
+  },
+  {
+    id:'sculptra',category:'biostimulator',icon:'🔬',isNew:false,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'PLLA Biostimulator',color:'#3d3830',bg:'#f0eefb'},
+    name:'Sculptra Aesthetic (poly-L-lactic acid)',
+    tagline:'PLLA collagen stimulator — gradual, durable volumization. Results build over months; last 2+ years.',
+    reconstitution:'Reconstitute each vial (150 mg PLLA) with 5 mL sterile water minimum; 7–9 mL preferred for facial use to reduce nodule risk. Add 1–2 mL 1% lidocaine at time of injection. Must hydrate 24–72 h before use — do NOT inject immediately after reconstitution. Agitate gently; shake well before drawing. Do NOT use if clumping or incomplete dissolution noted.',
+    storage:'Lyophilized vials: room temp. After reconstitution: refrigerate, stable up to 72 h. Bring to room temp and agitate before use.',
+    onset:'No immediate volumizing effect — results appear gradually 4–8 weeks after each session as collagen synthesis occurs',duration:'2–3 years with full treatment series (3–4 sessions)',
+    warnings:'The "5-5-5 Rule" is non-negotiable: patient must massage 5 min, 5×/day, 5 days after each session — reduces nodule risk significantly. Nodule formation risk if injected too superficially, underdiluted, or near the eyes/lips. Do NOT inject into periorbital area, into lips, or intravascularly. Vascular occlusion risk exists — aspirate and inject slowly. Over-correction not possible at time of treatment — results are delayed; educate patients that more sessions ≠ more immediate results. Papules/nodules are managed with intralesional saline, 5-FU, or triamcinolone in refractory cases.',
+    doses:[
+      {site:'Temples',dose:'0.5–1.0 mL/side per session',points:'Retrograde fan — 3–5 passes',notes:'Deep temporal subcutaneous plane; stay lateral to orbital rim; aspirate — temporal artery proximity'},
+      {site:'Midface / submalar hollowing',dose:'1.0–2.0 mL/side per session',points:'Retrograde fan in subcutaneous plane',notes:'Stay in subcutaneous layer; avoid superficial; massage thoroughly after'},
+      {site:'Lateral cheeks / malar',dose:'0.5–1.0 mL/side',points:'Fanning retrograde',notes:'Supraperiosteal or deep subcutaneous; do not go above zygomatic arch'},
+      {site:'Jawline / pre-jowl',dose:'0.5–1.0 mL/side',points:'Linear retrograde or fan',notes:'Supraperiosteal preferred; builds jaw definition over 2–3 sessions'},
+      {site:'Anterior cheek / nasolabial area',dose:'0.5–1.0 mL/side',points:'Fan or grid technique',notes:'Avoid superficial dermis; stay ≥1 cm from nasolabial fold itself'},
+      {site:'Total per session (face)',dose:'3–5 vials for significant volume loss',points:'Spread across all zones',notes:'Typical series: 3 sessions spaced 4–6 weeks; maintenance q 1–2 years'},
+    ],
+    calc:false,
+  },
+  // ── EMERGENCY PROTOCOLS ───────────────────────────────────────────
+  {
+    id:'hylenex-vo',category:'emergency',icon:'🚨',isNew:false,
+    color:'#8a2a1a',bgColor:'#f9f0ee',
+    badge:{text:'Emergency Protocol',color:'#8a2a1a',bg:'#fff5f5'},
+    name:'Hylenex (hyaluronidase) — Vascular Occlusion Protocol',
+    tagline:'Step-by-step reversal protocol for suspected HA filler vascular occlusion — treat immediately, do not wait for confirmation.',
+    reconstitution:'Hylenex (recombinant human hyaluronidase) 150 U/mL pre-filled vials. Dilute if needed: 1 mL Hylenex (150 U) + 4 mL NS = 30 U/mL working solution for wide-area blanching. For focal occlusion use undiluted (150 U/mL).',
+    storage:'Refrigerate 2–8°C. Protect from light. Single-use only. Do NOT use if particulate or discolored.',
+    onset:'HA dissolution begins within minutes; blanching should begin to resolve within 60–90 min of adequate dosing',duration:'Repeat every 60–90 min until perfusion restored',
+    warnings:'TIME IS TISSUE — do not delay treatment awaiting imaging or specialist consultation. Radiesse and Sculptra occlusions cannot be reversed with hyaluronidase; management differs (see notes). Have patient lie supine. Call 911 if vision changes occur — ophthalmic occlusion is a medical emergency requiring immediate ophthalmology/ER referral. Document everything: time of injection, product used, volume, site, time symptoms noted, every dose of hyaluronidase given.',
+    doses:[
+      {site:'STEP 1 — RECOGNIZE',dose:'STOP injecting immediately',points:'At first sign: blanching, livedo, pain, delayed capillary refill',notes:'Classic signs: skin blanching/mottling, dusky discoloration, severe pain disproportionate to procedure, skin coolness'},
+      {site:'STEP 2 — WARM COMPRESS',dose:'Apply warm compress to area',points:'Immediately while drawing up hyaluronidase',notes:'Promotes vasodilation; do not delay hyaluronidase for this'},
+      {site:'STEP 3 — HYLENEX (focal)',dose:'150–300 U undiluted per site',points:'Inject into and around affected area — blanched skin + surrounding tissue',notes:'Use 27–30G needle; multiple injection points across entire affected zone; massage after each injection'},
+      {site:'STEP 3 — HYLENEX (diffuse)',dose:'200–500 U total diluted (30 U/mL)',points:'Wide field injection across entire blanched region',notes:'1 mL Hylenex + 4 mL NS; inject in grid pattern across zone; do not limit to assumed filler location'},
+      {site:'STEP 4 — ASPIRIN',dose:'325 mg PO immediately (if no contraindication)',points:'Chewed for fastest absorption',notes:'Antiplatelet effect; give unless contraindicated (aspirin allergy, active GI bleed)'},
+      {site:'STEP 5 — REASSESS (60–90 min)',dose:'Repeat 150–300 U if perfusion not restored',points:'Check blanching, cap refill, pain level',notes:'May require 1,500–3,000+ U total in severe cases; do not under-dose'},
+      {site:'STEP 6 — NITROGLYCERIN PASTE',dose:'1/2 inch nitro paste topically',points:'Apply to affected area',notes:'Vasodilator; use if perfusion not improving; avoid in hypotension'},
+      {site:'STEP 7 — REFER / MONITOR',dose:'ER or vascular surgery if not resolving within 2–4 h',points:'Ophthalmology STAT if any vision change',notes:'Document and photograph affected area at each assessment; follow up in 24–48 h minimum'},
+    ],
+    calc:false,
+    isEmergency:true,
+  },
+  // ── OPHTHALMIC / RX ───────────────────────────────────────────────
+  {
+    id:'upneeq',category:'ophthalmic',icon:'👁',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'α1-Adrenergic Agonist',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Upneeq (oxymetazoline 0.1% ophthalmic)',
+    tagline:'FDA-approved once-daily eye drop for acquired ptosis — lifts upper eyelid up to 1–2 mm without surgery.',
+    reconstitution:'Ready-to-use sterile ophthalmic solution. 0.1% oxymetazoline HCl. Single-use vials or multi-dose bottle.',
+    storage:'Store at room temp 20–25°C (68–77°F). Protect from light. Discard open multi-dose bottles per label. Do not use if solution is discolored.',
+    onset:'Peak effect 5 min; full effect at 15–20 min; duration ~6–8 hours',duration:'Effect is per-dose only — not cumulative. Daily use for ongoing benefit.',
+    warnings:'For acquired ptosis only — not for congenital ptosis. Contraindicated with MAOIs (hypertensive crisis risk). Caution in cardiovascular disease, hypertension, narrow-angle glaucoma, and patients on antihypertensives — systemic absorption possible. Warn patients: rebound ptosis upon discontinuation. Do not use with contact lenses in; wait 15 min after instillation before inserting contacts. Perform Herring\'s law assessment — stimulating Müller\'s muscle may unmask contralateral ptosis.',
+    doses:[
+      {site:'Standard dosing',dose:'1 drop in affected eye(s) once daily',points:'Pull lower lid down gently; instill drop; close eye gently for 1–2 min',notes:'Both eyes can be treated if bilateral ptosis; onset ~15–20 min; effect lasts 6–8 h'},
+      {site:'Pre-treatment assessment',dose:'Phenylephrine 2.5% test (optional)',points:'1 drop phenylephrine; assess lid lift at 5 min',notes:'Positive phenylephrine test predicts good Upneeq response; confirms Müller\'s muscle involvement'},
+      {site:'Reapplication',dose:'No more than 1× daily',points:'Same time each day preferred',notes:'Do not double-dose; exceeding once-daily increases systemic absorption risk'},
+    ],
+    calc:false,
+  },
+  {
+    id:'latisse',category:'ophthalmic',icon:'👁',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Prostaglandin Analog',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Latisse (bimatoprost 0.03% ophthalmic)',
+    tagline:'FDA-approved topical for hypotrichosis of eyelashes — increases length, thickness, and darkness over 16 weeks.',
+    reconstitution:'Ready-to-use sterile ophthalmic solution. Each 5 mL bottle ≈ 70 doses (single applicator per use).',
+    storage:'Room temp 15–25°C. Keep away from children. Do not use if particulate matter present or contaminated.',
+    onset:'Lash changes noticeable at 8 weeks; full results at 16 weeks',duration:'Lashes return to baseline 4–8 weeks after discontinuation — must use continuously to maintain results',
+    warnings:'Apply to upper lash line only — do NOT apply directly to lower lid or into eye. Use provided sterile disposable applicator once per eye then discard (one applicator per eye per night). Do not reuse applicators — infection risk. Remove contact lenses before application; reinsert after 15 min. Known side effects: periorbital hyperpigmentation (skin darkening), iris color change (rare in patients with heterochromia or hazel eyes — may be permanent), upper lid sulcus deepening (fat atrophy with prolonged use), conjunctival hyperemia. Caution in patients prone to macular edema or uveitis.',
+    doses:[
+      {site:'Nightly upper lash line',dose:'1 drop per applicator; 1 applicator per eye',points:'Draw applicator along base of upper lashes (skin contact, not eye)',notes:'Apply at night after face wash and makeup removal; blot any excess immediately; use for minimum 16 weeks for full effect'},
+      {site:'Eyebrow enhancement (off-label)',dose:'Apply to brow hairs with applicator',points:'Trace along brow in direction of growth',notes:'Off-label use; same pigmentation and local side effect risks apply; inform patient'},
+    ],
+    calc:false,
+  },
+  // ── WEIGHT MANAGEMENT ─────────────────────────────────────────────
+  {
+    id:'semaglutide',category:'weightloss',icon:'⚖️',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'GLP-1 Agonist',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Semaglutide (compounded SQ)',
+    tagline:'GLP-1 receptor agonist — weekly SQ injection for weight management.',
+    moa:[
+      {label:'Receptor Target',text:'GLP-1 receptor (glucagon-like peptide-1 receptor) agonist — mimics the endogenous incretin hormone GLP-1, which is naturally released from intestinal L-cells in response to food intake.'},
+      {label:'Appetite & Satiety',text:'Activates GLP-1 receptors in the hypothalamus (arcuate nucleus) — increases satiety signaling and reduces hunger drive. Slows gastric emptying, prolonging the feeling of fullness after meals.'},
+      {label:'Insulin & Glucose',text:'Stimulates glucose-dependent insulin secretion from pancreatic β-cells (only when blood glucose is elevated — low hypoglycemia risk). Suppresses glucagon release from α-cells. Improves insulin sensitivity in peripheral tissues.'},
+      {label:'CNS Reward Pathway',text:'Acts on dopaminergic reward pathways in the brain — reduces food-seeking behavior and craving for high-calorie foods, independent of the satiety effect.'},
+      {label:'Cardiovascular Benefit',text:'Demonstrated reduction in major adverse cardiovascular events (MACE) in SELECT trial (semaglutide 2.4 mg): 20% reduction in CV death, MI, and stroke in non-diabetic patients with obesity + CVD.'},
+      {label:'Half-Life & Dosing Rationale',text:'~1 week half-life (fatty acid side chain + albumin binding enables long-acting profile) — allows once-weekly SQ dosing. Slow titration minimizes GI side effects by allowing GI receptors to adapt.'},
+    ],
+    reconstitution:'Compounded vials vary. Confirm mg/mL concentration with pharmacy before calculating volume.',
+    storage:'Refrigerate 2–8°C. Protect from light. Discard 28 days after first use.',
+    onset:'Appetite suppression within days; weight loss plateau ~72 weeks',duration:'Ongoing weekly',
+    warnings:'Black box: thyroid C-cell tumor risk (rodent studies). Contraindicated personal/family history MTC or MEN2. GI side effects common; titrate slowly. Monitor for pancreatitis.',
+    doses:[
+      {site:'Initiation',dose:'0.25 mg SQ weekly',points:'Weeks 1–4',notes:'Abdomen, thigh, or upper arm'},
+      {site:'Escalation 1',dose:'0.5 mg SQ weekly',points:'Weeks 5–8',notes:'Hold longer if GI intolerance'},
+      {site:'Escalation 2',dose:'1.0 mg SQ weekly',points:'Weeks 9–12',notes:'Most patients maintain here'},
+      {site:'Target / max',dose:'2.0–2.4 mg SQ weekly',points:'Weeks 16+',notes:'Compounded max may differ from brand'},
+    ],
+    calc:true,calcType:'glp',calcDefault:{conc:2,dose:0.25},
+  },
+  {
+    id:'tirzepatide',category:'weightloss',icon:'⚖️',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'GIP/GLP-1 Dual Agonist',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Tirzepatide (compounded SQ)',
+    tagline:'Dual GIP/GLP-1 agonist — superior weight loss vs semaglutide monotherapy in trials.',
+    moa:[
+      {label:'Dual Receptor Targets',text:'Simultaneously activates both GIP receptors (glucose-dependent insulinotropic polypeptide) AND GLP-1 receptors — two distinct incretin pathways. This dual agonism is the key differentiator from semaglutide.'},
+      {label:'GIP Receptor Action',text:'GIP receptors are expressed in adipose tissue, bone, and brain. GIP agonism enhances insulin secretion, reduces glucagon, and — critically — acts on adipose tissue to promote fat redistribution and reduce fat storage. May also reduce GLP-1-mediated nausea by modulating GI motility more gently.'},
+      {label:'GLP-1 Receptor Action',text:'Same GLP-1 pathway as semaglutide — hypothalamic satiety signaling, slowed gastric emptying, glucose-dependent insulin stimulation, glucagon suppression, and CNS reward pathway modulation.'},
+      {label:'Synergistic Weight Loss',text:'Dual agonism produces additive-to-synergistic effects: SURMOUNT-1 trial showed up to 22.5% mean body weight reduction at highest dose (15 mg) — greater than any approved semaglutide dose in comparable trials. Likely due to complementary fat metabolism effects of GIP + satiety effects of GLP-1.'},
+      {label:'Insulin Sensitivity',text:'Tirzepatide improves insulin sensitivity significantly beyond GLP-1 monotherapy — GIP receptor activation in muscle and adipose tissue enhances peripheral glucose uptake independently.'},
+      {label:'Half-Life & Dosing Rationale',text:'~5-day half-life via fatty diacid modification — supports once-weekly dosing. Slower titration schedule (4-week intervals) vs semaglutide accounts for more pronounced initial GI effects from dual receptor activation.'},
+    ],
+    reconstitution:'Confirm mg/mL with compounding pharmacy. Common: 5 mg/mL or 10 mg/mL vials.',
+    storage:'Refrigerate 2–8°C. Protect from light.',
+    onset:'Appetite suppression within first week; significant loss by week 12',duration:'Ongoing weekly SQ',
+    warnings:'Same thyroid C-cell tumor black box as semaglutide. GI effects often more pronounced initially. Monitor renal function, HR.',
+    doses:[
+      {site:'Initiation',dose:'2.5 mg SQ weekly',points:'Weeks 1–4',notes:'Abdomen / thigh / upper arm'},
+      {site:'Escalation 1',dose:'5 mg SQ weekly',points:'Weeks 5–8',notes:'Common maintenance dose'},
+      {site:'Escalation 2',dose:'7.5 mg SQ weekly',points:'Weeks 9–12',notes:'If additional efficacy needed'},
+      {site:'Escalation 3',dose:'10 mg SQ weekly',points:'Weeks 13–16',notes:''},
+      {site:'Max dose',dose:'15 mg SQ weekly',points:'After week 20',notes:'Titrate per tolerance & response'},
+    ],
+    calc:true,calcType:'glp',calcDefault:{conc:5,dose:2.5},
+  },
+  {
+    id:'retatrutide',category:'weightloss',icon:'⚖️',isNew:true,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Triple GIP/GLP-1/Glucagon',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'Retatrutide (compounded SQ)',
+    tagline:'Triple agonist (GIP + GLP-1 + glucagon) — investigational; strongest weight loss signal in trials to date.',
+    moa:[
+      {label:'Triple Receptor Targets',text:'Simultaneously activates GIP, GLP-1, AND glucagon receptors — the first clinical-stage triple incretin agonist. Each receptor contributes a distinct and complementary weight-loss mechanism.'},
+      {label:'GLP-1 Receptor',text:'Hypothalamic satiety signaling, slowed gastric emptying, glucose-dependent insulin secretion, glucagon suppression — same pathway as semaglutide and tirzepatide.'},
+      {label:'GIP Receptor',text:'Adipose tissue fat redistribution, enhanced insulin sensitivity, complementary satiety signaling — same as tirzepatide\'s GIP component.'},
+      {label:'Glucagon Receptor',text:'The novel addition. Glucagon receptor agonism in the liver increases hepatic glucose output AND hepatic fat oxidation (lipolysis). Raises basal metabolic rate by increasing thermogenesis. The glucagon component is the primary reason for retatrutide\'s superior weight loss vs dual agonists.'},
+      {label:'Net Metabolic Effect',text:'Triple agonism creates a powerful metabolic shift: GLP-1 reduces intake, GIP improves adipose fat handling, and glucagon increases energy expenditure through thermogenesis and hepatic fat burning. Phase 2 trial: up to 24.2% body weight reduction at 48 weeks — the highest recorded in any incretin trial to date.'},
+      {label:'Key Caveat',text:'Not FDA-approved. Glucagon receptor activation also raises heart rate and can cause more pronounced GI effects and BP changes. The cardiovascular risk-benefit profile is still under Phase 3 evaluation.'},
+    ],
+    reconstitution:'Lyophilized. Available as 15 mg, 30 mg, 60 mg vials. Reconstitute per pharmacy labeling — confirm mg/mL before dosing.',
+    storage:'Refrigerate reconstituted. Protect from light. Follow compounding pharmacy expiration.',
+    onset:'Appetite suppression rapid; meaningful weight loss by weeks 4–8',duration:'Ongoing weekly SQ',
+    warnings:'NOT FDA-approved. Investigational compound — use under IND/research framework or compounding physician supervision. Triple receptor activity may cause more pronounced GI effects and HR elevation. Same thyroid C-cell tumor theoretical risk as other GLP-1 agents. Monitor BP, HR, GI, and renal function closely.',
+    doses:[
+      {site:'Initiation (low)',dose:'1–2 mg SQ weekly',points:'Weeks 1–4',notes:'Start low; GI effects more pronounced'},
+      {site:'Escalation 1',dose:'4 mg SQ weekly',points:'Weeks 5–8',notes:'Titrate per tolerance'},
+      {site:'Escalation 2',dose:'8 mg SQ weekly',points:'Weeks 9–16',notes:'Clinical trial range'},
+      {site:'High-dose (trial range)',dose:'12 mg SQ weekly',points:'Weeks 16+',notes:'Most aggressive; per prescriber order only'},
+    ],
+    calc:true,calcType:'glp',calcDefault:{conc:5,dose:2},
+  },
+  {
+    id:'cagrilintide',category:'weightloss',icon:'⚖️',isNew:true,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'Amylin Analog',color:'#3d3830',bg:'#f0eefb'},
+    name:'Cagrilintide (compounded SQ)',
+    tagline:'Long-acting amylin analog — appetite suppression, used with semaglutide (CagriSema combo).',
+    moa:[
+      {label:'Receptor Target',text:'Amylin receptor agonist — mimics amylin (islet amyloid polypeptide / IAPP), a peptide co-secreted with insulin from pancreatic β-cells in response to meals. Binds calcitonin receptor complexes (AMY1–AMY3 receptors) in the brain and periphery.'},
+      {label:'Central Appetite Suppression',text:'Acts on the area postrema and nucleus tractus solitarius in the brainstem — reduces meal size and food intake via satiety signaling independent of the GLP-1 pathway. This is a distinct neural circuit from GLP-1/GIP, meaning the two pathways are additive, not redundant.'},
+      {label:'Gastric Emptying',text:'Slows gastric emptying (similar to GLP-1 but via different receptors) — extends postprandial satiety and blunts postprandial glucose excursions.'},
+      {label:'Glucagon Suppression',text:'Suppresses postprandial glucagon secretion — contributes to glucose control without directly stimulating insulin (no hypoglycemia risk at therapeutic doses).'},
+      {label:'CagriSema Synergy',text:'When combined with semaglutide (as CagriSema), complementary and non-overlapping receptor systems produce additive weight loss. SCALE trial data suggests CagriSema may achieve ~25%+ body weight reduction — driven by GLP-1\'s hypothalamic and reward effects stacking with amylin\'s brainstem satiety circuit.'},
+      {label:'Long-Acting Design',text:'Fatty acid modification enables once-weekly dosing (similar strategy to semaglutide). Native amylin has a very short half-life (minutes); cagrilintide\'s structural modifications extend this to ~7 days.'},
+    ],
+    reconstitution:'Lyophilized 10 mg vials. Reconstitute per pharmacy labeling.',
+    storage:'Refrigerate reconstituted. Follow pharmacy expiration.',
+    onset:'Days to weeks for appetite effects',duration:'Ongoing weekly SQ',
+    warnings:'Investigational. Not FDA-approved. Commonly combined with semaglutide. Nausea most common side effect. Monitor closely when combining with GLP-1 agents.',
+    doses:[
+      {site:'Starting dose',dose:'0.16–0.3 mg SQ weekly',points:'Abdomen / thigh',notes:'Titrate per prescriber protocol'},
+      {site:'Target dose',dose:'2.4 mg SQ weekly',points:'Weekly SQ',notes:'CagriSema combo target in trials'},
+    ],
+    calc:true,calcType:'glp',calcDefault:{conc:1,dose:0.3},
+  },
+  // ── PEPTIDES — HEALING / ANTI-INFLAMMATORY ────────────────────────
+  {
+    id:'bpc157',category:'peptide',icon:'🧬',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Peptide — Healing',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'BPC-157 (Body Protection Compound)',
+    tagline:'Gastric pentadecapeptide — tissue repair, tendon/ligament healing, anti-inflammatory.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL bacteriostatic water → 5,000 mcg/mL (5 mcg/µL).',
+    storage:'Lyophilized: room temp. Reconstituted: refrigerate up to 30 days.',
+    onset:'Days to weeks depending on indication',duration:'4–12 week cycles typical',
+    warnings:'Not FDA-approved. Research compound — clinical/research context only. GI upset possible. Watch injection site reactions.',
+    doses:[
+      {site:'Systemic SQ (daily)',dose:'250–500 mcg/day',points:'Abdomen SQ preferred',notes:'Cycle 4–8 weeks'},
+      {site:'Local (peritendinous)',dose:'200–300 mcg',points:'Near affected tendon',notes:'Limited to symptomatic sites'},
+      {site:'Capsule (oral)',dose:'500–1,000 mcg/day',points:'Oral (GI-focused use)',notes:'Caps available in 500 mcg or 1,000 mcg'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:250},
+  },
+  {
+    id:'tb500',category:'peptide',icon:'🧬',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Peptide — Healing',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'TB-500 (Thymosin Beta-4)',
+    tagline:'Thymosin beta-4 fragment — promotes wound healing, reduces inflammation, improves flexibility.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water → 5,000 mcg/mL.',
+    storage:'Lyophilized: room temp. Reconstituted: refrigerate up to 30 days.',
+    onset:'Days to weeks',duration:'4–8 week loading; maintenance monthly',
+    warnings:'Not FDA-approved. Research compound. May promote angiogenesis — caution in patients with active malignancy or at high cancer risk.',
+    doses:[
+      {site:'Loading phase',dose:'2,000–2,500 mcg SQ 2×/week',points:'Weeks 1–4',notes:'SQ abdomen or thigh'},
+      {site:'Maintenance',dose:'200–300 mcg 1–2×/week',points:'Ongoing',notes:'Reduce after loading phase'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:500},
+  },
+  {
+    id:'wolverine',category:'peptide',icon:'🧬',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Peptide Blend',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Wolverine Blend (BPC-157 + TB-500)',
+    tagline:'10 mg / 10 mg lyophilized blend — synergistic healing and anti-inflammatory protocol.',
+    reconstitution:'Add 2 mL BAC water → each peptide ~5,000 mcg/mL per component.',
+    storage:'Refrigerate after reconstitution. Use within 30 days.',
+    onset:'Days to weeks',duration:'4–8 week cycles',
+    warnings:'See individual BPC-157 and TB-500 warnings. Not FDA-approved. Research compound.',
+    doses:[
+      {site:'SQ daily (moderate)',dose:'250 mcg each component',points:'Abdomen SQ',notes:'Based on combined vial concentration'},
+      {site:'SQ loading (aggressive)',dose:'500 mcg each component',points:'2×/week',notes:'4-week loading, then reduce'},
+    ],
+    calc:false,
+  },
+  {
+    id:'ghkcu',category:'peptide',icon:'🧬',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Copper Peptide',color:'#b8972a',bg:'#e8f7f9'},
+    name:'GHK-Cu (Copper Peptide)',
+    tagline:'Anti-inflammatory, boosts collagen, stimulates hair growth, helps clear acne.',
+    reconstitution:'Lyophilized 50 mg or 100 mg vials. Add BAC water per desired concentration. Capsule form available (10 mg caps).',
+    storage:'Refrigerate reconstituted. Protect from light. Use within 30 days.',
+    onset:'Skin/hair effects gradual over weeks',duration:'Continuous or 8–12 week cycles',
+    warnings:'Generally well tolerated. Topical and SQ use described. Not FDA-approved as pharmaceutical. Avoid eyes.',
+    doses:[
+      {site:'SQ (systemic)',dose:'1–2 mg/day',points:'Abdomen SQ',notes:'From 50 mg or 100 mg vial'},
+      {site:'Topical (compounded serum)',dose:'Apply 1–2×/day',points:'Face / scalp',notes:'Reconstitute in saline or cream base'},
+      {site:'Oral capsules',dose:'10–30 mg/day oral',points:'With food',notes:'10 mg caps × 1–3/day'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:50000,bw:5,dose:1000},
+  },
+  {
+    id:'glow',category:'peptide',icon:'🧬',isNew:true,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Peptide Blend',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'GLOW Blend (BPC-157 + TB-500 + GHK-Cu)',
+    tagline:'70 mg lyophilized blend — healing, collagen stimulation, and skin quality in one vial.',
+    reconstitution:'Add 3–4 mL BAC water. Confirm per-component concentration before dosing.',
+    storage:'Refrigerate. Use within 30 days of reconstitution.',
+    onset:'Days to weeks; skin effects cumulative',duration:'8–12 week cycles',
+    warnings:'See individual compound warnings. Not FDA-approved. Research compound.',
+    doses:[
+      {site:'SQ daily',dose:'0.2–0.5 mL per session',points:'Abdomen SQ',notes:'Adjust based on reconstitution concentration'},
+    ],
+    calc:false,
+  },
+  {
+    id:'klow',category:'peptide',icon:'🧬',isNew:true,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'Peptide Blend',color:'#3d3830',bg:'#f0eefb'},
+    name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)',
+    tagline:'80 mg blend — adds KPV anti-inflammatory tripeptide to the GLOW stack.',
+    reconstitution:'Add 4 mL BAC water. Confirm per-component concentration with pharmacy.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Days to weeks',duration:'8–12 week cycles',
+    warnings:'KPV is a potent anti-inflammatory tripeptide (alpha-MSH fragment). Not FDA-approved. Research compound.',
+    doses:[
+      {site:'SQ daily',dose:'0.25–0.5 mL per session',points:'Abdomen SQ',notes:'Based on total 80 mg blend / reconstitution volume'},
+    ],
+    calc:false,
+  },
+  // ── PEPTIDES — COGNITIVE / MOOD ───────────────────────────────────
+  {
+    id:'selank',category:'peptide',icon:'🧠',isNew:false,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'Anxiolytic Peptide',color:'#3d3830',bg:'#f0eefb'},
+    name:'Selank',
+    tagline:'Heptapeptide anxiolytic — SSRI alternative, cortisol regulation, stress reduction.',
+    reconstitution:'Lyophilized 10 mg vial. Add 2 mL BAC water → 5 mg/mL. Also available as nasal spray.',
+    storage:'Refrigerate. Use within 30 days reconstituted.',
+    onset:'Hours to days for anxiolytic effect',duration:'2–4 week cycles typical',
+    warnings:'Not FDA-approved. Research compound. May potentiate benzodiazepines. Not for use with active SSRI without physician oversight.',
+    doses:[
+      {site:'SQ (standard)',dose:'100–300 mcg 1–2×/day',points:'SQ abdomen',notes:'Lower end for daily maintenance'},
+      {site:'Intranasal',dose:'2–3 drops each nostril 2×/day',points:'Nasal spray formulation',notes:'Nasal form more commonly used'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:200},
+  },
+  {
+    id:'semax',category:'peptide',icon:'🧠',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Nootropic Peptide',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Semax',
+    tagline:'ACTH-derived nootropic — treats brain fog, improves focus and mental acuity.',
+    reconstitution:'Lyophilized 10 mg vial. Add 2 mL BAC water. Common as nasal spray (0.1% solution).',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Hours; cognitive effects within 1–2 weeks consistent use',duration:'2–4 week cycles',
+    warnings:'Not FDA-approved. Research compound. May cause transient anxiety or irritability at higher doses. Avoid in epilepsy.',
+    doses:[
+      {site:'Intranasal (standard)',dose:'200–600 mcg 1–2×/day',points:'Nasal spray',notes:'Split between nostrils; 2–4 drops/nostril'},
+      {site:'SQ',dose:'100–300 mcg/day',points:'SQ abdomen',notes:'Less common; higher bioavailability'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:200},
+  },
+  // ── HORMONES / GROWTH HORMONE ─────────────────────────────────────
+  {
+    id:'tesamorelin',category:'hormone',icon:'📈',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'GHRH Analog',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Tesamorelin',
+    tagline:'GHRH analog — GH release, visceral fat reduction, improved sleep quality.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2.2 mL sterile water → ~4.5 mg/mL. Swirl gently.',
+    storage:'Lyophilized: refrigerate. Reconstituted: refrigerate, use within 24 h.',
+    onset:'GH pulse within hours; fat loss visible at 3–6 months',duration:'Ongoing nightly; 3–6 month cycles common',
+    warnings:'Contraindicated in active malignancy. May cause fluid retention, joint pain, or insulin resistance at high doses. Monitor IGF-1 levels.',
+    doses:[
+      {site:'Nightly SQ (standard)',dose:'1–2 mg SQ',points:'30–60 min before bed, fasted',notes:'Abdomen or thigh; rotate sites'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:1000},
+  },
+  {
+    id:'tesamorelinblend',category:'hormone',icon:'📈',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'GHRH/GHRP Blend',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Tesamorelin / CJC-1295 / Ipamorelin Blend',
+    tagline:'Triple GH-axis blend (6/3/3 mg) — synergistic pulsatile GH release and body composition.',
+    reconstitution:'Lyophilized blend. Add 2 mL BAC water. Confirm component concentrations per pharmacy.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'GH pulse within 30 min of injection',duration:'Ongoing nightly; 3–6 month cycles',
+    warnings:'See individual compound warnings. Not FDA-approved combined. Monitor IGF-1.',
+    doses:[
+      {site:'Nightly SQ',dose:'0.2–0.5 mL (per pharmacy concentration)',points:'30–60 min before bed, fasted',notes:'Abdomen SQ; rotate sites'},
+    ],
+    calc:false,
+  },
+  {
+    id:'cjcipamorelin',category:'hormone',icon:'📈',isNew:false,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'GHRH/GHRP Blend',color:'#3d3830',bg:'#f0eefb'},
+    name:'CJC-1295 / Ipamorelin Blend',
+    tagline:'5 mg / 5 mg classic GH-stack — muscle mass, fat metabolism, recovery, sleep.',
+    reconstitution:'Lyophilized 5 mg / 5 mg blend. Add 2 mL BAC water → 2.5 mg/mL each component.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'GH pulse within 30 min; body composition changes over 3–6 months',duration:'Ongoing nightly; cycle 3–6 months',
+    warnings:'Not FDA-approved combined. May cause transient water retention, tingling. Do not use in active malignancy. GH stimulation theoretical oncologic concern — screen before prescribing.',
+    doses:[
+      {site:'Nightly SQ (standard)',dose:'100–200 mcg each component',points:'30–60 min before bed, fasted',notes:'Abdomen or thigh; rotate sites'},
+      {site:'Post-workout pulse',dose:'100 mcg each',points:'SQ immediately post-exercise',notes:'Optional second injection'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:5000,bw:2,dose:200},
+  },
+  {
+    id:'ipamorelin',category:'hormone',icon:'📈',isNew:true,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'GHRP',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Ipamorelin (standalone)',
+    tagline:'Pure GHRP-2 class peptide — selective GH pulse with minimal cortisol/prolactin effect.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water → 5 mg/mL.',
+    storage:'Refrigerate reconstituted. Use within 30 days.',
+    onset:'GH pulse within 30 min',duration:'3–6 month cycles; nightly ongoing',
+    warnings:'Not FDA-approved. Research compound. Excellent safety profile vs other GHRPs. Still avoid in active malignancy. Monitor IGF-1.',
+    doses:[
+      {site:'Nightly SQ',dose:'100–300 mcg',points:'30–60 min before bed, fasted',notes:'Abdomen or thigh SQ'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:200},
+  },
+  {
+    id:'sermorelin',category:'hormone',icon:'📈',isNew:true,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'GHRH',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Sermorelin',
+    tagline:'First-in-class GHRH analog — stimulates pituitary GH release; established safety record.',
+    reconstitution:'Available as 5 mg or 15 mg lyophilized vials. Add 2 mL BAC water.',
+    storage:'Refrigerate. Use within 14 days reconstituted.',
+    onset:'GH pulse within 15–30 min',duration:'3–6 month cycles typical',
+    warnings:'Not FDA-approved for off-label use. Former Rx compound (Geref). Generally very well tolerated. Flushing, headache at higher doses. Monitor IGF-1.',
+    doses:[
+      {site:'Nightly SQ (standard)',dose:'200–500 mcg SQ',points:'Before bed, fasted',notes:'Abdomen or thigh; classic starting dose 200 mcg'},
+      {site:'Higher dose',dose:'1,000 mcg SQ',points:'Before bed',notes:'For lower-responding patients; titrate up slowly'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:5000,bw:2,dose:200},
+  },
+  {
+    id:'aod9604',category:'hormone',icon:'📈',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'GH Fragment',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'AOD-9604',
+    tagline:'GH fragment 176-191 — lipolysis without anabolic or diabetogenic GH effects.',
+    reconstitution:'Lyophilized 5 mg vials. Add 2 mL BAC water → 2,500 mcg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Fat mobilization effects in weeks with consistent use',duration:'8–12 week cycles',
+    warnings:'Not FDA-approved. Research compound. No significant IGF-1 elevation. Generally well tolerated. Avoid in pregnancy.',
+    doses:[
+      {site:'Pre-breakfast SQ',dose:'250–300 mcg',points:'Fasted state morning',notes:'Abdomen SQ; avoid carbs for 30 min after'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:5000,bw:2,dose:250},
+  },
+  {
+    id:'aodblend',category:'hormone',icon:'📈',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'GH Blend',color:'#b8972a',bg:'#fdf3e3'},
+    name:'AOD-9604 / CJC-1295 / Ipamorelin Blend',
+    tagline:'Fat-burning + GH-stimulating triple blend (6/3/3 mg) — body recomposition protocol.',
+    reconstitution:'Lyophilized blend. Add 2 mL BAC water. Confirm concentrations per pharmacy.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'GH pulse rapid; fat loss cumulative over weeks',duration:'8–12 week cycles',
+    warnings:'Not FDA-approved combined. Combines lipolytic (AOD) with pulsatile GH stimulation. Monitor IGF-1.',
+    doses:[
+      {site:'SQ (1–2×/day)',dose:'0.2–0.5 mL per injection',points:'Morning fasted + optional pre-bed',notes:'Per pharmacy concentration label'},
+    ],
+    calc:false,
+  },
+  {
+    id:'igflr3',category:'hormone',icon:'📈',isNew:false,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'IGF-1 Analog',color:'#3d3830',bg:'#f0eefb'},
+    name:'IGF-1 LR3',
+    tagline:'Long R3 IGF-1 — muscle growth, fat metabolism, performance enhancement.',
+    reconstitution:'Lyophilized 1 mg vials. Add 1 mL BAC water → 1,000 mcg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Anabolic effects within days; body comp changes over weeks',duration:'4–6 week cycles; OFF periods important',
+    warnings:'Not FDA-approved. Potent anabolic — hypoglycemia risk (carry glucose). Avoid in malignancy (growth factor). Cycles should be limited — receptor downregulation. Do not use long-term continuously.',
+    doses:[
+      {site:'SQ or IM (post-workout)',dose:'20–80 mcg per day',points:'Rotate bilateral sites',notes:'Start at 20 mcg; max 100 mcg/day; 4–6 week cycle max'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:1000,bw:1,dose:50},
+  },
+  {
+    id:'motsc',category:'hormone',icon:'📈',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Mitochondrial Peptide',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'MOTS-C',
+    tagline:'Mitochondria-derived peptide — metabolism booster, insulin sensitivity, exercise mimetic.',
+    reconstitution:'Lyophilized 10 mg or 20 mg vials. Add 2 mL BAC water.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Metabolic effects over weeks of consistent use',duration:'4–8 week cycles; often 2–3×/week',
+    warnings:'Not FDA-approved. Research peptide. Generally well tolerated. May cause mild injection site reactions. Emerging evidence base.',
+    doses:[
+      {site:'SQ 2–3×/week',dose:'5–10 mg per dose',points:'Abdomen or thigh SQ',notes:'Pre-workout timing may enhance exercise mimetic effect'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:5000},
+  },
+  // ── PEPTIDES — MISC / SEXUAL HEALTH / LONGEVITY ───────────────────
+  {
+    id:'pt141',category:'peptide',icon:'🧬',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Melanocortin',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'PT-141 (Bremelanotide)',
+    tagline:'MC3R/MC4R agonist — increases libido in men and women; FDA-approved as Vyleesi for women.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water → 5 mg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'30–60 min pre-activity',duration:'Per-use dosing (not continuous)',
+    warnings:'May cause nausea, flushing, transient BP elevation. Administer 30 min – 1 h before sexual activity. Limit to 1 dose per 24 h. Not for use in CV disease without cardiology clearance.',
+    doses:[
+      {site:'SQ per use',dose:'1–2 mg SQ',points:'30–60 min pre-activity',notes:'Abdomen or thigh; start at 1 mg'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:1000},
+  },
+  {
+    id:'kisspeptin',category:'peptide',icon:'🧬',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Neuropeptide',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Kisspeptin-10',
+    tagline:'GnRH trigger — improves fertility and hormonal signaling in men and women.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water → 5 mg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Hormonal effect within hours of injection',duration:'Protocol-dependent; often pulsatile or cycle-based',
+    warnings:'Not FDA-approved for fertility outside of research. Needs prescriber oversight and lab monitoring. Potent upstream hormone regulator.',
+    doses:[
+      {site:'SQ pulsatile protocol',dose:'1–10 mcg/kg per pulse',points:'Pulsatile SQ per prescriber protocol',notes:'Consult reproductive endocrinology dosing guidance'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:500},
+  },
+  {
+    id:'epitalon',category:'peptide',icon:'🧬',isNew:true,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Longevity Peptide',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'Epitalon (Epithalon)',
+    tagline:'Tetrapeptide telomerase activator — anti-aging, sleep regulation, antioxidant.',
+    reconstitution:'Lyophilized 25 mg vials. Add 2.5 mL BAC water → 10 mg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Systemic effects cumulative over treatment cycle',duration:'10–20 day courses; 1–2× per year common',
+    warnings:'Not FDA-approved. Research compound. Derived from pineal gland extract research. Generally well tolerated. Long-term safety data limited.',
+    doses:[
+      {site:'SQ or IM course',dose:'5–10 mg/day',points:'10–20 consecutive days',notes:'Standard longevity protocol; some use 3 mg/day for longer courses'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:25000,bw:2.5,dose:5000},
+  },
+  {
+    id:'ss31',category:'peptide',icon:'🧬',isNew:true,
+    color:'#3d3830',bgColor:'#f0ece0',
+    badge:{text:'Mitochondrial Peptide',color:'#3d3830',bg:'#f0eefb'},
+    name:'SS-31 (Elamipretide)',
+    tagline:'Cardiolipin-targeting mitochondrial peptide — cellular energy, anti-aging, CV support.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Cellular effects within days to weeks',duration:'4–8 week cycles',
+    warnings:'Not FDA-approved. Research compound. Investigational for HFrEF (clinical trials ongoing). Generally well tolerated in studies. Use with physician oversight.',
+    doses:[
+      {site:'SQ daily',dose:'1–5 mg/day',points:'SQ abdomen',notes:'Start low; emerging clinical dosing guidance'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:2000},
+  },
+  {
+    id:'dsip',category:'peptide',icon:'🧬',isNew:true,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Sleep Peptide',color:'#b8972a',bg:'#e8f7f9'},
+    name:'DSIP (Delta Sleep-Inducing Peptide)',
+    tagline:'Neuropeptide — promotes deeper sleep stages, reduces cortisol, stress adaptation.',
+    reconstitution:'Lyophilized 5 mg vials. Add 1 mL BAC water → 5 mg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Sleep effects often same night',duration:'Short courses (5–10 days); as needed',
+    warnings:'Not FDA-approved. Research compound. Very gentle profile. May lower cortisol. Avoid combining with CNS depressants without physician guidance.',
+    doses:[
+      {site:'SQ pre-sleep',dose:'100–500 mcg SQ',points:'30 min before bed',notes:'Abdomen SQ; start at 100 mcg'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:5000,bw:1,dose:200},
+  },
+  {
+    id:'melanotanii',category:'peptide',icon:'🧬',isNew:true,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Melanocortin',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Melanotan II',
+    tagline:'MC1R/MC4R agonist — skin tanning, libido enhancement; UV-protective mechanism.',
+    reconstitution:'Lyophilized 10 mg vials. Add 2 mL BAC water → 5 mg/mL.',
+    storage:'Refrigerate. Use within 30 days.',
+    onset:'Tanning effect visible in 1–2 weeks with sun exposure',duration:'Loading phase then maintenance',
+    warnings:'Not FDA-approved. Research compound. Nausea, facial flushing, spontaneous erections in males common especially at high doses. Start very low. Mole changes theoretically possible (MC1R stimulation) — perform skin checks. Not for patients with history of melanoma.',
+    doses:[
+      {site:'Loading SQ (starting)',dose:'0.25 mg SQ',points:'Evening with food to reduce nausea',notes:'Titrate up by 0.25 mg every few days per tolerance'},
+      {site:'Loading SQ (target)',dose:'0.5–1.0 mg/day',points:'Daily with UV exposure',notes:'Sun exposure required for tan development'},
+      {site:'Maintenance',dose:'0.5–1.0 mg 2–3×/week',points:'SQ abdomen',notes:'After desired tan achieved'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:10000,bw:2,dose:500},
+  },
+  {
+    id:'snap8',category:'peptide',icon:'🧬',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Topical Peptide',color:'#8a3a2a',bg:'#fdeef1'},
+    name:'Snap-8 (Octapeptide-3)',
+    tagline:'Topical SNAP-25 analog — reduces muscle contraction, smooths expression lines.',
+    reconstitution:'Lyophilized 10 mg. Typically compounded into cream/serum base (0.01–0.05%). Not injected.',
+    storage:'As compounded product per pharmacy. Generally refrigerate.',
+    onset:'Surface effects with consistent topical use over weeks',duration:'Continuous use for effect maintenance',
+    warnings:'Topical use only — do not inject. Well tolerated dermally. Avoid eye contact. Compounded formulation quality varies.',
+    doses:[
+      {site:'Topical (forehead / eye area)',dose:'Apply thin layer 1–2×/day',points:'Fingertip to expression lines',notes:'Part of compounded serum at 0.01–0.05%'},
+    ],
+    calc:false,
+  },
+  // ── LIPOTROPIC / B-VITAMIN INJECTIONS ────────────────────────────
+  {
+    id:'b12',category:'vitamin',icon:'⚡',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'B-Vitamin IM Injection',color:'#b8972a',bg:'#faf6e8'},
+    name:'Vitamin B12 (Cyanocobalamin / Methylcobalamin)',
+    tagline:'Essential cobalamin IM injection — energy metabolism, neurological support, red blood cell production, mood and cognitive function.',
+    reconstitution:'Pre-drawn from multi-dose vials. Cyanocobalamin (synthetic, stable, most common) or Methylcobalamin (active form, preferred for neuro support). Standard concentrations: 1,000 mcg/mL or 2,500 mcg/mL vials.',
+    storage:'Room temp or refrigerate per pharmacy labeling. Protect from light. Multi-dose vials: discard per BUD.',
+    onset:'Energy and mood effects often felt within 24–72 h of first injection; correcting deficiency may take 1–4 weeks of consistent dosing',duration:'Weekly injections common for maintenance; monthly for repletion once levels normalized',
+    warnings:'Very well tolerated. Rare: injection site reactions, transient flushing. Cyanocobalamin contains cyanide moiety — use methylcobalamin preferentially in renal impairment or patients with known cyanide sensitivity. Screen for B12 deficiency via labs before starting (serum B12, MMA, homocysteine). Metformin, PPIs, and H2 blockers deplete B12 — flag in weight management patients on semaglutide/tirzepatide who may also be on metformin.',
+    doses:[
+      {site:'Standard energy/wellness dose',dose:'1,000 mcg IM weekly',points:'Deltoid or ventrogluteal IM',notes:'Most common maintenance dose; 1 mL of 1,000 mcg/mL vial'},
+      {site:'Deficiency repletion (clinical)',dose:'1,000 mcg IM daily × 7 days, then weekly × 4 wks, then monthly',points:'Deltoid or ventrogluteal IM',notes:'Per prescriber order; obtain serum B12 + CBC before starting'},
+      {site:'High-dose (neurological support)',dose:'2,500–5,000 mcg IM weekly',points:'Ventrogluteal or gluteal IM',notes:'Methylcobalamin preferred for neurological indication; large volume — may split into 2 sites'},
+      {site:'Weight management adjunct',dose:'1,000 mcg IM 1–2×/week',points:'Deltoid IM',notes:'Commonly combined with GLP-1 program; energy support during caloric restriction'},
+    ],
+    calc:true,calcType:'peptide',calcDefault:{vialMcg:1000,bw:1,dose:1000},
+  },
+  {
+    id:'bioboost',category:'vitamin',icon:'🔥',isNew:false,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Lipotropic IM Blend',color:'#4a6b4a',bg:'#e8f0e4'},
+    name:'BioBoost Injection (MIC + B-Complex + L-Carnitine)',
+    tagline:'Comprehensive lipotropic IM blend — fat metabolism at every stage: liver processing, bloodstream transport, and mitochondrial oxidation.',
+    reconstitution:'Compounded multi-ingredient vial. Standard formulation (verify with your pharmacy):\n• Methionine 25 mg/mL\n• Inositol (B8) 50 mg/mL\n• Choline 50 mg/mL\n• Cyanocobalamin (B12) 500–1,000 mcg/mL\n• Pyridoxine (B6) 25 mg/mL\n• Dexpanthenol (B5) 25 mg/mL\n• L-Carnitine 125 mg/mL\n• L-Arginine 15 mg/mL (in some formulations)\nConfirm ingredient list and concentrations with your compounding pharmacy — formulations vary.',
+    storage:'Refrigerate 2–8°C. Protect from light. Follow compounding pharmacy BUD. Typically discard 30–45 days after opening.',
+    onset:'Energy boost often felt within 24–48 h; fat metabolism support is cumulative over weeks with consistent use',duration:'1–2 injections per week; typical program 8–12 weeks alongside weight management plan',
+    warnings:'Generally very well tolerated. Injection site discomfort common (due to multi-ingredient formulation). Perform allergy screening before first dose. Choline in high doses may cause fishy body odor. L-Arginine contraindicated in herpes simplex — arginine promotes viral replication. Not a standalone weight loss treatment — requires diet, exercise, and/or medical weight management program for meaningful results. Compounded product: not FDA-reviewed for safety or efficacy.',
+    doses:[
+      {site:'Standard weekly dose',dose:'1 mL IM weekly',points:'Deltoid or ventrogluteal IM',notes:'Most common starting frequency'},
+      {site:'Twice-weekly (accelerated program)',dose:'1 mL IM 2×/week',points:'Alternate deltoids or ventrogluteal',notes:'Commonly used alongside GLP-1 or active weight loss phase; rotate injection sites'},
+      {site:'Maintenance',dose:'1 mL IM every 1–2 weeks',points:'Deltoid IM',notes:'Once goal weight approached or energy goals met'},
+    ],
+    calc:false,
+  },
+  {
+    id:'megaburn',category:'vitamin',icon:'🔥',isNew:false,
+    color:'#8a3a2a',bgColor:'#f5e8e4',
+    badge:{text:'Advanced Lipotropic Blend',color:'#8a3a2a',bg:'#f5e8e4'},
+    name:'Mega Burn Injection (MIC + Full B-Complex + L-Carnitine + Vitamin C)',
+    tagline:'The most ingredient-dense lipotropic IM shot — full B-vitamin complex, lipotropics, L-Carnitine, and antioxidant support in one injection.',
+    reconstitution:'Compounded multi-ingredient vial. Standard Mega Burn formulation (verify with pharmacy):\n• Methionine 25 mg/mL\n• Inositol (B8) 50 mg/mL\n• Choline 50 mg/mL\n• Thiamine (B1) 50 mg/mL\n• Riboflavin-5-phosphate (B2) 5 mg/mL\n• Niacinamide (B3) 25 mg/mL\n• Dexpanthenol (B5) 25 mg/mL\n• Pyridoxine (B6) 25 mg/mL\n• Methylcobalamin (B12) 1,000 mcg/mL\n• Sodium Ascorbate (Vitamin C) variable\n• L-Carnitine 125 mg/mL\nSome formulations also include: 5-MTHF (methylfolate), Lidocaine 0.01% (for comfort)\nAlways confirm full ingredient list and concentrations with your compounding pharmacy.',
+    storage:'Refrigerate 2–8°C. Protect from light. Follow pharmacy BUD — typically 30–45 days. Do not use if cloudy, discolored, or precipitate present.',
+    onset:'Energy effects within 24–48 h; comprehensive metabolic support accumulates over 4–8 weeks',duration:'1–2×/week program; 8–12 weeks typical; can be used as ongoing maintenance at 1×/week',
+    warnings:'Full B-complex formulation — highest volume and ingredient load of the three lipotropic shots. Injection site discomfort more likely than B12 alone due to concentration and volume. Screen for sulfa or B-vitamin allergy. Thiamine (B1) at higher doses can cause rare anaphylaxis — have resuscitation equipment accessible. L-Carnitine fishy odor possible. Choline may cause fishy odor. As with all compounded lipotropics: not FDA-reviewed; results dependent on concurrent diet and exercise. Not appropriate as sole weight loss intervention. Methylcobalamin form preferred over cyanocobalamin in this formulation for bioavailability and neurological benefit.',
+    doses:[
+      {site:'Standard dose',dose:'1 mL IM weekly',points:'Deltoid or ventrogluteal IM',notes:'Start at once weekly; assess tolerance × 2 doses before increasing frequency'},
+      {site:'Accelerated program',dose:'1 mL IM 2×/week',points:'Alternate sites — deltoid, ventrogluteal',notes:'Active weight loss phase alongside GLP-1 or structured program; rotate sites to reduce injection site reactions'},
+      {site:'Maintenance / ongoing',dose:'1 mL IM every 1–2 weeks',points:'Deltoid IM',notes:'After achieving target weight or metabolic goals; ongoing metabolic and energy support'},
+    ],
+    calc:false,
+  },
+  {
+    id:'vitaminc',category:'vitamin',icon:'🍋',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'IV Micronutrient',color:'#b8972a',bg:'#fdf3e3'},
+    name:'Vitamin C (High-Dose IV)',
+    tagline:'Ascorbic acid IV drip — antioxidant, skin brightening, immune support.',
+    reconstitution:'Add to 250–500 mL NS or D5W. Max concentration 1.5 g/mL.',
+    storage:'Protect from light. Admixture stable 12 h at room temp.',
+    onset:'IV bioavailability immediate; cosmetic benefit cumulative',duration:'Weekly × 4–8 sessions typical',
+    warnings:'Screen for G6PD deficiency — hemolytic risk with high doses. Oxalate nephropathy risk in renal impairment. Infuse slowly (≥60 min for doses >10 g).',
+    doses:[
+      {site:'Immune support drip',dose:'7.5–25 g IV',points:'250 mL NS over 60–90 min',notes:'Screen G6PD first'},
+      {site:'Skin brightening',dose:'5–10 g IV',points:'250 mL NS over 45–60 min',notes:'Combine with glutathione push at end'},
+    ],
+    calc:false,
+  },
+  {
+    id:'glutathione',category:'vitamin',icon:'💊',isNew:false,
+    color:'#b8972a',bgColor:'#faf6e8',
+    badge:{text:'Antioxidant Push',color:'#b8972a',bg:'#e8f7f9'},
+    name:'Glutathione (IV Push)',
+    tagline:'Master antioxidant — skin brightening, liver support, immune modulation.',
+    reconstitution:'Reconstitute lyophilized form in 5–10 mL NS for push. Or dilute in 50 mL NS for slow push.',
+    storage:'Refrigerate reconstituted. Administer within 30 min of mixing.',
+    onset:'Immediate IV; skin effects cumulative over 4–8 sessions',duration:'Weekly; maintenance every 2–4 weeks',
+    warnings:'Administer slowly — rapid push can cause bronchospasm. Avoid in sulfite hypersensitivity. Do not mix with ascorbic acid in same syringe.',
+    doses:[
+      {site:'Brightening push',dose:'600–1,200 mg IV push',points:'5–10 mL NS over 3–5 min',notes:'Follow vitamin C drip'},
+      {site:'High-dose immune',dose:'2,400 mg IV',points:'50 mL NS over 10–15 min',notes:'Monitor for bronchospasm'},
+    ],
+    calc:false,
+  },
+  {
+    id:'lcarnitine',category:'vitamin',icon:'💊',isNew:true,
+    color:'#4a6b4a',bgColor:'#e8f0e4',
+    badge:{text:'Amino Acid / IV',color:'#4a6b4a',bg:'#eaf4ef'},
+    name:'L-Carnitine (IV / Lyophilized)',
+    tagline:'Mitochondrial fatty acid transporter — metabolism booster, energy, fat oxidation.',
+    reconstitution:'Lyophilized 5,000 mg vials. Add NS per pharmacy guidance. Also available as IV push solution.',
+    storage:'Room temp lyophilized. Refrigerate reconstituted.',
+    onset:'Energy effects within hours; body comp changes over weeks',duration:'Weekly IV or daily oral supplementation',
+    warnings:'Generally very well tolerated. High oral doses may cause GI upset or fishy odor. IV form well tolerated. Avoid in seizure history (theoretical).',
+    doses:[
+      {site:'IV push',dose:'1,000–2,500 mg IV',points:'In 50 mL NS over 10–15 min',notes:'Can follow GH-axis peptides on injection days'},
+      {site:'Oral (supplemental)',dose:'1,000–3,000 mg/day oral',points:'With meals',notes:'Lower bioavailability vs IV'},
+    ],
+    calc:false,
+  },
+];
+
+let activeFilter='all', searchQuery='';
+
+function renderCards(entries){
+  const grid=document.getElementById('card-grid');
+  const label=document.getElementById('results-label');
+  const empty=document.getElementById('empty-state');
+  if(!entries.length){grid.innerHTML='';empty.style.display='block';label.textContent='No results';return;}
+  empty.style.display='none';
+  label.textContent=`${entries.length} reference${entries.length!==1?'s':''}`;
+  grid.innerHTML=entries.map(e=>`
+    <div class="card" onclick="openModal('${e.id}')">
+      <div class="card-accent" style="background:${e.color}"></div>
+      <div class="card-top">
+        <div class="card-icon" style="background:${e.bgColor}">${e.icon}</div>
+        <div class="card-badges">
+          ${e.isNew?'<span class="new-badge">NEW</span>':''}
+          <span class="badge" style="color:${e.badge.color};background:${e.badge.bg}">${e.badge.text}</span>
+        </div>
+      </div>
+      <h3>${e.name}</h3>
+      <p>${e.tagline}</p>
+      <div class="card-meta">
+        <span>⏱ ${e.onset.split(';')[0].split(',')[0]}</span>
+        <span>📅 ${e.duration.split(';')[0].split('(')[0].trim()}</span>
+      </div>
+    </div>`).join('');
+}
+
+function setFilter(cat,btn){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');activeFilter=cat;applyFilters();
+}
+function filterCards(){searchQuery=document.getElementById('search').value.toLowerCase();applyFilters();}
+function applyFilters(){
+  let r=ENTRIES;
+  if(activeFilter!=='all') r=r.filter(e=>e.category===activeFilter);
+  if(searchQuery) r=r.filter(e=>e.name.toLowerCase().includes(searchQuery)||e.tagline.toLowerCase().includes(searchQuery)||e.badge.text.toLowerCase().includes(searchQuery));
+  renderCards(r);
+}
+
+function openModal(id){
+  const e=ENTRIES.find(x=>x.id===id);if(!e)return;
+  const rows=e.doses.map(d=>`<tr><td>${d.site}</td><td>${d.dose}</td><td>${d.points}</td><td>${d.notes||'—'}</td></tr>`).join('');
+  document.getElementById('modal-content').innerHTML=`
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div class="modal-eyebrow">${e.badge.text}${e.isNew?' &nbsp;<span style="background:#fff3cd;color:#856404;border:1px solid #ffc107;font-size:.65rem;font-weight:700;padding:1px 6px;border-radius:10px;letter-spacing:.04em">NEW</span>':''}</div>
+    <h2>${e.name}</h2>
+    <p class="modal-summary">${e.tagline}</p>
+    ${e.moa ? `<div class="moa-block">
+      <div class="moa-header">⚙ Mechanism of Action</div>
+      ${e.moa.map(m=>`<div class="moa-row"><div class="moa-label">${m.label}</div><div class="moa-text">${m.text}</div></div>`).join('')}
+    </div>` : ''}
+    <div class="dosage-block">
+      <div class="dosage-header">Dosing Reference <span>— verify with prescribing clinician</span></div>
+      <table><thead><tr><th>Site / Use</th><th>Dose</th><th>Technique</th><th>Notes</th></tr></thead><tbody>${rows}</tbody></table>
+    </div>
+    <div class="modal-section-title">Quick Reference</div>
+    <div class="note-grid">
+      <div class="note-item"><div class="note-label">Reconstitution</div><div class="note-val">${e.reconstitution}</div></div>
+      <div class="note-item"><div class="note-label">Storage</div><div class="note-val">${e.storage}</div></div>
+      <div class="note-item"><div class="note-label">Onset</div><div class="note-val">${e.onset}</div></div>
+      <div class="note-item"><div class="note-label">Duration</div><div class="note-val">${e.duration}</div></div>
+    </div>
+    <div class="warning-box">${e.warnings}</div>
+    ${e.isEmergency ? `<div class="emergency-banner" style="margin-top:1rem">
+      <strong>🚨 IN-OFFICE EMERGENCY RESPONSE — PRINT &amp; POST IN TREATMENT ROOMS</strong>
+      <div class="emergency-step"><span class="step-num">1</span><span class="step-text"><strong>STOP</strong> injecting. Recognize signs: blanching, livedo, dusky skin, disproportionate pain, coolness.</span></div>
+      <div class="emergency-step"><span class="step-num">2</span><span class="step-text"><strong>WARM COMPRESS</strong> to area. Begin drawing up Hylenex immediately.</span></div>
+      <div class="emergency-step"><span class="step-num">3</span><span class="step-text"><strong>HYLENEX 150–300 U</strong> undiluted injected into and around entire affected zone. Massage. Repeat q60–90 min until perfusion returns.</span></div>
+      <div class="emergency-step"><span class="step-num">4</span><span class="step-text"><strong>ASPIRIN 325 mg PO</strong> chewed (if no contraindication).</span></div>
+      <div class="emergency-step"><span class="step-num">5</span><span class="step-text"><strong>NITROGLYCERIN PASTE</strong> ½ inch topically if perfusion not improving.</span></div>
+      <div class="emergency-step"><span class="step-num">6</span><span class="step-text"><strong>VISION CHANGE = 911 + OPHTHALMOLOGY STAT.</strong> Ophthalmic occlusion is sight-threatening.</span></div>
+      <div class="emergency-step"><span class="step-num">7</span><span class="step-text"><strong>DOCUMENT</strong> product, volume, site, time, every Hylenex dose given. Photograph at each assessment.</span></div>
+    </div>` : ''}
+    ${buildCalc(e)}`;
+  document.getElementById('modal-overlay').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function buildCalc(e){
+  if(!e.calc) return '';
+  if(e.calcType==='botox') return `
+    <div class="calc-box"><div class="calc-title">⚗ Reconstitution Calculator — 100 U vial</div>
+    <div class="calc-row"><label>Diluent volume (mL NS)</label><input type="number" id="c-dil" value="2.5" min="0.5" max="10" step="0.5" oninput="cBotox()"></div>
+    <div class="calc-result"><span class="result-label">Concentration (U / 0.1 mL)</span><span class="result-val" id="c-out">4.0 U</span></div></div>`;
+  if(e.calcType==='glp'){
+    const d=e.calcDefault;const pid=e.id;
+    const initVol=(d.dose/d.conc).toFixed(2);
+    const initU100=(d.dose/d.conc*100).toFixed(1);
+    const initU50=(d.dose/d.conc*100).toFixed(1);
+    return `
+    <div class="calc-box"><div class="calc-title">⚗ Dose Volume Calculator</div>
+    <div class="calc-row"><label>Vial concentration (mg/mL)</label><input type="number" id="c-conc-${pid}" value="${d.conc}" min="0.1" step="0.1" oninput="cGlp('${pid}')"></div>
+    <div class="calc-row"><label>Prescribed dose (mg)</label><input type="number" id="c-dose-${pid}" value="${d.dose}" min="0.01" step="0.05" oninput="cGlp('${pid}')"></div>
+    <div class="calc-result" style="margin-bottom:.4rem"><span class="result-label">Injection volume</span><span class="result-val" id="c-out-${pid}">${initVol} mL</span></div>
+    <div class="calc-result" style="margin-bottom:.4rem;background:var(--gold-light);border-color:var(--gold)"><span class="result-label" style="color:var(--gold-dark)">Units on 100-unit (1 mL) syringe</span><span class="result-val" id="c-u100-${pid}" style="color:var(--gold-dark)">${initU100} units</span></div>
+    <div class="calc-result" style="background:var(--cream-2);"><span class="result-label">Units on 30-unit (3/10 mL) syringe</span><span class="result-val" id="c-u50-${pid}">${initU50} units</span></div>
+    <div style="font-size:.75rem;color:var(--ink-3);margin-top:.6rem;line-height:1.5;padding:0 .25rem">
+      💡 <strong>Syringe guide:</strong> On a <strong>100-unit (1 mL) insulin syringe</strong>, each unit mark = 0.01 mL. On a <strong>30-unit (3/10 mL) syringe</strong>, each unit mark = 0.01 mL. Draw to the unit number shown above for the correct volume.
+    </div>
+    </div>`;
+  }
+  if(e.calcType==='peptide'){
+    const d=e.calcDefault;const pid=e.id;
+    return `
+    <div class="calc-box"><div class="calc-title">⚗ Reconstitution & Draw Calculator</div>
+    <div class="calc-row"><label>Vial size (mcg)</label><input type="number" id="c-vm-${pid}" value="${d.vialMcg}" min="100" step="100" oninput="cPep('${pid}')"></div>
+    <div class="calc-row"><label>BAC water added (mL)</label><input type="number" id="c-bw-${pid}" value="${d.bw}" min="0.5" max="10" step="0.5" oninput="cPep('${pid}')"></div>
+    <div class="calc-row"><label>Desired dose (mcg)</label><input type="number" id="c-pd-${pid}" value="${d.dose}" min="1" step="10" oninput="cPep('${pid}')"></div>
+    <div class="calc-result"><span class="result-label">Draw up (mL)</span><span class="result-val" id="c-out-${pid}">${((d.dose/(d.vialMcg/d.bw))).toFixed(3)} mL</span></div></div>`;
+  }
+  return '';
+}
+
+function cBotox(){const d=parseFloat(document.getElementById('c-dil').value)||2.5;document.getElementById('c-out').textContent=(100/d*0.1).toFixed(1)+' U';}
+function cGlp(pid){
+  const c=parseFloat(document.getElementById('c-conc-'+pid).value)||1;
+  const d=parseFloat(document.getElementById('c-dose-'+pid).value)||0.25;
+  const vol=d/c;
+  document.getElementById('c-out-'+pid).textContent=vol.toFixed(2)+' mL';
+  document.getElementById('c-u100-'+pid).textContent=(vol*100).toFixed(1)+' units';
+  // 3/10 mL syringe: 30 units = 0.3 mL, same 0.01 mL per unit mark as 1 mL syringe
+  document.getElementById('c-u50-'+pid).textContent=(vol*100).toFixed(1)+' units';
+}
+function cPep(pid){const vm=parseFloat(document.getElementById('c-vm-'+pid).value)||5000;const bw=parseFloat(document.getElementById('c-bw-'+pid).value)||2;const pd=parseFloat(document.getElementById('c-pd-'+pid).value)||250;document.getElementById('c-out-'+pid).textContent=(pd/(vm/bw)).toFixed(3)+' mL';}
+
+function closeModal(){document.getElementById('modal-overlay').classList.remove('open');document.body.style.overflow='';}
+function handleOverlayClick(e){if(e.target===document.getElementById('modal-overlay'))closeModal();}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal();});
+renderCards(ENTRIES);
+</script>
+</body>
+</html>
