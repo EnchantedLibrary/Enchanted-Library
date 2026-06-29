@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Enchanted Medical Aesthetics — Employee Portal</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Georgia', serif;
+    background: #f0ede6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ── Header ── */
+  .header {
+    background: #1a1a1a;
+    border-bottom: 3px solid #c9a84c;
+    padding: 0 32px;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .logo-group { display: flex; flex-direction: column; }
+  .logo-eyebrow { font-size: 9px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; opacity: 0.7; }
+  .logo-title { font-size: 20px; color: #c9a84c; font-weight: 400; letter-spacing: 1px; }
+  .header-badge {
+    font-size: 9px; letter-spacing: 2px; color: #c9a84c;
+    border: 1px solid rgba(201,168,76,0.35); border-radius: 20px;
+    padding: 4px 14px; text-transform: uppercase;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    text-align: center;
+    padding: 52px 24px 36px;
+  }
+  .hero-eyebrow {
+    font-size: 10px; letter-spacing: 4px; color: #9a6f1a;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .hero-title {
+    font-size: 28px; color: #1a1a1a; font-weight: 400; margin-bottom: 10px;
+  }
+  .hero-title span { color: #9a6f1a; }
+  .hero-sub {
+    font-size: 13px; color: #777; max-width: 480px; margin: 0 auto; line-height: 1.7;
+  }
+
+  /* ── Grid ── */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    width: 100%;
+  }
+
+  /* ── Tiles ── */
+  .tile {
+    background: #ffffff;
+    border: 1px solid #ddd8ce;
+    border-radius: 14px;
+    padding: 28px 24px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .tile::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--tile-color-d), var(--tile-color));
+    opacity: 0; transition: opacity 0.15s;
+  }
+  .tile:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(0,0,0,0.1);
+    border-color: var(--tile-color);
+  }
+  .tile:hover::before { opacity: 1; }
+
+  .tile-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    background: var(--tile-bg);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .tile-label {
+    font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--tile-color); font-family: Georgia, serif;
+  }
+  .tile-name {
+    font-size: 17px; color: #1a1a1a; font-weight: 600; line-height: 1.2;
+    margin-top: -4px;
+  }
+  .tile-desc {
+    font-size: 12px; color: #777; line-height: 1.6;
+  }
+  .tile-arrow {
+    margin-top: auto;
+    font-size: 11px; color: var(--tile-color);
+    letter-spacing: 1px; padding-top: 8px;
+    border-top: 1px solid #eee; width: 100%;
+    display: flex; align-items: center; gap: 6px;
+  }
+
+  /* Tile color themes */
+  .tile-hr    { --tile-color: #9a6f1a; --tile-color-d: #7a5510; --tile-bg: #fffbf0; }
+  .tile-lms   { --tile-color: #2471a3; --tile-color-d: #1a5276; --tile-bg: #eaf4fb; }
+  .tile-lib   { --tile-color: #9a6f1a; --tile-color-d: #7a5510; --tile-bg: #1a1a1a; }
+  .tile-teams { --tile-color: #5b4eb0; --tile-color-d: #3d3178; --tile-bg: #f0eeff; }
+  .tile-allrg { --tile-color: #a93226; --tile-color-d: #7b241c; --tile-bg: #fdf0ef; }
+  .tile-yt    { --tile-color: #c0392b; --tile-color-d: #922b21; --tile-bg: #fdf0ef; }
+
+  /* ── Divider ── */
+  .divider {
+    max-width: 1000px; margin: 0 auto 28px;
+    padding: 0 24px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .divider-line { flex: 1; height: 1px; background: #ddd8ce; }
+  .divider-label { font-size: 9px; letter-spacing: 3px; color: #aaa; text-transform: uppercase; }
+
+  /* ── Footer ── */
+  .footer {
+    margin-top: auto;
+    border-top: 1px solid #ddd8ce;
+    padding: 16px 24px;
+    font-size: 10px; color: #aaa; text-align: center; line-height: 1.8;
+    background: #ffffff;
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    .hero-title { font-size: 22px; }
+    .header { padding: 0 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="header">
+  <div class="logo-group">
+    <span class="logo-eyebrow">Enchanted Medical Aesthetics</span>
+    <span class="logo-title">Employee Portal</span>
+  </div>
+  <span class="header-badge">Staff Access</span>
+</header>
+
+<div class="hero">
+  <div class="hero-eyebrow">Welcome</div>
+  <h1 class="hero-title">Your <span>Workplace Hub</span></h1>
+  <p class="hero-sub">All your tools in one place. Click any tile below to get started.</p>
+</div>
+
+<!-- HR & Admin -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-label">HR &amp; Admin</div>
+  <div class="divider-line"></div>
+</div>
+
+<div class="grid">
+
+  <a class="tile tile-hr" href="https://enchantedmedicalaesthetics.talenthr.io/home" target="_blank">
+    <div class="tile-icon">👥</div>
+    <div>
+      <div class="tile-label">Human Resources</div>
+      <div class="tile-name">TalentHR</div>
+    </div>
+    <div class="tile-desc">Time off requests, employee documents, HR records, and team directory.</div>
+    <div class="tile-arrow">Open TalentHR →</div>
+  </a>
+
+  <a class="tile tile-teams" href="https://teams.live.com/l/message/19:iTUOFwv_L6o1EjPBKuFEesyxsGqxAQDWk2maq_yCLzY1@thread.v2/1782664876480?tenantId=9188040d-6c67-4c5b-b112-36a304b66dad&parentMessageId=1782664876480&groupId" target="_blank">
+    <div class="tile-icon">💬</div>
+    <div>
+      <div class="tile-label">Communication</div>
+      <div class="tile-name">Microsoft Teams</div>
+    </div>
+    <div class="tile-desc">Team messaging, announcements, and internal communication.</div>
+    <div class="tile-arrow">Open Teams →</div>
+  </a>
+
+</div>
+
+<!-- Training -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-label">Training &amp; Education</div>
+  <div class="divider-line"></div>
+</div>
+
+<div class="grid">
+
+  <a class="tile tile-lms" href="https://enchantedmedicalaesthetics.talentlms.com/plus/dashboard" target="_blank">
+    <div class="tile-icon">🎓</div>
+    <div>
+      <div class="tile-label">Learning Management</div>
+      <div class="tile-name">TalentLMS</div>
+    </div>
+    <div class="tile-desc">Required courses, certifications, compliance training, and your learning progress.</div>
+    <div class="tile-arrow">Open TalentLMS →</div>
+  </a>
+
+  <a class="tile tile-allrg" href="https://www.allerganadvantage.com/s/ami-training" target="_blank">
+    <div class="tile-icon">💉</div>
+    <div>
+      <div class="tile-label">Product Training</div>
+      <div class="tile-name">Allergan Training</div>
+    </div>
+    <div class="tile-desc">Allergan Advantage product training, injector education, and clinical resources.</div>
+    <div class="tile-arrow">Open Allergan Portal →</div>
+  </a>
+
+  <a class="tile tile-yt" href="https://youtube.com/@aestheticrecord4418" target="_blank">
+    <div class="tile-icon">▶️</div>
+    <div>
+      <div class="tile-label">Video Training</div>
+      <div class="tile-name">Aesthetic Record</div>
+    </div>
+    <div class="tile-desc">Tutorial videos, software walkthroughs, and training content from Aesthetic Record.</div>
+    <div class="tile-arrow">Open YouTube Channel →</div>
+  </a>
+
+</div>
+
+<!-- Clinical -->
+<div class="divider">
+  <div class="divider-line"></div>
+  <div class="divider-label">Clinical Reference</div>
+  <div class="divider-line"></div>
+</div>
+
+<div class="grid">
+
+  <a class="tile tile-lib" href="https://enchantedlibrary.github.io/Enchanted-Library/" target="_blank">
+    <div class="tile-icon" style="background:#2a2a2a; color:#c9a84c; font-size:20px;">⚕</div>
+    <div>
+      <div class="tile-label">Licensed Staff Only</div>
+      <div class="tile-name">Clinical Library</div>
+    </div>
+    <div class="tile-desc">Compound protocols, dosing references, contraindications, and clinical monographs.</div>
+    <div class="tile-arrow" style="color:#9a6f1a;">Open Library →</div>
+  </a>
+
+</div>
+
+<footer class="footer">
+  Enchanted Medical Aesthetics · Employee Portal · For internal staff use only<br>
+  Questions? Contact your manager or HR.
+</footer>
+
+</body>
+</html>
