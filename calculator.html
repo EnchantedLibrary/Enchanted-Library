@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reconstitution Calculator | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root {
+  --ink:#0f0e0c; --ink-2:#2e2b25; --ink-3:#7a7468;
+  --surface:#f5f0e8; --card:#fdfcf8; --border:#ddd5c0;
+  --gold:#b8972a; --gold-light:#faf6e8; --gold-dark:#8a6e18; --gold-mid:#e8d48a;
+  --tan:#c9b99a; --tan-light:#f5efe3; --tan-dark:#8a7055;
+  --charcoal:#1a1814; --charcoal-2:#2c2820; --charcoal-light:#3d3830;
+  --cream:#fdf9f0; --cream-2:#f0e8d4;
+  --rose:#8a3a2a; --sage:#4a6b4a;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
+
+/* NAV */
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.nav-name{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--cream);letter-spacing:-0.01em}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:1rem}
+.nav-links a{font-size:.8rem;color:var(--tan);text-decoration:none;font-weight:500;transition:color .15s}
+.nav-links a:hover{color:var(--gold)}
+.nav-links a.active{color:var(--gold)}
+
+/* HERO */
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2.5rem 2rem 2rem}
+.hero-inner{max-width:800px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);line-height:1.15;letter-spacing:-.02em;color:var(--cream);margin-bottom:.5rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.9rem;color:var(--tan);max-width:500px}
+
+/* MAIN LAYOUT */
+.main{max-width:800px;margin:0 auto;padding:2rem}
+
+/* COMPOUND SELECTOR */
+.selector-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.selector-label{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.75rem}
+.search-wrap{position:relative;margin-bottom:1rem}
+.search-wrap svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:15px;height:15px;color:var(--ink-3)}
+#compound-search{width:100%;padding:.65rem 1rem .65rem 2.25rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.88rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+#compound-search:focus{border-color:var(--gold)}
+#compound-search::placeholder{color:var(--ink-3)}
+.compound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:.5rem;max-height:240px;overflow-y:auto;padding-right:.25rem}
+.compound-btn{padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:7px;background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;line-height:1.3}
+.compound-btn:hover{border-color:var(--gold);color:var(--gold)}
+.compound-btn.selected{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold-mid)}
+.compound-btn .compound-dose{display:block;font-size:.68rem;color:var(--ink-3);margin-top:1px;font-family:'JetBrains Mono',monospace}
+.compound-btn.selected .compound-dose{color:var(--tan)}
+
+/* CALCULATOR PANEL */
+.calc-panel{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;display:none}
+.calc-panel.visible{display:block}
+.calc-header{background:var(--charcoal);padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.calc-header-name{font-family:'DM Serif Display',serif;font-size:1.2rem;color:var(--cream)}
+.calc-header-badge{font-size:.65rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.2);padding:3px 8px;border-radius:20px}
+.calc-body{padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
+@media(max-width:580px){.calc-body{grid-template-columns:1fr}}
+
+/* INPUTS */
+.input-section{}
+.input-section-title{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.78rem;font-weight:500;color:var(--ink-2);margin-bottom:.35rem}
+.field input,.field select{width:100%;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.field .unit{font-size:.72rem;color:var(--ink-3);margin-top:.2rem}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:.6rem}
+
+/* RESULTS */
+.result-section{}
+.result-section-title{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.result-card{background:var(--charcoal);border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem}
+.result-card.gold{background:var(--gold);border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem}
+.result-label{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tan);margin-bottom:.2rem}
+.result-card.gold .result-label{color:var(--charcoal-2)}
+.result-val{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:500;color:var(--gold-mid)}
+.result-card.gold .result-val{color:var(--charcoal);font-size:1.6rem;font-weight:600}
+.result-sub{font-size:.72rem;color:var(--tan);margin-top:.15rem}
+.result-card.gold .result-sub{color:var(--charcoal-2)}
+
+/* TITRATION TABLE */
+.titration-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;display:none}
+.titration-wrap.visible{display:block}
+.titration-header{background:var(--gold);padding:.7rem 1.25rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--charcoal)}
+.titration-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.titration-table th{padding:.5rem 1rem;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--border);background:var(--surface)}
+.titration-table td{padding:.55rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.titration-table tr:last-child td{border-bottom:none}
+.titration-table td:first-child{color:var(--ink);font-weight:500;font-family:'Inter',monospace}
+.titration-table tr.current-row td{background:var(--gold-light);color:var(--gold-dark);font-weight:600}
+.titration-table tr.current-row td:first-child{color:var(--gold-dark)}
+
+/* NOTES */
+.notes-box{background:var(--tan-light);border:1px solid var(--tan);border-radius:8px;padding:.85rem 1rem;font-size:.8rem;color:var(--tan-dark);line-height:1.6;margin-bottom:1.5rem;display:none}
+.notes-box.visible{display:block}
+.notes-box strong{color:var(--ink-2)}
+
+/* SYRINGE VIZ */
+.syringe-wrap{margin-top:.75rem}
+.syringe-label{font-size:.68rem;color:var(--tan);margin-bottom:.4rem;font-weight:500}
+.syringe-bar{background:var(--charcoal-light);border-radius:4px;height:12px;overflow:hidden;position:relative}
+.syringe-fill{background:linear-gradient(90deg,var(--gold-dark),var(--gold));height:100%;border-radius:4px;transition:width .4s ease;min-width:2px}
+.syringe-scale{display:flex;justify-content:space-between;margin-top:3px;font-size:.62rem;color:var(--ink-3);font-family:'JetBrains Mono',monospace}
+
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="nav-name">Enchanted Medical Aesthetics</span>
+    <span class="nav-tag">Reconstitution Calculator</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">Clinical Library</a>
+    <a href="calculator.html" class="active">Calculator</a>
+    <a href="portal.html">Staff Portal</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Clinical Tool</div>
+    <h1>Reconstitution <em>&amp; Dose</em> Calculator</h1>
+    <p>Select a compound to calculate draw volume, syringe units, and view the full titration schedule.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="selector-wrap">
+    <div class="selector-label">Select Compound</div>
+    <div class="search-wrap">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 100 12A6 6 0 009 3zM1 9a8 8 0 1114.32 4.906l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387A8 8 0 011 9z" clip-rule="evenodd"/></svg>
+      <input type="text" id="compound-search" placeholder="Search compounds…" oninput="filterCompounds()">
+    </div>
+    <div class="compound-grid" id="compound-grid"></div>
+  </div>
+
+  <div class="calc-panel" id="calc-panel">
+    <div class="calc-header">
+      <span class="calc-header-name" id="panel-name">—</span>
+      <span class="calc-header-badge" id="panel-badge">—</span>
+    </div>
+    <div class="calc-body">
+      <div class="input-section">
+        <div class="input-section-title">Inputs</div>
+        <div id="input-fields"></div>
+      </div>
+      <div class="result-section">
+        <div class="result-section-title">Results</div>
+        <div id="result-fields"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="titration-wrap" id="titration-wrap">
+    <div class="titration-header">📋 Titration Schedule</div>
+    <table class="titration-table"><thead id="tit-head"></thead><tbody id="tit-body"></tbody></table>
+  </div>
+
+  <div class="notes-box" id="notes-box"></div>
+
+</div>
+
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Not a substitute for prescriber judgment</footer>
+
+<script>
+const COMPOUNDS = [
+  // ── NEUROMODULATORS ───────────────────────────────────────────────
+  {
+    id:'botox', name:'Botox (onabotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 4 U/0.1 mL (standard). 1 mL NS → 10 U/0.1 mL (concentrated). <strong>Storage:</strong> Refrigerate 2–8°C. Use within 24 h of reconstitution. <strong>Black Box:</strong> Remote spread risk. Contraindicated in MG, Lambert-Eaton, pregnancy.',
+    titration:null,
+  },
+  {
+    id:'dysport', name:'Dysport (abobotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 10 U/0.1 mL. <strong>Conversion:</strong> 2.5:1 vs Botox. <strong>Storage:</strong> Refrigerate. Use within 8 h reconstituted. Contains lactose — milk allergy caution.',
+    titration:null,
+  },
+  {
+    id:'xeomin', name:'Xeomin (incobotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 4 U/0.1 mL. 1:1 conversion with Botox. <strong>Storage:</strong> Room temp ≤25°C unopened. Refrigerate after reconstitution. Use within 24 h.',
+    titration:null,
+  },
+  // ── FILLERS ───────────────────────────────────────────────────────
+  {
+    id:'juvederm-ultra', name:'Juvéderm Ultra XC', badge:'HA Filler — Hylacross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution. Room temp ≤25°C. Do not freeze. Duration: 6–9 months. Hyaluronidase must be on hand at all times.',
+    titration:null,
+  },
+  {
+    id:'juvederm-ultraplus', name:'Juvéderm Ultra Plus XC', badge:'HA Filler — Hylacross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution. Room temp ≤25°C. Do not freeze. Duration: 9–12 months. Deep injection only.',
+    titration:null,
+  },
+  {
+    id:'juvederm-volbella', name:'Juvéderm Volbella XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: up to 12 months. FDA-approved lips, perioral lines, tear troughs. Advanced training required for undereye.',
+    titration:null,
+  },
+  {
+    id:'juvederm-vollure', name:'Juvéderm Vollure XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: 12–18 months. Dynamic areas — flexible gel. Deep dermal injection.',
+    titration:null,
+  },
+  {
+    id:'juvederm-voluma', name:'Juvéderm Voluma XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: 18–24 months. Supraperiosteal only. FDA-approved cheeks, chin, temples (March 2024).',
+    titration:null,
+  },
+  {
+    id:'juvederm-volux', name:'Juvéderm Volux XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: up to 18 months. Firmest in line — supraperiosteal ONLY. FDA-approved jawline July 2022.',
+    titration:null,
+  },
+  {
+    id:'skinvive', name:'Skinvive by Juvéderm (VYC-12L)', badge:'HA Microdroplet', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. INTRADERMAL ONLY — 0.01–0.05 mL microdroplets. 32G needle. FDA-approved cheeks only. Duration: 6 months. Not a volumizer.',
+    titration:null,
+  },
+  {
+    id:'restylane', name:'Restylane / Lyft / Defyne / Kysse', badge:'HA Filler — NASHA/OBT', type:'filler',
+    notes:'Pre-filled syringe with lidocaine. No reconstitution. Room temp. Duration: 6–18 months depending on product and site. Hyaluronidase must be available.',
+    titration:null,
+  },
+  {
+    id:'radiesse', name:'Radiesse (CaHA)', badge:'Biostimulator', type:'filler',
+    notes:'<strong>NOT reversible — no hyaluronidase antidote.</strong> Use as supplied or hyperdilute: 1.5 mL + 1.0 mL NS + 0.5 mL lido. Room temp. Do not freeze. Duration: 12–18 months. Deep/supraperiosteal only. Massage immediately post-injection.',
+    titration:null,
+  },
+  {
+    id:'sculptra', name:'Sculptra (PLLA)', badge:'Biostimulator', type:'filler',
+    notes:'Reconstitute 150mg vial with 7–9 mL sterile water 24–72 h before use. Add 1–2 mL lido at time of injection. Refrigerate after recon; use within 72 h. <strong>5-5-5 Rule:</strong> massage 5 min, 5×/day, 5 days. No immediate effect — collagen builds over 4–8 weeks.',
+    titration:[
+      {period:'Session 1',dose:'1–2 vials',freq:'Baseline'},
+      {period:'Session 2',dose:'1–2 vials',freq:'4–6 weeks later'},
+      {period:'Session 3',dose:'1–2 vials',freq:'4–6 weeks later'},
+      {period:'Maintenance',dose:'1 vial',freq:'Every 1–2 years'},
+    ],
+  },
+  // ── EMERGENCY ─────────────────────────────────────────────────────
+  {
+    id:'hylenex-vo', name:'Hylenex — Vascular Occlusion Protocol', badge:'Emergency', type:'filler',
+    notes:'<strong>🚨 TIME IS TISSUE — treat immediately.</strong> Hylenex 150 U/mL pre-filled vials. Focal: use undiluted 150–300 U. Diffuse: 1 mL Hylenex + 4 mL NS = 30 U/mL. Refrigerate 2–8°C. Single-use only. CANNOT reverse Radiesse or Sculptra.',
+    titration:[
+      {period:'STEP 1',dose:'STOP injecting',freq:'Immediately at first sign'},
+      {period:'STEP 2',dose:'Warm compress',freq:'While drawing up Hylenex'},
+      {period:'STEP 3',dose:'150–300 U Hylenex',freq:'Into + around affected zone; repeat q60–90 min'},
+      {period:'STEP 4',dose:'Aspirin 325 mg PO',freq:'Chewed immediately'},
+      {period:'STEP 5',dose:'Nitro paste ½ inch',freq:'Topically if not improving'},
+      {period:'STEP 6',dose:'911 + Ophthalmology',freq:'STAT if any vision change'},
+    ],
+  },
+  // ── OPHTHALMIC ────────────────────────────────────────────────────
+  {
+    id:'upneeq', name:'Upneeq (oxymetazoline 0.1%)', badge:'Ophthalmic Rx', type:'filler',
+    notes:'Ready-to-use ophthalmic solution. Room temp 20–25°C. 1 drop once daily in affected eye(s). Onset 15–20 min; lasts 6–8 h. Contraindicated with MAOIs. Warn about rebound ptosis on discontinuation.',
+    titration:null,
+  },
+  {
+    id:'latisse', name:'Latisse (bimatoprost 0.03%)', badge:'Ophthalmic Rx', type:'filler',
+    notes:'Ready-to-use ophthalmic solution. Room temp 15–25°C. 1 drop per applicator per eye nightly at upper lash base. Results at 8–16 weeks. Lashes return to baseline 4–8 weeks after stopping. Side effects: periorbital hyperpigmentation, iris color change (possibly permanent).',
+    titration:[
+      {period:'Weeks 1–8',dose:'1 drop nightly',freq:'Upper lash line only'},
+      {period:'Weeks 9–16',dose:'1 drop nightly',freq:'Full results visible'},
+      {period:'Maintenance',dose:'1 drop nightly',freq:'Ongoing — lashes revert if stopped'},
+    ],
+  },
+  {
+    id:'semaglutide', name:'Semaglutide', badge:'GLP-1 Agonist', type:'glp',
+    defaultConc:2, defaultDose:0.25, concStep:0.5, doseStep:0.05, doseUnit:'mg', concUnit:'mg/mL',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Protect from light. Discard 28 days after first use. <strong>Black Box:</strong> Thyroid C-cell tumor risk — contraindicated in personal/family history of MTC or MEN2. Titrate slowly to minimize GI side effects.',
+    titration:[
+      {period:'Weeks 1–4',dose:'0.25 mg',freq:'Once weekly'},
+      {period:'Weeks 5–8',dose:'0.5 mg',freq:'Once weekly'},
+      {period:'Weeks 9–12',dose:'1.0 mg',freq:'Once weekly'},
+      {period:'Weeks 13–16',dose:'1.7 mg',freq:'Once weekly'},
+      {period:'Week 17+',dose:'2.4 mg',freq:'Once weekly (max)'},
+    ],
+  },
+  {
+    id:'tirzepatide', name:'Tirzepatide', badge:'GIP/GLP-1 Dual Agonist', type:'glp',
+    defaultConc:5, defaultDose:2.5, concStep:1, doseStep:0.5, doseUnit:'mg', concUnit:'mg/mL',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Protect from light. <strong>Black Box:</strong> Same thyroid C-cell tumor warning as semaglutide. GI side effects often more pronounced initially — hold titration longer if needed. Monitor heart rate.',
+    titration:[
+      {period:'Weeks 1–4',dose:'2.5 mg',freq:'Once weekly'},
+      {period:'Weeks 5–8',dose:'5 mg',freq:'Once weekly'},
+      {period:'Weeks 9–12',dose:'7.5 mg',freq:'Once weekly'},
+      {period:'Weeks 13–16',dose:'10 mg',freq:'Once weekly'},
+      {period:'Weeks 17–20',dose:'12.5 mg',freq:'Once weekly'},
+      {period:'Week 21+',dose:'15 mg',freq:'Once weekly (max)'},
+    ],
+  },
+  {
+    id:'retatrutide', name:'Retatrutide', badge:'Triple GIP/GLP-1/Glucagon', type:'glp',
+    defaultConc:5, defaultDose:2, concStep:1, doseStep:0.5, doseUnit:'mg', concUnit:'mg/mL',
+    notes:'<strong>⚠ Investigational — NOT FDA-approved.</strong> Triple receptor agonist. Monitor BP, HR, GI symptoms, and renal function closely. Same thyroid C-cell tumor theoretical risk as other GLP-1 agents. Confirm prescriber order before each dose change.',
+    titration:[
+      {period:'Weeks 1–4',dose:'1–2 mg',freq:'Once weekly'},
+      {period:'Weeks 5–8',dose:'4 mg',freq:'Once weekly'},
+      {period:'Weeks 9–16',dose:'8 mg',freq:'Once weekly'},
+      {period:'Week 17+',dose:'12 mg',freq:'Once weekly (per prescriber)'},
+    ],
+  },
+  {
+    id:'cagrilintide', name:'Cagrilintide', badge:'Amylin Analog', type:'glp',
+    defaultConc:1, defaultDose:0.3, concStep:0.5, doseStep:0.1, doseUnit:'mg', concUnit:'mg/mL',
+    notes:'<strong>⚠ Investigational — NOT FDA-approved.</strong> Commonly combined with semaglutide (CagriSema). Confirm per-component concentrations with pharmacy. Monitor for nausea especially when combining with GLP-1 agents.',
+    titration:[
+      {period:'Weeks 1–4',dose:'0.16–0.3 mg',freq:'Once weekly'},
+      {period:'Weeks 5+',dose:'Up to 2.4 mg',freq:'Once weekly (per protocol)'},
+    ],
+  },
+  // ── PEPTIDES ──────────────────────────────────────────────────────
+  {
+    id:'bpc157', name:'BPC-157', badge:'Healing Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:250, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Lyophilized at room temp. Reconstituted: refrigerate, use within 30 days. <strong>Research compound — not FDA-approved.</strong> Typical cycle 4–8 weeks. Inject SQ abdomen or near affected site.',
+    titration:null,
+  },
+  {
+    id:'tb500', name:'TB-500 (Thymosin Beta-4)', badge:'Healing Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:2000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Loading: 2,000–2,500 mcg 2×/week × 4 weeks. Maintenance: 200–300 mcg 1–2×/week.',
+    titration:[
+      {period:'Weeks 1–4 (Loading)',dose:'2,000–2,500 mcg',freq:'2× per week SQ'},
+      {period:'Weeks 5+ (Maintenance)',dose:'200–300 mcg',freq:'1–2× per week SQ'},
+    ],
+  },
+  {
+    id:'ghkcu', name:'GHK-Cu (Copper Peptide)', badge:'Copper Peptide', type:'peptide',
+    defaultVial:50000, defaultBW:5, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Protect from light. <strong>Research compound — not FDA-approved.</strong> Anti-inflammatory, collagen stimulation, hair growth, acne. SQ or topical (compounded serum).',
+    titration:null,
+  },
+  {
+    id:'ipamorelin', name:'Ipamorelin', badge:'GHRP', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Administer 30–60 min before bed in fasted state for optimal GH pulse. Avoid in active malignancy.',
+    titration:null,
+  },
+  {
+    id:'sermorelin5', name:'Sermorelin 5mg', badge:'GHRH', type:'peptide',
+    defaultVial:5000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 14 days reconstituted. <strong>Research compound — not FDA-approved.</strong> Administer before bed fasted. Starting dose 200 mcg nightly SQ.',
+    titration:null,
+  },
+  {
+    id:'sermorelin15', name:'Sermorelin 15mg', badge:'GHRH', type:'peptide',
+    defaultVial:15000, defaultBW:3, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 14 days reconstituted. <strong>Research compound — not FDA-approved.</strong> Higher vial size for patients on established protocol.',
+    titration:null,
+  },
+  {
+    id:'cjcipamorelin', name:'CJC-1295 / Ipamorelin', badge:'GHRH/GHRP Blend', type:'peptide',
+    defaultVial:5000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 5mg/5mg blend. Dose refers to each component. Administer nightly fasted 30–60 min before bed. Rotate sites.',
+    titration:null,
+  },
+  {
+    id:'tesamorelin', name:'Tesamorelin', badge:'GHRH Analog', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Lyophilized: refrigerate. Reconstituted: use within 24 h. <strong>Research compound — not FDA-approved for off-label use.</strong> Standard 1–2 mg nightly SQ fasted. Monitor IGF-1. Contraindicated in active malignancy.',
+    titration:null,
+  },
+  {
+    id:'aod9604', name:'AOD-9604', badge:'GH Fragment', type:'peptide',
+    defaultVial:5000, defaultBW:2, defaultDose:250, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Administer fasted (pre-breakfast). GH fragment 176-191 — lipolysis without anabolic/diabetogenic GH effects. Avoid carbs for 30 min post-injection.',
+    titration:null,
+  },
+  {
+    id:'igflr3', name:'IGF-1 LR3', badge:'IGF-1 Analog', type:'peptide',
+    defaultVial:1000, defaultBW:1, defaultDose:50, doseUnit:'mcg',
+    notes:'<strong>⚠ HIGH CAUTION — hypoglycemia risk. Carry glucose.</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Max 100 mcg/day. 4–6 week cycle maximum — receptor downregulation. Avoid in malignancy.',
+    titration:[
+      {period:'Week 1 (start low)',dose:'20–40 mcg/day',freq:'Post-workout SQ/IM'},
+      {period:'Weeks 2–4',dose:'40–80 mcg/day',freq:'Post-workout SQ/IM'},
+      {period:'Max (advanced)',dose:'Up to 100 mcg/day',freq:'Post-workout — do not exceed 6 weeks'},
+    ],
+  },
+  {
+    id:'motsc', name:'MOTS-C', badge:'Mitochondrial Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:5000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 2–3× per week SQ. Pre-workout timing may enhance exercise mimetic effect.',
+    titration:null,
+  },
+  {
+    id:'selank', name:'Selank', badge:'Anxiolytic Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 100–300 mcg SQ 1–2×/day or intranasal (2–3 drops each nostril 2×/day). 2–4 week cycles.',
+    titration:null,
+  },
+  {
+    id:'semax', name:'Semax', badge:'Nootropic Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 200–600 mcg intranasal 1–2×/day or 100–300 mcg SQ. 2–4 week cycles. May cause transient anxiety at higher doses.',
+    titration:null,
+  },
+  {
+    id:'pt141', name:'PT-141 (Bremelanotide)', badge:'Melanocortin', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved (Vyleesi FDA-approved for women).</strong> Administer 30–60 min before sexual activity. 1 dose per 24 h max. Monitor BP — transient elevation common.',
+    titration:null,
+  },
+  {
+    id:'epitalon', name:'Epitalon (Epithalon)', badge:'Longevity Peptide', type:'peptide',
+    defaultVial:25000, defaultBW:2.5, defaultDose:5000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Standard course: 5–10 mg/day SQ × 10–20 consecutive days. 1–2 courses per year.',
+    titration:[
+      {period:'Days 1–20 (standard course)',dose:'5,000–10,000 mcg/day',freq:'Daily SQ'},
+      {period:'Maintenance',dose:'Repeat course',freq:'1–2× per year'},
+    ],
+  },
+  {
+    id:'ss31', name:'SS-31 (Elamipretide)', badge:'Mitochondrial Peptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:2000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 1–5 mg/day SQ. Emerging evidence base. Use with physician oversight.',
+    titration:null,
+  },
+  {
+    id:'dsip', name:'DSIP (Delta Sleep-Inducing Peptide)', badge:'Sleep Peptide', type:'peptide',
+    defaultVial:5000, defaultBW:1, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 100–500 mcg SQ 30 min before bed. Short courses 5–10 days. Avoid combining with CNS depressants without physician guidance.',
+    titration:null,
+  },
+
+  {
+    id:'kisspeptin', name:'Kisspeptin-10', badge:'Neuropeptide', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Pulsatile dosing per prescriber/reproductive endocrinology protocol. Lab monitoring required.',
+    titration:null,
+  },
+  {
+    id:'wolverine', name:'Wolverine Blend (BPC-157 + TB-500)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:20000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 10mg/10mg blend. Dose refers to combined. Loading: 500 mcg each component 2×/week × 4 weeks. Maintenance: reduce frequency.',
+    titration:[
+      {period:'Weeks 1–4 (Loading)',dose:'500 mcg each component',freq:'2× per week SQ'},
+      {period:'Weeks 5+ (Maintenance)',dose:'250 mcg each component',freq:'Daily SQ'},
+    ],
+  },
+  {
+    id:'ghkcu50', name:'GHK-Cu 50mg', badge:'Copper Peptide', type:'peptide',
+    defaultVial:50000, defaultBW:5, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Protect from light. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Anti-inflammatory, collagen stimulation, hair growth, acne. SQ or topical.',
+    titration:null,
+  },
+  {
+    id:'ghkcu100', name:'GHK-Cu 100mg', badge:'Copper Peptide', type:'peptide',
+    defaultVial:100000, defaultBW:10, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Protect from light. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Larger vial for established protocols.',
+    titration:null,
+  },
+  {
+    id:'glow', name:'GLOW Blend (BPC-157 + TB-500 + GHK-Cu)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:70000, defaultBW:4, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 70mg lyophilized blend. Healing, collagen stimulation, and skin quality. Confirm per-component concentration before dosing.',
+    titration:null,
+  },
+  {
+    id:'klow', name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:80000, defaultBW:4, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 80mg blend. Adds KPV anti-inflammatory tripeptide to GLOW stack. Confirm per-component concentration with pharmacy.',
+    titration:null,
+  },
+  {
+    id:'melanotanii', name:'Melanotan II', badge:'Melanocortin', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>⚠ Start very low — nausea, flushing, spontaneous erections common at higher doses.</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> NOT for patients with history of melanoma. Sun exposure required for tanning effect.',
+    titration:[
+      {period:'Days 1–3',dose:'250 mcg',freq:'Evening SQ with food'},
+      {period:'Days 4–7',dose:'500 mcg',freq:'Daily SQ with UV exposure'},
+      {period:'Loading target',dose:'500–1,000 mcg/day',freq:'Daily with UV exposure'},
+      {period:'Maintenance',dose:'500–1,000 mcg',freq:'2–3× per week SQ'},
+    ],
+  },
+  {
+    id:'aodblend', name:'AOD-9604 / CJC-1295 / Ipamorelin Blend', badge:'GH Blend', type:'peptide',
+    defaultVial:12000, defaultBW:2, defaultDose:300, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 6mg/3mg/3mg blend. Fat-burning + GH-stimulating triple blend. Confirm concentrations per pharmacy label.',
+    titration:null,
+  },
+  {
+    id:'tesamorelinblend', name:'Tesamorelin / CJC-1295 / Ipamorelin Blend', badge:'GHRH/GHRP Blend', type:'peptide',
+    defaultVial:12000, defaultBW:2, defaultDose:300, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 6mg/3mg/3mg blend. Synergistic pulsatile GH release. Administer nightly fasted 30–60 min before bed.',
+    titration:null,
+  },
+  // ── B12 / LIPOTROPICS ─────────────────────────────────────────────
+  {
+    id:'b12', name:'Vitamin B12', badge:'B-Vitamin IM', type:'b12',
+    defaultConc:1000, defaultDose:1000, doseUnit:'mcg', concUnit:'mcg/mL',
+    notes:'<strong>Storage:</strong> Room temp or refrigerate per pharmacy. Protect from light. <strong>Cyanocobalamin</strong> (standard) or <strong>Methylcobalamin</strong> (preferred for neuro support). Screen for deficiency via serum B12 + CBC. Flag patients on metformin, PPIs, or H2 blockers — all deplete B12.',
+    titration:[
+      {period:'Deficiency repletion',dose:'1,000 mcg',freq:'Daily IM × 7 days'},
+      {period:'Repletion (month 1)',dose:'1,000 mcg',freq:'Weekly IM × 4 weeks'},
+      {period:'Maintenance',dose:'1,000 mcg',freq:'Monthly IM'},
+      {period:'Wellness / energy',dose:'1,000 mcg',freq:'Weekly IM ongoing'},
+    ],
+  },
+  {
+    id:'bioboost', name:'BioBoost Injection', badge:'Lipotropic IM Blend', type:'b12',
+    defaultConc:1, defaultDose:1, doseUnit:'mL', concUnit:'mL/dose',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Follow pharmacy BUD — typically 30–45 days. <strong>Compounded product — not FDA-reviewed.</strong> Standard dose is 1 mL IM. Ingredients: Methionine 25mg/mL, Inositol 50mg/mL, Choline 50mg/mL, B12 500–1,000mcg/mL, B6 25mg/mL, B5 25mg/mL, L-Carnitine 125mg/mL. Confirm with your pharmacy. Screen for allergies before first dose. L-Arginine contraindicated in herpes simplex.',
+    titration:[
+      {period:'Standard program',dose:'1 mL IM',freq:'Weekly'},
+      {period:'Accelerated program',dose:'1 mL IM',freq:'2× per week'},
+      {period:'Maintenance',dose:'1 mL IM',freq:'Every 1–2 weeks'},
+    ],
+  },
+  {
+    id:'megaburn', name:'Mega Burn Injection', badge:'Advanced Lipotropic Blend', type:'b12',
+    defaultConc:1, defaultDose:1, doseUnit:'mL', concUnit:'mL/dose',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Follow pharmacy BUD — typically 30–45 days. Do not use if cloudy or discolored. <strong>Compounded product — not FDA-reviewed.</strong> Full B-complex formulation. Ingredients: Methionine, Inositol, Choline, B1, B2, B3, B5, B6, B12 (Methylcobalamin 1,000mcg/mL), Vitamin C, L-Carnitine 125mg/mL. Confirm with pharmacy. ⚠ Thiamine (B1) can rarely cause anaphylaxis — have resuscitation equipment accessible.',
+    titration:[
+      {period:'Standard program',dose:'1 mL IM',freq:'Weekly — assess tolerance × 2 doses first'},
+      {period:'Accelerated program',dose:'1 mL IM',freq:'2× per week'},
+      {period:'Maintenance',dose:'1 mL IM',freq:'Every 1–2 weeks'},
+    ],
+  },
+  {
+    id:'sermorelin', name:'Sermorelin (5mg or 15mg)', badge:'GHRH', type:'peptide',
+    defaultVial:5000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 14 days reconstituted. <strong>Research compound — not FDA-approved.</strong> Available as 5 mg or 15 mg vials — adjust vial size above accordingly. Administer nightly fasted before bed. Starting dose 200 mcg.',
+    titration:null,
+  },
+  {
+    id:'snap8', name:'Snap-8 (Octapeptide-3)', badge:'Topical Peptide', type:'filler',
+    notes:'<strong>Topical use ONLY — do not inject.</strong> Compounded into cream/serum base at 0.01–0.05%. Apply thin layer 1–2× daily to expression lines. No reconstitution calculator needed — dose is topical application.',
+    titration:null,
+  },
+  // ── VITAMINS / IV ─────────────────────────────────────────────────
+  {
+    id:'vitaminc', name:'Vitamin C (High-Dose IV)', badge:'IV Micronutrient', type:'filler',
+    notes:'Add to 250–500 mL NS or D5W. Protect from light. Stable 12 h at room temp. <strong>Screen for G6PD deficiency before high doses.</strong> Infuse slowly — ≥60 min for doses >10 g. Oxalate nephropathy risk in renal impairment.',
+    titration:[
+      {period:'Skin brightening',dose:'5–10 g IV',freq:'Over 45–60 min in 250 mL NS'},
+      {period:'Immune support',dose:'7.5–25 g IV',freq:'Over 60–90 min in 250 mL NS'},
+    ],
+  },
+  {
+    id:'glutathione', name:'Glutathione (IV Push)', badge:'Antioxidant Push', type:'filler',
+    notes:'Reconstitute in 5–10 mL NS for push. Administer within 30 min of mixing. Refrigerate. <strong>Administer slowly</strong> — rapid push can cause bronchospasm. Avoid in sulfite hypersensitivity. Do not mix with ascorbic acid in same syringe.',
+    titration:[
+      {period:'Brightening push',dose:'600–1,200 mg',freq:'Over 3–5 min IV push after Vit C drip'},
+      {period:'High-dose immune',dose:'2,400 mg',freq:'In 50 mL NS over 10–15 min'},
+    ],
+  },
+  {
+    id:'lcarnitine', name:'L-Carnitine (IV / Lyophilized)', badge:'Amino Acid / IV', type:'filler',
+    notes:'Lyophilized 5,000 mg vials. Add NS per pharmacy guidance. Room temp lyophilized; refrigerate reconstituted. IV push: 1,000–2,500 mg in 50 mL NS over 10–15 min. Generally very well tolerated.',
+    titration:null,
+  },
+];
+
+let selectedId = null;
+
+function renderCompounds(list) {
+  const grid = document.getElementById('compound-grid');
+  grid.innerHTML = list.map(c => `
+    <button class="compound-btn ${selectedId===c.id?'selected':''}" onclick="selectCompound('${c.id}')">
+      ${c.name}
+      <span class="compound-dose">${c.badge}</span>
+    </button>`).join('');
+}
+
+function filterCompounds() {
+  const q = document.getElementById('compound-search').value.toLowerCase();
+  renderCompounds(q ? COMPOUNDS.filter(c => c.name.toLowerCase().includes(q) || c.badge.toLowerCase().includes(q)) : COMPOUNDS);
+}
+
+function selectCompound(id) {
+  selectedId = id;
+  filterCompounds();
+  const c = COMPOUNDS.find(x => x.id === id);
+  if (!c) return;
+
+  document.getElementById('panel-name').textContent = c.name;
+  document.getElementById('panel-badge').textContent = c.badge;
+  document.getElementById('calc-panel').classList.add('visible');
+
+  buildInputs(c);
+  buildResults(c);
+  buildTitration(c);
+  buildNotes(c);
+  calculate(c);
+}
+
+function buildInputs(c) {
+  const el = document.getElementById('input-fields');
+  if (c.type === 'filler') {
+    el.innerHTML = `<div style="background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:1rem;font-size:.85rem;color:var(--ink-2);line-height:1.6">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.5rem">Product Notes</div>
+      ${c.notes}
+    </div>`;
+    return;
+  } else if (c.type === 'glp') {
+  if (c.type === 'glp') {
+    el.innerHTML = `
+      <div class="field">
+        <label>Vial Concentration (${c.concUnit})</label>
+        <input type="number" id="f-conc" value="${c.defaultConc}" min="0.1" step="${c.concStep}" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+        <div class="unit">Enter the mg/mL concentration printed on your compounded vial label</div>
+      </div>
+      <div class="field">
+        <label>Prescribed Dose (${c.doseUnit})</label>
+        <input type="number" id="f-dose" value="${c.defaultDose}" min="0.01" step="${c.doseStep}" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+        <div class="unit">Per prescriber order — do not adjust without authorization</div>
+      </div>`;
+  } else if (c.type === 'peptide') {
+    el.innerHTML = `
+      <div class="field">
+        <label>Vial Size (${c.doseUnit})</label>
+        <input type="number" id="f-vial" value="${c.defaultVial}" min="100" step="100" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+      </div>
+      <div class="field">
+        <label>BAC Water Added (mL)</label>
+        <input type="number" id="f-bw" value="${c.defaultBW}" min="0.5" max="10" step="0.5" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+        <div class="unit">Bacteriostatic water for injection</div>
+      </div>
+      <div class="field">
+        <label>Desired Dose (${c.doseUnit})</label>
+        <input type="number" id="f-dose" value="${c.defaultDose}" min="1" step="10" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+        <div class="unit">Per prescriber order</div>
+      </div>`;
+  } else if (c.type === 'b12') {
+    el.innerHTML = `
+      <div class="field">
+        <label>Vial Concentration (${c.concUnit})</label>
+        <input type="number" id="f-conc" value="${c.defaultConc}" min="100" step="500" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+        <div class="unit">Common: 1,000 mcg/mL or 2,500 mcg/mL</div>
+      </div>
+      <div class="field">
+        <label>Prescribed Dose (${c.doseUnit})</label>
+        <input type="number" id="f-dose" value="${c.defaultDose}" min="100" step="100" oninput="calculate(COMPOUNDS.find(x=>x.id==='${c.id}'))">
+      </div>`;
+  }
+}
+
+function buildResults(c) {
+  const el = document.getElementById('result-fields');
+  if (c.type === 'filler') {
+    el.innerHTML = `<div style="background:var(--charcoal);border-radius:8px;padding:1rem;color:var(--tan);font-size:.83rem;line-height:1.6">
+      <div style="color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem">Reference Only</div>
+      No volume calculation needed — pre-filled syringe or fixed-dose product. See notes for dosing guidance.
+    </div>`;
+    return;
+  } else if (c.type === 'glp') {
+  if (c.type === 'glp') {
+    el.innerHTML = `
+      <div class="result-card gold">
+        <div class="result-label">Injection Volume</div>
+        <div class="result-val" id="r-vol">—</div>
+        <div class="result-sub" id="r-vol-sub"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">100-unit (1 mL) Syringe — draw to</div>
+        <div class="result-val" id="r-u100">—</div>
+        <div class="result-sub">units on syringe barrel</div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">30-unit (3/10 mL) Syringe — draw to</div>
+        <div class="result-val" id="r-u30">—</div>
+        <div class="result-sub">units on syringe barrel</div>
+      </div>
+      <div class="syringe-wrap">
+        <div class="syringe-label">Volume visual (relative to 1 mL max)</div>
+        <div class="syringe-bar"><div class="syringe-fill" id="r-bar" style="width:0%"></div></div>
+        <div class="syringe-scale"><span>0</span><span>0.25</span><span>0.5</span><span>0.75</span><span>1.0 mL</span></div>
+      </div>`;
+  } else if (c.type === 'peptide') {
+    el.innerHTML = `
+      <div class="result-card">
+        <div class="result-label">Reconstituted Concentration</div>
+        <div class="result-val" id="r-conc">—</div>
+        <div class="result-sub">mcg per mL after reconstitution</div>
+      </div>
+      <div class="result-card gold">
+        <div class="result-label">Draw Up</div>
+        <div class="result-val" id="r-vol">—</div>
+        <div class="result-sub" id="r-vol-sub"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">100-unit (1 mL) Syringe — draw to</div>
+        <div class="result-val" id="r-u100">—</div>
+        <div class="result-sub">units on syringe barrel</div>
+      </div>
+      <div class="syringe-wrap">
+        <div class="syringe-label">Volume visual (relative to 1 mL max)</div>
+        <div class="syringe-bar"><div class="syringe-fill" id="r-bar" style="width:0%"></div></div>
+        <div class="syringe-scale"><span>0</span><span>0.25</span><span>0.5</span><span>0.75</span><span>1.0 mL</span></div>
+      </div>`;
+  } else if (c.type === 'b12') {
+    el.innerHTML = `
+      <div class="result-card gold">
+        <div class="result-label">Injection Volume</div>
+        <div class="result-val" id="r-vol">—</div>
+        <div class="result-sub" id="r-vol-sub"></div>
+      </div>
+      <div class="result-card">
+        <div class="result-label">100-unit (1 mL) Syringe — draw to</div>
+        <div class="result-val" id="r-u100">—</div>
+        <div class="result-sub">units on syringe barrel</div>
+      </div>
+      <div class="syringe-wrap">
+        <div class="syringe-label">Volume visual (relative to 1 mL max)</div>
+        <div class="syringe-bar"><div class="syringe-fill" id="r-bar" style="width:0%"></div></div>
+        <div class="syringe-scale"><span>0</span><span>0.25</span><span>0.5</span><span>0.75</span><span>1.0 mL</span></div>
+      </div>`;
+  }
+}
+
+function calculate(c) {
+  if (!c) return;
+  if (c.type === 'filler') return;
+  let vol = 0;
+
+  if (c.type === 'glp' || c.type === 'b12') {
+    const conc = parseFloat(document.getElementById('f-conc')?.value) || c.defaultConc;
+    const dose = parseFloat(document.getElementById('f-dose')?.value) || c.defaultDose;
+    vol = dose / conc;
+    document.getElementById('r-vol').textContent = vol.toFixed(3) + ' mL';
+    document.getElementById('r-vol-sub').textContent = vol >= 1 ? '⚠ Exceeds 1 mL — split into 2 injections' : vol > 0.3 && c.type === 'glp' ? 'Use 1 mL syringe' : '';
+    if (document.getElementById('r-u100')) document.getElementById('r-u100').textContent = (vol * 100).toFixed(1) + ' units';
+    if (document.getElementById('r-u30')) document.getElementById('r-u30').textContent = (vol * 100).toFixed(1) + ' units';
+
+  } else if (c.type === 'peptide') {
+    const vial = parseFloat(document.getElementById('f-vial')?.value) || c.defaultVial;
+    const bw = parseFloat(document.getElementById('f-bw')?.value) || c.defaultBW;
+    const dose = parseFloat(document.getElementById('f-dose')?.value) || c.defaultDose;
+    const concPerMl = vial / bw;
+    vol = dose / concPerMl;
+    document.getElementById('r-conc').textContent = concPerMl.toLocaleString() + ' mcg/mL';
+    document.getElementById('r-vol').textContent = vol.toFixed(3) + ' mL';
+    document.getElementById('r-vol-sub').textContent = vol >= 1 ? '⚠ Exceeds 1 mL — check inputs' : '';
+    if (document.getElementById('r-u100')) document.getElementById('r-u100').textContent = (vol * 100).toFixed(1) + ' units';
+  }
+
+  // Syringe bar
+  const bar = document.getElementById('r-bar');
+  if (bar) bar.style.width = Math.min(vol / 1.0 * 100, 100) + '%';
+}
+
+function buildTitration(c) {
+  const wrap = document.getElementById('titration-wrap');
+  const head = document.getElementById('tit-head');
+  const body = document.getElementById('tit-body');
+  if (!c.titration) { wrap.classList.remove('visible'); return; }
+  wrap.classList.add('visible');
+  head.innerHTML = '<tr><th>Period</th><th>Dose</th><th>Frequency</th></tr>';
+  body.innerHTML = c.titration.map((row, i) =>
+    `<tr class="${i===0?'current-row':''}"><td>${row.period}</td><td>${row.dose}</td><td>${row.freq}</td></tr>`
+  ).join('');
+}
+
+function buildNotes(c) {
+  const el = document.getElementById('notes-box');
+  if (!c.notes) { el.classList.remove('visible'); return; }
+  el.classList.add('visible');
+  el.innerHTML = '📋 <strong>Clinical Notes:</strong> ' + c.notes;
+}
+
+// Init
+renderCompounds(COMPOUNDS);
+</script>
+</body>
+</html>
