@@ -108,17 +108,24 @@
   .empty{text-align:center;padding:3rem 1rem;color:var(--ink-3);font-size:.9rem}
   .empty svg{width:40px;height:40px;margin-bottom:1rem;opacity:.3}
   footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal)}
-  @media(max-width:600px){.hero{padding:2rem 1rem 1.5rem}.filter-bar{padding:1rem}.library-wrap{padding:0 1rem 3rem}.note-grid{grid-template-columns:1fr}.modal{padding:1.5rem 1rem}.grid{grid-template-columns:1fr}}
+  .nav-links{display:flex;gap:.25rem}
+  .nav-links a{font-size:.78rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.35rem .7rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+  .nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+  .nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+  @media(max-width:600px){.hero{padding:2rem 1rem 1.5rem}.filter-bar{padding:1rem}.library-wrap{padding:0 1rem 3rem}.note-grid{grid-template-columns:1fr}.modal{padding:1.5rem 1rem}.grid{grid-template-columns:1fr}.nav-links a{font-size:.7rem;padding:.3rem .5rem}}
 </style>
 </head>
 <body>
 <nav>
-  <a class="nav-brand" href="#">
+  <a class="nav-brand" href="index.html">
     <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
     <span class="nav-name">Enchanted Medical Aesthetics</span>
     <span class="nav-tag">Clinical Library</span>
   </a>
-  <div class="nav-right">Internal use only — licensed staff</div>
+  <div class="nav-links">
+    <a href="index.html" class="active">📚 Library</a>
+    <a href="calculator.html">⚗ Calculator</a>
+  </div>
 </nav>
 <div class="hero">
   <div class="hero-inner">
