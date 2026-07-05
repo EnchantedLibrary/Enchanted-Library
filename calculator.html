@@ -179,7 +179,106 @@ footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-t
 
 <script>
 const COMPOUNDS = [
-  // ── GLP-1 / WEIGHT MANAGEMENT ─────────────────────────────────────
+  // ── NEUROMODULATORS ───────────────────────────────────────────────
+  {
+    id:'botox', name:'Botox (onabotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 4 U/0.1 mL (standard). 1 mL NS → 10 U/0.1 mL (concentrated). <strong>Storage:</strong> Refrigerate 2–8°C. Use within 24 h of reconstitution. <strong>Black Box:</strong> Remote spread risk. Contraindicated in MG, Lambert-Eaton, pregnancy.',
+    titration:null,
+  },
+  {
+    id:'dysport', name:'Dysport (abobotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 10 U/0.1 mL. <strong>Conversion:</strong> 2.5:1 vs Botox. <strong>Storage:</strong> Refrigerate. Use within 8 h reconstituted. Contains lactose — milk allergy caution.',
+    titration:null,
+  },
+  {
+    id:'xeomin', name:'Xeomin (incobotulinumtoxinA)', badge:'Neuromodulator', type:'botox',
+    notes:'<strong>Reconstitution:</strong> 2.5 mL NS → 4 U/0.1 mL. 1:1 conversion with Botox. <strong>Storage:</strong> Room temp ≤25°C unopened. Refrigerate after reconstitution. Use within 24 h.',
+    titration:null,
+  },
+  // ── FILLERS ───────────────────────────────────────────────────────
+  {
+    id:'juvederm-ultra', name:'Juvéderm Ultra XC', badge:'HA Filler — Hylacross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution. Room temp ≤25°C. Do not freeze. Duration: 6–9 months. Hyaluronidase must be on hand at all times.',
+    titration:null,
+  },
+  {
+    id:'juvederm-ultraplus', name:'Juvéderm Ultra Plus XC', badge:'HA Filler — Hylacross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe with lidocaine. No reconstitution. Room temp ≤25°C. Do not freeze. Duration: 9–12 months. Deep injection only.',
+    titration:null,
+  },
+  {
+    id:'juvederm-volbella', name:'Juvéderm Volbella XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: up to 12 months. FDA-approved lips, perioral lines, tear troughs. Advanced training required for undereye.',
+    titration:null,
+  },
+  {
+    id:'juvederm-vollure', name:'Juvéderm Vollure XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: 12–18 months. Dynamic areas — flexible gel. Deep dermal injection.',
+    titration:null,
+  },
+  {
+    id:'juvederm-voluma', name:'Juvéderm Voluma XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: 18–24 months. Supraperiosteal only. FDA-approved cheeks, chin, temples (March 2024).',
+    titration:null,
+  },
+  {
+    id:'juvederm-volux', name:'Juvéderm Volux XC', badge:'HA Filler — Vycross', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. Duration: up to 18 months. Firmest in line — supraperiosteal ONLY. FDA-approved jawline July 2022.',
+    titration:null,
+  },
+  {
+    id:'skinvive', name:'Skinvive by Juvéderm (VYC-12L)', badge:'HA Microdroplet', type:'filler',
+    notes:'Pre-filled 1.0 mL syringe. No reconstitution. Room temp ≤25°C. INTRADERMAL ONLY — 0.01–0.05 mL microdroplets. 32G needle. FDA-approved cheeks only. Duration: 6 months. Not a volumizer.',
+    titration:null,
+  },
+  {
+    id:'restylane', name:'Restylane / Lyft / Defyne / Kysse', badge:'HA Filler — NASHA/OBT', type:'filler',
+    notes:'Pre-filled syringe with lidocaine. No reconstitution. Room temp. Duration: 6–18 months depending on product and site. Hyaluronidase must be available.',
+    titration:null,
+  },
+  {
+    id:'radiesse', name:'Radiesse (CaHA)', badge:'Biostimulator', type:'filler',
+    notes:'<strong>NOT reversible — no hyaluronidase antidote.</strong> Use as supplied or hyperdilute: 1.5 mL + 1.0 mL NS + 0.5 mL lido. Room temp. Do not freeze. Duration: 12–18 months. Deep/supraperiosteal only. Massage immediately post-injection.',
+    titration:null,
+  },
+  {
+    id:'sculptra', name:'Sculptra (PLLA)', badge:'Biostimulator', type:'filler',
+    notes:'Reconstitute 150mg vial with 7–9 mL sterile water 24–72 h before use. Add 1–2 mL lido at time of injection. Refrigerate after recon; use within 72 h. <strong>5-5-5 Rule:</strong> massage 5 min, 5×/day, 5 days. No immediate effect — collagen builds over 4–8 weeks.',
+    titration:[
+      {period:'Session 1',dose:'1–2 vials',freq:'Baseline'},
+      {period:'Session 2',dose:'1–2 vials',freq:'4–6 weeks later'},
+      {period:'Session 3',dose:'1–2 vials',freq:'4–6 weeks later'},
+      {period:'Maintenance',dose:'1 vial',freq:'Every 1–2 years'},
+    ],
+  },
+  // ── EMERGENCY ─────────────────────────────────────────────────────
+  {
+    id:'hylenex-vo', name:'Hylenex — Vascular Occlusion Protocol', badge:'Emergency', type:'filler',
+    notes:'<strong>🚨 TIME IS TISSUE — treat immediately.</strong> Hylenex 150 U/mL pre-filled vials. Focal: use undiluted 150–300 U. Diffuse: 1 mL Hylenex + 4 mL NS = 30 U/mL. Refrigerate 2–8°C. Single-use only. CANNOT reverse Radiesse or Sculptra.',
+    titration:[
+      {period:'STEP 1',dose:'STOP injecting',freq:'Immediately at first sign'},
+      {period:'STEP 2',dose:'Warm compress',freq:'While drawing up Hylenex'},
+      {period:'STEP 3',dose:'150–300 U Hylenex',freq:'Into + around affected zone; repeat q60–90 min'},
+      {period:'STEP 4',dose:'Aspirin 325 mg PO',freq:'Chewed immediately'},
+      {period:'STEP 5',dose:'Nitro paste ½ inch',freq:'Topically if not improving'},
+      {period:'STEP 6',dose:'911 + Ophthalmology',freq:'STAT if any vision change'},
+    ],
+  },
+  // ── OPHTHALMIC ────────────────────────────────────────────────────
+  {
+    id:'upneeq', name:'Upneeq (oxymetazoline 0.1%)', badge:'Ophthalmic Rx', type:'filler',
+    notes:'Ready-to-use ophthalmic solution. Room temp 20–25°C. 1 drop once daily in affected eye(s). Onset 15–20 min; lasts 6–8 h. Contraindicated with MAOIs. Warn about rebound ptosis on discontinuation.',
+    titration:null,
+  },
+  {
+    id:'latisse', name:'Latisse (bimatoprost 0.03%)', badge:'Ophthalmic Rx', type:'filler',
+    notes:'Ready-to-use ophthalmic solution. Room temp 15–25°C. 1 drop per applicator per eye nightly at upper lash base. Results at 8–16 weeks. Lashes return to baseline 4–8 weeks after stopping. Side effects: periorbital hyperpigmentation, iris color change (possibly permanent).',
+    titration:[
+      {period:'Weeks 1–8',dose:'1 drop nightly',freq:'Upper lash line only'},
+      {period:'Weeks 9–16',dose:'1 drop nightly',freq:'Full results visible'},
+      {period:'Maintenance',dose:'1 drop nightly',freq:'Ongoing — lashes revert if stopped'},
+    ],
+  },
   {
     id:'semaglutide', name:'Semaglutide', badge:'GLP-1 Agonist', type:'glp',
     defaultConc:2, defaultDose:0.25, concStep:0.5, doseStep:0.05, doseUnit:'mg', concUnit:'mg/mL',
@@ -338,34 +437,133 @@ const COMPOUNDS = [
     notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 100–500 mcg SQ 30 min before bed. Short courses 5–10 days. Avoid combining with CNS depressants without physician guidance.',
     titration:null,
   },
-  {
-    id:'melanotanii', name:'Melanotan II', badge:'Melanocortin', type:'peptide',
-    defaultVial:10000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
-    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Start at 0.25 mg; titrate slowly. Nausea, flushing, spontaneous erections common at higher doses. NOT for patients with history of melanoma. Mole monitoring recommended.',
-    titration:[
-      {period:'Days 1–3 (loading start)',dose:'250 mcg',freq:'Evening SQ with food'},
-      {period:'Days 4–7',dose:'500 mcg',freq:'Daily SQ with UV exposure'},
-      {period:'Loading (target)',dose:'500–1,000 mcg/day',freq:'Daily with UV exposure'},
-      {period:'Maintenance',dose:'500–1,000 mcg',freq:'2–3× per week SQ'},
-    ],
-  },
+
   {
     id:'kisspeptin', name:'Kisspeptin-10', badge:'Neuropeptide', type:'peptide',
     defaultVial:10000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
     notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Pulsatile dosing per prescriber/reproductive endocrinology protocol. Lab monitoring required.',
     titration:null,
   },
+  {
+    id:'wolverine', name:'Wolverine Blend (BPC-157 + TB-500)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:20000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 10mg/10mg blend. Dose refers to combined. Loading: 500 mcg each component 2×/week × 4 weeks. Maintenance: reduce frequency.',
+    titration:[
+      {period:'Weeks 1–4 (Loading)',dose:'500 mcg each component',freq:'2× per week SQ'},
+      {period:'Weeks 5+ (Maintenance)',dose:'250 mcg each component',freq:'Daily SQ'},
+    ],
+  },
+  {
+    id:'ghkcu50', name:'GHK-Cu 50mg', badge:'Copper Peptide', type:'peptide',
+    defaultVial:50000, defaultBW:5, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Protect from light. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Anti-inflammatory, collagen stimulation, hair growth, acne. SQ or topical.',
+    titration:null,
+  },
+  {
+    id:'ghkcu100', name:'GHK-Cu 100mg', badge:'Copper Peptide', type:'peptide',
+    defaultVial:100000, defaultBW:10, defaultDose:1000, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate reconstituted. Protect from light. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> Larger vial for established protocols.',
+    titration:null,
+  },
+  {
+    id:'glow', name:'GLOW Blend (BPC-157 + TB-500 + GHK-Cu)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:70000, defaultBW:4, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 70mg lyophilized blend. Healing, collagen stimulation, and skin quality. Confirm per-component concentration before dosing.',
+    titration:null,
+  },
+  {
+    id:'klow', name:'KLOW Blend (KPV + BPC-157 + TB-500 + GHK-Cu)', badge:'Peptide Blend', type:'peptide',
+    defaultVial:80000, defaultBW:4, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 80mg blend. Adds KPV anti-inflammatory tripeptide to GLOW stack. Confirm per-component concentration with pharmacy.',
+    titration:null,
+  },
+  {
+    id:'melanotanii', name:'Melanotan II', badge:'Melanocortin', type:'peptide',
+    defaultVial:10000, defaultBW:2, defaultDose:500, doseUnit:'mcg',
+    notes:'<strong>⚠ Start very low — nausea, flushing, spontaneous erections common at higher doses.</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> NOT for patients with history of melanoma. Sun exposure required for tanning effect.',
+    titration:[
+      {period:'Days 1–3',dose:'250 mcg',freq:'Evening SQ with food'},
+      {period:'Days 4–7',dose:'500 mcg',freq:'Daily SQ with UV exposure'},
+      {period:'Loading target',dose:'500–1,000 mcg/day',freq:'Daily with UV exposure'},
+      {period:'Maintenance',dose:'500–1,000 mcg',freq:'2–3× per week SQ'},
+    ],
+  },
+  {
+    id:'aodblend', name:'AOD-9604 / CJC-1295 / Ipamorelin Blend', badge:'GH Blend', type:'peptide',
+    defaultVial:12000, defaultBW:2, defaultDose:300, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 6mg/3mg/3mg blend. Fat-burning + GH-stimulating triple blend. Confirm concentrations per pharmacy label.',
+    titration:null,
+  },
+  {
+    id:'tesamorelinblend', name:'Tesamorelin / CJC-1295 / Ipamorelin Blend', badge:'GHRH/GHRP Blend', type:'peptide',
+    defaultVial:12000, defaultBW:2, defaultDose:300, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 30 days. <strong>Research compound — not FDA-approved.</strong> 6mg/3mg/3mg blend. Synergistic pulsatile GH release. Administer nightly fasted 30–60 min before bed.',
+    titration:null,
+  },
   // ── B12 / LIPOTROPICS ─────────────────────────────────────────────
   {
     id:'b12', name:'Vitamin B12', badge:'B-Vitamin IM', type:'b12',
     defaultConc:1000, defaultDose:1000, doseUnit:'mcg', concUnit:'mcg/mL',
-    notes:'<strong>Storage:</strong> Room temp or refrigerate per pharmacy. Protect from light. <strong>Cyanocobalamin</strong> (standard) or <strong>Methylcobalamin</strong> (preferred for neuro support). Screen for deficiency via serum B12 + CBC before starting. Flag patients on metformin, PPIs, or H2 blockers — all deplete B12.',
+    notes:'<strong>Storage:</strong> Room temp or refrigerate per pharmacy. Protect from light. <strong>Cyanocobalamin</strong> (standard) or <strong>Methylcobalamin</strong> (preferred for neuro support). Screen for deficiency via serum B12 + CBC. Flag patients on metformin, PPIs, or H2 blockers — all deplete B12.',
     titration:[
       {period:'Deficiency repletion',dose:'1,000 mcg',freq:'Daily IM × 7 days'},
       {period:'Repletion (month 1)',dose:'1,000 mcg',freq:'Weekly IM × 4 weeks'},
       {period:'Maintenance',dose:'1,000 mcg',freq:'Monthly IM'},
       {period:'Wellness / energy',dose:'1,000 mcg',freq:'Weekly IM ongoing'},
     ],
+  },
+  {
+    id:'bioboost', name:'BioBoost Injection', badge:'Lipotropic IM Blend', type:'b12',
+    defaultConc:1, defaultDose:1, doseUnit:'mL', concUnit:'mL/dose',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Follow pharmacy BUD — typically 30–45 days. <strong>Compounded product — not FDA-reviewed.</strong> Standard dose is 1 mL IM. Ingredients: Methionine 25mg/mL, Inositol 50mg/mL, Choline 50mg/mL, B12 500–1,000mcg/mL, B6 25mg/mL, B5 25mg/mL, L-Carnitine 125mg/mL. Confirm with your pharmacy. Screen for allergies before first dose. L-Arginine contraindicated in herpes simplex.',
+    titration:[
+      {period:'Standard program',dose:'1 mL IM',freq:'Weekly'},
+      {period:'Accelerated program',dose:'1 mL IM',freq:'2× per week'},
+      {period:'Maintenance',dose:'1 mL IM',freq:'Every 1–2 weeks'},
+    ],
+  },
+  {
+    id:'megaburn', name:'Mega Burn Injection', badge:'Advanced Lipotropic Blend', type:'b12',
+    defaultConc:1, defaultDose:1, doseUnit:'mL', concUnit:'mL/dose',
+    notes:'<strong>Storage:</strong> Refrigerate 2–8°C. Follow pharmacy BUD — typically 30–45 days. Do not use if cloudy or discolored. <strong>Compounded product — not FDA-reviewed.</strong> Full B-complex formulation. Ingredients: Methionine, Inositol, Choline, B1, B2, B3, B5, B6, B12 (Methylcobalamin 1,000mcg/mL), Vitamin C, L-Carnitine 125mg/mL. Confirm with pharmacy. ⚠ Thiamine (B1) can rarely cause anaphylaxis — have resuscitation equipment accessible.',
+    titration:[
+      {period:'Standard program',dose:'1 mL IM',freq:'Weekly — assess tolerance × 2 doses first'},
+      {period:'Accelerated program',dose:'1 mL IM',freq:'2× per week'},
+      {period:'Maintenance',dose:'1 mL IM',freq:'Every 1–2 weeks'},
+    ],
+  },
+  {
+    id:'sermorelin', name:'Sermorelin (5mg or 15mg)', badge:'GHRH', type:'peptide',
+    defaultVial:5000, defaultBW:2, defaultDose:200, doseUnit:'mcg',
+    notes:'<strong>Storage:</strong> Refrigerate. Use within 14 days reconstituted. <strong>Research compound — not FDA-approved.</strong> Available as 5 mg or 15 mg vials — adjust vial size above accordingly. Administer nightly fasted before bed. Starting dose 200 mcg.',
+    titration:null,
+  },
+  {
+    id:'snap8', name:'Snap-8 (Octapeptide-3)', badge:'Topical Peptide', type:'filler',
+    notes:'<strong>Topical use ONLY — do not inject.</strong> Compounded into cream/serum base at 0.01–0.05%. Apply thin layer 1–2× daily to expression lines. No reconstitution calculator needed — dose is topical application.',
+    titration:null,
+  },
+  // ── VITAMINS / IV ─────────────────────────────────────────────────
+  {
+    id:'vitaminc', name:'Vitamin C (High-Dose IV)', badge:'IV Micronutrient', type:'filler',
+    notes:'Add to 250–500 mL NS or D5W. Protect from light. Stable 12 h at room temp. <strong>Screen for G6PD deficiency before high doses.</strong> Infuse slowly — ≥60 min for doses >10 g. Oxalate nephropathy risk in renal impairment.',
+    titration:[
+      {period:'Skin brightening',dose:'5–10 g IV',freq:'Over 45–60 min in 250 mL NS'},
+      {period:'Immune support',dose:'7.5–25 g IV',freq:'Over 60–90 min in 250 mL NS'},
+    ],
+  },
+  {
+    id:'glutathione', name:'Glutathione (IV Push)', badge:'Antioxidant Push', type:'filler',
+    notes:'Reconstitute in 5–10 mL NS for push. Administer within 30 min of mixing. Refrigerate. <strong>Administer slowly</strong> — rapid push can cause bronchospasm. Avoid in sulfite hypersensitivity. Do not mix with ascorbic acid in same syringe.',
+    titration:[
+      {period:'Brightening push',dose:'600–1,200 mg',freq:'Over 3–5 min IV push after Vit C drip'},
+      {period:'High-dose immune',dose:'2,400 mg',freq:'In 50 mL NS over 10–15 min'},
+    ],
+  },
+  {
+    id:'lcarnitine', name:'L-Carnitine (IV / Lyophilized)', badge:'Amino Acid / IV', type:'filler',
+    notes:'Lyophilized 5,000 mg vials. Add NS per pharmacy guidance. Room temp lyophilized; refrigerate reconstituted. IV push: 1,000–2,500 mg in 50 mL NS over 10–15 min. Generally very well tolerated.',
+    titration:null,
   },
 ];
 
@@ -404,6 +602,13 @@ function selectCompound(id) {
 
 function buildInputs(c) {
   const el = document.getElementById('input-fields');
+  if (c.type === 'filler') {
+    el.innerHTML = `<div style="background:var(--gold-light);border:1px solid var(--gold);border-radius:8px;padding:1rem;font-size:.85rem;color:var(--ink-2);line-height:1.6">
+      <div style="font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.5rem">Product Notes</div>
+      ${c.notes}
+    </div>`;
+    return;
+  } else if (c.type === 'glp') {
   if (c.type === 'glp') {
     el.innerHTML = `
       <div class="field">
@@ -448,6 +653,13 @@ function buildInputs(c) {
 
 function buildResults(c) {
   const el = document.getElementById('result-fields');
+  if (c.type === 'filler') {
+    el.innerHTML = `<div style="background:var(--charcoal);border-radius:8px;padding:1rem;color:var(--tan);font-size:.83rem;line-height:1.6">
+      <div style="color:var(--gold);font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.4rem">Reference Only</div>
+      No volume calculation needed — pre-filled syringe or fixed-dose product. See notes for dosing guidance.
+    </div>`;
+    return;
+  } else if (c.type === 'glp') {
   if (c.type === 'glp') {
     el.innerHTML = `
       <div class="result-card gold">
@@ -514,6 +726,7 @@ function buildResults(c) {
 
 function calculate(c) {
   if (!c) return;
+  if (c.type === 'filler') return;
   let vol = 0;
 
   if (c.type === 'glp' || c.type === 'b12') {
