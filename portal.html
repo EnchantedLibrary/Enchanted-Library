@@ -13,8 +13,6 @@
     display: flex;
     flex-direction: column;
   }
-
-  /* ── Header ── */
   .header {
     background: #1a1a1a;
     border-bottom: 3px solid #c9a84c;
@@ -32,8 +30,6 @@
     border: 1px solid rgba(201,168,76,0.35); border-radius: 20px;
     padding: 4px 14px; text-transform: uppercase;
   }
-
-  /* ── Hero ── */
   .hero {
     text-align: center;
     padding: 52px 24px 36px;
@@ -49,8 +45,6 @@
   .hero-sub {
     font-size: 13px; color: #777; max-width: 480px; margin: 0 auto; line-height: 1.7;
   }
-
-  /* ── Grid ── */
   .grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -60,8 +54,6 @@
     padding: 0 24px 60px;
     width: 100%;
   }
-
-  /* ── Tiles ── */
   .tile {
     background: #ffffff;
     border: 1px solid #ddd8ce;
@@ -90,7 +82,6 @@
     border-color: var(--tile-color);
   }
   .tile:hover::before { opacity: 1; }
-
   .tile-icon {
     width: 48px; height: 48px; border-radius: 12px;
     background: var(--tile-bg);
@@ -116,16 +107,13 @@
     border-top: 1px solid #eee; width: 100%;
     display: flex; align-items: center; gap: 6px;
   }
-
-  /* Tile color themes */
   .tile-hr    { --tile-color: #9a6f1a; --tile-color-d: #7a5510; --tile-bg: #fffbf0; }
   .tile-lms   { --tile-color: #2471a3; --tile-color-d: #1a5276; --tile-bg: #eaf4fb; }
   .tile-lib   { --tile-color: #9a6f1a; --tile-color-d: #7a5510; --tile-bg: #1a1a1a; }
+  .tile-calc  { --tile-color: #9a6f1a; --tile-color-d: #7a5510; --tile-bg: #fffbf0; }
   .tile-teams { --tile-color: #5b4eb0; --tile-color-d: #3d3178; --tile-bg: #f0eeff; }
   .tile-allrg { --tile-color: #a93226; --tile-color-d: #7b241c; --tile-bg: #fdf0ef; }
   .tile-yt    { --tile-color: #c0392b; --tile-color-d: #922b21; --tile-bg: #fdf0ef; }
-
-  /* ── Divider ── */
   .divider {
     max-width: 1000px; margin: 0 auto 28px;
     padding: 0 24px;
@@ -133,8 +121,6 @@
   }
   .divider-line { flex: 1; height: 1px; background: #ddd8ce; }
   .divider-label { font-size: 9px; letter-spacing: 3px; color: #aaa; text-transform: uppercase; }
-
-  /* ── Footer ── */
   .footer {
     margin-top: auto;
     border-top: 1px solid #ddd8ce;
@@ -142,7 +128,6 @@
     font-size: 10px; color: #aaa; text-align: center; line-height: 1.8;
     background: #ffffff;
   }
-
   @media (max-width: 600px) {
     .grid { grid-template-columns: 1fr; }
     .hero-title { font-size: 22px; }
@@ -255,6 +240,16 @@
     </div>
     <div class="tile-desc">Compound protocols, dosing references, contraindications, and clinical monographs.</div>
     <div class="tile-arrow" style="color:#9a6f1a;">Open Library →</div>
+  </a>
+
+  <a class="tile tile-calc" href="https://enchantedlibrary.github.io/Enchanted-Library/calculator.html" target="_blank">
+    <div class="tile-icon">⚗️</div>
+    <div>
+      <div class="tile-label">Licensed Staff Only</div>
+      <div class="tile-name">Reconstitution Calculator</div>
+    </div>
+    <div class="tile-desc">Dose volume calculator for GLP-1s, peptides, B12, and lipotropic injections.</div>
+    <div class="tile-arrow">Open Calculator →</div>
   </a>
 
 </div>
