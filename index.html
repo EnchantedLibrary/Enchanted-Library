@@ -86,10 +86,10 @@
   .tile:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.1); border-color: var(--tile-color); }
   .tile:hover::before { opacity: 1; }
   .tile-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--tile-bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .tile-label { font-size: 9px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--tile-color); }
+  .tile-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--tile-color); font-weight: 700; }
   .tile-name { font-size: 17px; color: #1a1a1a; font-weight: 600; line-height: 1.2; margin-top: -4px; }
   .tile-desc { font-size: 12px; color: #777; line-height: 1.6; }
-  .tile-arrow { margin-top: auto; font-size: 11px; color: var(--tile-color); letter-spacing: 1px; padding-top: 8px; border-top: 1px solid #eee; width: 100%; }
+  .tile-arrow { margin-top: auto; font-size: 11px; color: var(--tile-color); letter-spacing: 1px; padding-top: 8px; border-top: 1px solid #eee; width: 100%; font-weight: 600; }
 
   .tile-gold  { --tile-color:#9a6f1a; --tile-color-d:#7a5510; --tile-bg:#fffbf0; }
   .tile-blue  { --tile-color:#2471a3; --tile-color-d:#1a5276; --tile-bg:#eaf4fb; }
@@ -98,9 +98,9 @@
   .tile-yt    { --tile-color:#c0392b; --tile-color-d:#922b21; --tile-bg:#fdf0ef; }
   .tile-dark  { --tile-color:#9a6f1a; --tile-color-d:#7a5510; --tile-bg:#2a2a2a; }
 
-  .divider { max-width:1000px; margin:0 auto 28px; padding:0 24px; display:flex; align-items:center; gap:12px; }
-  .divider-line { flex:1; height:1px; background:#ddd8ce; }
-  .divider-label { font-size:9px; letter-spacing:3px; color:#aaa; text-transform:uppercase; }
+  .divider { max-width:1000px; margin:0 auto 28px; padding:0 24px; display:flex; align-items:center; gap:16px; }
+  .divider-line { flex:1; height:2px; background:#c9b99a; }
+  .divider-label { font-size:13px; letter-spacing:3px; color:#1a1a1a; text-transform:uppercase; font-weight:700; white-space:nowrap; }
 
   .footer { margin-top:auto; border-top:1px solid #ddd8ce; padding:16px 24px; font-size:10px; color:#aaa; text-align:center; line-height:1.8; background:#fff; }
 
@@ -204,7 +204,7 @@
 </div>
 
 <script>
-var PASS = "enchanted2024";
+var PASS = "Enchanted276";
 
 function checkPass() {
   var val = document.getElementById("gate-input").value;
