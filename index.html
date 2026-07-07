@@ -10,29 +10,29 @@
 
   /* PASSWORD GATE */
   .gate {
-    position: fixed; inset: 0; background: #1a1a1a;
+    position: fixed; inset: 0; background: #f0ede6;
     display: flex; align-items: center; justify-content: center;
     z-index: 999; flex-direction: column; gap: 1.5rem; padding: 2rem;
   }
   .gate.hidden { display: none; }
-  .gate-logo { font-size: 10px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; text-align: center; }
-  .gate-title { font-size: 24px; color: #c9a84c; font-weight: 400; text-align: center; letter-spacing: 1px; }
-  .gate-sub { font-size: 12px; color: #888; text-align: center; }
+  .gate-logo { font-size: 22px; letter-spacing: 6px; color: #9a6f1a; text-transform: uppercase; text-align: center; font-weight: 700; }
+  .gate-title { font-size: 42px; color: #1a1a1a; font-weight: 400; text-align: center; letter-spacing: 1px; }
+  .gate-sub { font-size: 15px; color: #666; text-align: center; }
   .gate-input {
-    padding: .75rem 1.25rem; border: 1.5px solid #3d3830; border-radius: 8px;
-    background: #2c2820; color: #fdf9f0; font-family: 'Georgia', serif;
+    padding: .75rem 1.25rem; border: 1.5px solid #c9b99a; border-radius: 8px;
+    background: #ffffff; color: #1a1a1a; font-family: 'Georgia', serif;
     font-size: 1rem; outline: none; width: 100%; max-width: 280px; text-align: center;
     letter-spacing: .1em; transition: border-color .15s;
   }
-  .gate-input:focus { border-color: #c9a84c; }
-  .gate-input::placeholder { color: #555; letter-spacing: .05em; }
+  .gate-input:focus { border-color: #9a6f1a; }
+  .gate-input::placeholder { color: #aaa; letter-spacing: .05em; }
   .gate-btn {
-    padding: .7rem 2rem; background: #c9a84c; color: #1a1a1a;
+    padding: .7rem 2rem; background: #1a1a1a; color: #c9a84c;
     border: none; border-radius: 8px; font-family: 'Georgia', serif;
     font-size: .9rem; font-weight: 600; cursor: pointer; width: 100%; max-width: 280px;
     letter-spacing: .05em; transition: background .15s;
   }
-  .gate-btn:hover { background: #e8d48a; }
+  .gate-btn:hover { background: #3d3830; }
   .gate-error { font-size: 12px; color: #c0445a; display: none; }
   .gate-error.visible { display: block; }
 
@@ -46,8 +46,8 @@
     display: flex; align-items: center; justify-content: space-between;
   }
   .logo-group { display: flex; flex-direction: column; }
-  .logo-eyebrow { font-size: 9px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; opacity: .7; }
-  .logo-title { font-size: 20px; color: #c9a84c; font-weight: 400; letter-spacing: 1px; }
+  .logo-eyebrow { font-size: 11px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; opacity: .8; }
+  .logo-title { font-size: 24px; color: #c9a84c; font-weight: 400; letter-spacing: 1px; }
   .header-right { display: flex; align-items: center; gap: 1rem; }
   .header-badge {
     font-size: 9px; letter-spacing: 2px; color: #c9a84c;
@@ -111,7 +111,7 @@
 
 <!-- PASSWORD GATE -->
 <div class="gate" id="gate">
-  <div class="gate-logo">Enchanted Medical Aesthetics</div>
+  <img src="Correct_Logo.png" alt="Enchanted Medical Aesthetics" style="width:320px;max-width:85vw;margin-bottom:.5rem">
   <div class="gate-title">Staff Portal</div>
   <div class="gate-sub">Enter your staff access code to continue</div>
   <input type="password" class="gate-input" id="gate-input" placeholder="Access code" onkeydown="if(event.key==='Enter')checkPass()">
@@ -124,7 +124,7 @@
 
   <header class="header">
     <div class="logo-group">
-      <span class="logo-eyebrow">Enchanted Medical Aesthetics</span>
+      <img src="Correct_Logo.png" alt="Enchanted Medical Aesthetics" style="height:36px;filter:brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(5deg);opacity:.9">
       <span class="logo-title">Employee Portal</span>
     </div>
     <div class="header-right">
