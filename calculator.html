@@ -40,10 +40,10 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 #compound-search:focus{border-color:var(--gold)}
 #compound-search::placeholder{color:var(--ink-3)}
 .compound-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(175px,1fr));gap:.5rem;max-height:260px;overflow-y:auto;padding-right:.25rem}
-.compound-btn{padding:.5rem .75rem;border:1.5px solid var(--border);border-radius:7px;background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;line-height:1.3}
+.compound-btn{padding:.6rem .85rem;border:1.5px solid var(--border);border-radius:7px;background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.88rem;font-weight:500;cursor:pointer;text-align:left;transition:all .15s;line-height:1.3}
 .compound-btn:hover{border-color:var(--gold);color:var(--gold)}
 .compound-btn.selected{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold-mid)}
-.compound-btn .cbadge{display:block;font-size:.67rem;color:var(--ink-3);margin-top:2px}
+.compound-btn .cbadge{display:block;font-size:.78rem;color:var(--ink-3);margin-top:2px}
 .compound-btn.selected .cbadge{color:var(--tan)}
 .calc-panel{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem;display:none}
 .calc-panel.visible{display:block}
@@ -53,8 +53,8 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .calc-body{padding:1.5rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem}
 .section-title{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
 .field{margin-bottom:1rem}
-.field label{display:block;font-size:.78rem;font-weight:500;color:var(--ink-2);margin-bottom:.35rem}
-.field input{width:100%;padding:.55rem .75rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+.field label{display:block;font-size:.9rem;font-weight:500;color:var(--ink-2);margin-bottom:.35rem}
+.field input{width:100%;padding:.65rem .85rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
 .field input:focus{border-color:var(--gold)}
 .field .hint{font-size:.72rem;color:var(--ink-3);margin-top:.2rem}
 .result-card{border-radius:8px;padding:.9rem 1rem;margin-bottom:.6rem}
@@ -63,9 +63,9 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .result-label{font-size:.68rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:.2rem}
 .result-card.dark .result-label{color:var(--tan)}
 .result-card.gold .result-label{color:var(--charcoal-2)}
-.result-val{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:500}
+.result-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:500}
 .result-card.dark .result-val{color:var(--gold-mid)}
-.result-card.gold .result-val{color:var(--charcoal);font-size:1.6rem;font-weight:700}
+.result-card.gold .result-val{color:var(--charcoal);font-size:1.8rem;font-weight:700}
 .result-sub{font-size:.72rem;margin-top:.15rem}
 .result-card.dark .result-sub{color:var(--tan)}
 .result-card.gold .result-sub{color:var(--charcoal-2)}
@@ -83,10 +83,10 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .tit-header{background:var(--gold);padding:.7rem 1.25rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--charcoal)}
 .tit-table{width:100%;border-collapse:collapse;font-size:.82rem}
 .tit-table th{padding:.5rem 1rem;text-align:left;font-size:.68rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--border);background:var(--surface)}
-.tit-table td{padding:.55rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.tit-table td{padding:.6rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:.85rem}
 .tit-table tr:last-child td{border-bottom:none}
 .tit-table td:first-child{color:var(--ink);font-weight:500;font-family:'Inter',sans-serif}
-.notes-box{background:var(--tan-light);border:1px solid var(--tan);border-radius:8px;padding:.85rem 1rem;font-size:.8rem;color:var(--tan-dark);line-height:1.6;margin-bottom:1.5rem;display:none}
+.notes-box{background:var(--tan-light);border:1px solid var(--tan);border-radius:8px;padding:1rem 1.1rem;font-size:.9rem;color:var(--tan-dark);line-height:1.6;margin-bottom:1.5rem;display:none}
 .notes-box.visible{display:block}
 footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
 @media(max-width:580px){.calc-body{grid-template-columns:1fr}.nav-name{display:none}}
@@ -96,7 +96,7 @@ footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-t
 <nav>
   <a class="nav-brand" href="index.html">
     <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
-    <img src="Correct_Logo.png" alt="Enchanted Medical Aesthetics" style="height:28px;filter:brightness(0) invert(1) sepia(1) saturate(1.5) hue-rotate(5deg);opacity:.9">
+    <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:#c9a84c;text-transform:uppercase">Enchanted</span>
     <span class="nav-tag">Reconstitution Calculator</span>
   </a>
   <div class="nav-links">

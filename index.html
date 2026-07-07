@@ -5,8 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Enchanted Medical Aesthetics — Staff Portal</title>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Cormorant:wght@300;400&display=swap');
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'Georgia', serif; background: #f0ede6; min-height: 100vh; display: flex; flex-direction: column; }
+  .gate-brand { text-align: center; margin-bottom: .5rem; }
+  .gate-brand-main { font-family: 'Cormorant Garamond', 'Cormorant', Georgia, serif; font-size: 64px; font-weight: 300; letter-spacing: 12px; color: #1a1a1a; text-transform: uppercase; line-height: 1; display: block; }
+  .gate-brand-sub { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 14px; font-weight: 400; letter-spacing: 8px; color: #1a1a1a; text-transform: uppercase; display: block; margin-top: 6px; }
 
   /* PASSWORD GATE */
   .gate {
@@ -17,11 +21,11 @@
   .gate.hidden { display: none; }
   .gate-logo { font-size: 22px; letter-spacing: 6px; color: #9a6f1a; text-transform: uppercase; text-align: center; font-weight: 700; }
   .gate-title { font-size: 42px; color: #1a1a1a; font-weight: 400; text-align: center; letter-spacing: 1px; }
-  .gate-sub { font-size: 15px; color: #666; text-align: center; }
+  .gate-sub { font-size: 17px; color: #555; text-align: center; }
   .gate-input {
     padding: .75rem 1.25rem; border: 1.5px solid #c9b99a; border-radius: 8px;
     background: #ffffff; color: #1a1a1a; font-family: 'Georgia', serif;
-    font-size: 1rem; outline: none; width: 100%; max-width: 280px; text-align: center;
+    font-size: 1.1rem; outline: none; width: 100%; max-width: 320px; text-align: center;
     letter-spacing: .1em; transition: border-color .15s;
   }
   .gate-input:focus { border-color: #9a6f1a; }
@@ -29,7 +33,7 @@
   .gate-btn {
     padding: .7rem 2rem; background: #1a1a1a; color: #c9a84c;
     border: none; border-radius: 8px; font-family: 'Georgia', serif;
-    font-size: .9rem; font-weight: 600; cursor: pointer; width: 100%; max-width: 280px;
+    font-size: 1rem; font-weight: 600; cursor: pointer; width: 100%; max-width: 320px;
     letter-spacing: .05em; transition: background .15s;
   }
   .gate-btn:hover { background: #3d3830; }
@@ -47,12 +51,12 @@
   }
   .logo-group { display: flex; flex-direction: column; }
   .logo-eyebrow { font-size: 11px; letter-spacing: 4px; color: #c9a84c; text-transform: uppercase; opacity: .8; }
-  .logo-title { font-size: 24px; color: #c9a84c; font-weight: 400; letter-spacing: 1px; }
+  .logo-title { font-size: 18px; color: #c9a84c; font-weight: 400; letter-spacing: 2px; text-transform: uppercase; }
   .header-right { display: flex; align-items: center; gap: 1rem; }
   .header-badge {
-    font-size: 9px; letter-spacing: 2px; color: #c9a84c;
+    font-size: 12px; letter-spacing: 2px; color: #c9a84c;
     border: 1px solid rgba(201,168,76,.35); border-radius: 20px;
-    padding: 4px 14px; text-transform: uppercase;
+    padding: 6px 16px; text-transform: uppercase;
   }
   .logout-btn {
     font-size: 10px; letter-spacing: 1px; color: #888; text-transform: uppercase;
@@ -62,10 +66,10 @@
   .logout-btn:hover { color: #c9a84c; border-color: #c9a84c; }
 
   .hero { text-align: center; padding: 52px 24px 36px; }
-  .hero-eyebrow { font-size: 10px; letter-spacing: 4px; color: #9a6f1a; text-transform: uppercase; margin-bottom: 12px; }
-  .hero-title { font-size: 28px; color: #1a1a1a; font-weight: 400; margin-bottom: 10px; }
+  .hero-eyebrow { font-size: 13px; letter-spacing: 4px; color: #9a6f1a; text-transform: uppercase; margin-bottom: 12px; font-weight: 700; }
+  .hero-title { font-size: 36px; color: #1a1a1a; font-weight: 400; margin-bottom: 10px; }
   .hero-title span { color: #9a6f1a; }
-  .hero-sub { font-size: 13px; color: #777; max-width: 480px; margin: 0 auto; line-height: 1.7; }
+  .hero-sub { font-size: 16px; color: #555; max-width: 480px; margin: 0 auto; line-height: 1.7; }
 
   .grid {
     display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -86,10 +90,10 @@
   .tile:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.1); border-color: var(--tile-color); }
   .tile:hover::before { opacity: 1; }
   .tile-icon { width: 48px; height: 48px; border-radius: 12px; background: var(--tile-bg); display: flex; align-items: center; justify-content: center; font-size: 22px; flex-shrink: 0; }
-  .tile-label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--tile-color); font-weight: 700; }
-  .tile-name { font-size: 17px; color: #1a1a1a; font-weight: 600; line-height: 1.2; margin-top: -4px; }
-  .tile-desc { font-size: 12px; color: #777; line-height: 1.6; }
-  .tile-arrow { margin-top: auto; font-size: 11px; color: var(--tile-color); letter-spacing: 1px; padding-top: 8px; border-top: 1px solid #eee; width: 100%; font-weight: 600; }
+  .tile-label { font-size: 13px; letter-spacing: 2px; text-transform: uppercase; color: var(--tile-color); font-weight: 700; }
+  .tile-name { font-size: 22px; color: #1a1a1a; font-weight: 600; line-height: 1.2; margin-top: -4px; }
+  .tile-desc { font-size: 15px; color: #555; line-height: 1.6; }
+  .tile-arrow { margin-top: auto; font-size: 14px; color: var(--tile-color); letter-spacing: 1px; padding-top: 8px; border-top: 1px solid #eee; width: 100%; font-weight: 600; }
 
   .tile-gold  { --tile-color:#9a6f1a; --tile-color-d:#7a5510; --tile-bg:#fffbf0; }
   .tile-blue  { --tile-color:#2471a3; --tile-color-d:#1a5276; --tile-bg:#eaf4fb; }
@@ -111,7 +115,10 @@
 
 <!-- PASSWORD GATE -->
 <div class="gate" id="gate">
-  <img src="Correct_Logo.png" alt="Enchanted Medical Aesthetics" style="width:320px;max-width:85vw;margin-bottom:.5rem">
+  <div class="gate-brand">
+    <span class="gate-brand-main">Enchanted</span>
+    <span class="gate-brand-sub">Medical Aesthetics</span>
+  </div>
   <div class="gate-title">Staff Portal</div>
   <div class="gate-sub">Enter your staff access code to continue</div>
   <input type="password" class="gate-input" id="gate-input" placeholder="Access code" onkeydown="if(event.key==='Enter')checkPass()">
@@ -124,7 +131,7 @@
 
   <header class="header">
     <div class="logo-group">
-      <img src="Correct_Logo.png" alt="Enchanted Medical Aesthetics" style="height:36px;filter:brightness(0) invert(1) sepia(1) saturate(2) hue-rotate(5deg);opacity:.9">
+      <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:22px;font-weight:300;letter-spacing:4px;color:#c9a84c;text-transform:uppercase">Enchanted</span>
       <span class="logo-title">Employee Portal</span>
     </div>
     <div class="header-right">
