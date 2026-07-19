@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SOP Library | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root {
+  --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+  --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+  --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+  --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+  --cream:#fdf9f0;--cream-2:#f0e8d4;
+  --rose:#8a3a2a;--rose-light:#f5e8e4;
+  --sage:#4a6b4a;--sage-light:#e8f0e4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
+
+/* NAV */
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.brand-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:var(--cream);text-transform:uppercase}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:.25rem;flex-wrap:wrap}
+.nav-links a{font-size:.78rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.35rem .7rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+.nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+
+/* HERO */
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2.5rem 2rem 2rem}
+.hero-inner{max-width:960px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;color:var(--cream);margin-bottom:.5rem;font-weight:300}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.95rem;color:var(--tan);max-width:560px;margin-bottom:1.5rem}
+.search-wrap{position:relative;max-width:500px}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-3);width:16px;height:16px}
+#search{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);background:var(--cream-2);outline:none;transition:border-color .15s}
+#search:focus{border-color:var(--gold)}
+#search::placeholder{color:var(--ink-3)}
+
+/* FILTER BAR */
+.filter-bar{max-width:960px;margin:0 auto;padding:1.25rem 2rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
+.filter-label{font-size:.75rem;font-weight:700;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;margin-right:.25rem}
+.filter-btn{padding:.4rem .9rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .15s}
+.filter-btn:hover{border-color:var(--gold);color:var(--gold)}
+.filter-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold)}
+
+/* LIBRARY WRAP */
+.library-wrap{max-width:960px;margin:0 auto;padding:0 2rem 4rem}
+.section-heading{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:2.5rem}
+.empty{text-align:center;padding:3rem 1rem;color:var(--ink-3);font-size:.9rem}
+
+/* SOP CARD */
+.card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:1.25rem;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;display:flex;flex-direction:column;gap:.75rem;position:relative;overflow:hidden}
+.card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(184,151,42,.12);transform:translateY(-1px)}
+.card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
+.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.5rem}
+.card-icon{width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.card-badges{display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end}
+.badge{font-size:.68rem;font-weight:600;letter-spacing:.04em;padding:2px 8px;border-radius:20px;text-transform:uppercase}
+.card h3{font-family:'Cormorant Garamond',serif;font-size:1.1rem;letter-spacing:-.01em;color:var(--ink);line-height:1.3;font-weight:500}
+.card p{font-size:.85rem;color:var(--ink-2);line-height:1.55;flex:1}
+.card-meta{display:flex;gap:.75rem;padding-top:.5rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--ink-3);flex-wrap:wrap}
+.card-meta span{display:flex;align-items:center;gap:3px}
+
+/* MODAL */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,9,7,.65);backdrop-filter:blur(4px);z-index:200;padding:1.5rem;overflow-y:auto}
+.modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
+.modal{background:var(--card);border-radius:14px;max-width:760px;width:100%;padding:0;margin:auto;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.2);animation:modalIn .2s ease;overflow:hidden}
+@keyframes modalIn{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-top{background:var(--charcoal);padding:1.5rem 2rem}
+.modal-close{position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:50%;width:32px;height:32px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--cream);font-size:1rem;transition:background .15s}
+.modal-close:hover{background:rgba(255,255,255,.2)}
+.modal-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.4rem}
+.modal h2{font-family:'Cormorant Garamond',serif;font-size:1.6rem;color:var(--cream);margin-bottom:.4rem;line-height:1.2;font-weight:400}
+.modal-meta{display:flex;gap:1.5rem;flex-wrap:wrap;margin-top:.75rem}
+.modal-meta-item{font-size:.75rem;color:var(--tan)}
+.modal-meta-item strong{color:var(--gold-mid);font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;display:block;margin-bottom:1px}
+.modal-body{padding:1.5rem 2rem;max-height:65vh;overflow-y:auto}
+.modal-body::-webkit-scrollbar{width:4px}
+.modal-body::-webkit-scrollbar-track{background:var(--surface)}
+.modal-body::-webkit-scrollbar-thumb{background:var(--tan);border-radius:2px}
+
+/* SOP CONTENT STYLES */
+.sop-section{margin-bottom:1.5rem}
+.sop-section-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--charcoal);padding:.5rem 0;border-bottom:2px solid var(--gold);margin-bottom:.85rem;letter-spacing:.01em}
+.sop-text{font-size:.88rem;color:var(--ink-2);line-height:1.75;margin-bottom:.6rem}
+.sop-list{margin:.4rem 0 .75rem 1.2rem;font-size:.87rem;color:var(--ink-2);line-height:1.8}
+.sop-list li{margin-bottom:.25rem}
+.sop-subheading{font-size:.8rem;font-weight:700;color:var(--ink);margin:.85rem 0 .35rem;text-transform:uppercase;letter-spacing:.04em}
+.sop-table{width:100%;border-collapse:collapse;margin:.75rem 0 1rem;font-size:.83rem}
+.sop-table th{background:var(--charcoal);color:var(--gold-mid);padding:.5rem .85rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.sop-table td{padding:.5rem .85rem;border-bottom:1px solid var(--border);color:var(--ink-2)}
+.sop-table tr:last-child td{border-bottom:none}
+.sop-table tr:nth-child(even) td{background:var(--surface)}
+.sop-warning{background:var(--rose-light);border-left:3px solid var(--rose);border-radius:0 6px 6px 0;padding:.75rem 1rem;font-size:.85rem;color:var(--rose);margin:.75rem 0;line-height:1.6}
+.sop-note{background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 6px 6px 0;padding:.75rem 1rem;font-size:.85rem;color:var(--gold-dark);margin:.75rem 0;line-height:1.6}
+.sop-formula{background:var(--charcoal);border-radius:8px;padding:.85rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-mid);margin:.75rem 0;line-height:1.8}
+.modal-footer{background:var(--surface);border-top:1px solid var(--border);padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--ink-3);flex-wrap:wrap;gap:.5rem}
+.print-btn{padding:.4rem 1rem;background:var(--charcoal);color:var(--gold);border:none;border-radius:6px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;letter-spacing:.03em}
+.print-btn:hover{background:var(--charcoal-light)}
+
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+@media(max-width:600px){.hero{padding:2rem 1rem 1.5rem}.filter-bar{padding:1rem}.library-wrap{padding:0 1rem 3rem}.modal{margin:.5rem}.modal-top{padding:1.25rem 1rem}.modal-body{padding:1rem}.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="brand-text">Enchanted</span>
+    <span class="nav-tag">SOP Library</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="library.html">📚 Clinical Library</a>
+    <a href="calculator.html">⚗ Calculator</a>
+    <a href="retatrutide.html">⚖ Retatrutide</a>
+    <a href="sop-library.html" class="active">📋 SOPs</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Standard Operating Procedures — Internal Staff Use Only</div>
+    <h1>SOP <em>Library</em></h1>
+    <p>Official clinical and operational standard operating procedures for Enchanted Medical Aesthetics. All SOPs are approved by Bridget Martin, DNP, APRN, NP-C and Robert Martin, MD.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 100 12A6 6 0 009 3zM1 9a8 8 0 1114.32 4.906l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387A8 8 0 011 9z" clip-rule="evenodd"/></svg>
+      <input type="text" id="search" placeholder="Search SOPs by title, category, or keyword…" oninput="filterSOPs()">
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Category:</span>
+  <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
+  <button class="filter-btn" onclick="setFilter('clinical',this)">Clinical Protocols</button>
+  <button class="filter-btn" onclick="setFilter('safety',this)">Safety & Emergency</button>
+  <button class="filter-btn" onclick="setFilter('pharmacy',this)">Pharmacy & Dispensing</button>
+  <button class="filter-btn" onclick="setFilter('hr',this)">HR & Operations</button>
+  <button class="filter-btn" onclick="setFilter('patient',this)">Patient Relations</button>
+</div>
+
+<div class="library-wrap">
+  <div class="section-heading" id="results-label">All SOPs</div>
+  <div class="grid" id="sop-grid"></div>
+  <div class="empty" id="empty-state" style="display:none">No SOPs match that search.</div>
+</div>
+
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal" id="modal-content"></div>
+</div>
+
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Confidential Internal Document</footer>
+
+<script>
+var SOPS = [
+  {
+    id: 'ema-anesth-001',
+    category: 'clinical',
+    icon: '💊',
+    color: '#b8972a',
+    bgColor: '#faf6e8',
+    badge: 'EMA-ANESTH-001',
+    badgeColor: '#b8972a',
+    badgeBg: '#faf6e8',
+    name: 'Topical Numbing — Lidocaine 23% / Tetracaine 7%',
+    summary: 'Application of compounded lidocaine/tetracaine topical ointment prior to laser, microneedling, and injectable procedures. Includes toxicity equation and dose calculation.',
+    version: '1.0',
+    date: 'April 13, 2025',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-section">
+        <div class="sop-section-title">1. Purpose</div>
+        <p class="sop-text">To establish a standardized procedure for the safe application of topical numbing ointment containing lidocaine 23% and tetracaine 7% at Enchanted Medical Aesthetics. This SOP ensures patient safety, procedural efficacy, and Florida regulatory compliance. Includes the lidocaine toxicity equation to prevent systemic toxicity.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Scope</div>
+        <p class="sop-text">Applies to licensed providers (APRNs, PAs, MDs) and trained medical aestheticians under direct supervision of Bridget Martin, DNP, APRN, NP-C or Robert Martin, MD. Covers pre-compounded lidocaine 23%/tetracaine 7% ointment from a licensed 503A/503B pharmacy applied to intact skin prior to aesthetic procedures. Does NOT cover compounding.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Responsibilities</div>
+        <ul class="sop-list">
+          <li><strong>Medical Director (Robert Martin, MD):</strong> Oversees protocol compliance, approves SOP, manages adverse events.</li>
+          <li><strong>Clinical Liaison (Bridget Martin, DNP, APRN, NP-C):</strong> Supervises staff, verifies patient eligibility, calculates safe doses, applies or delegates application.</li>
+          <li><strong>Licensed Providers (APRNs, PAs):</strong> Assess patients, apply ointment, monitor for toxicity, document in EMR.</li>
+          <li><strong>Medical Aestheticians:</strong> Apply ointment under direct supervision, report adverse reactions, assist with monitoring.</li>
+          <li><strong>Administrative Staff:</strong> Maintain inventory, ensure proper storage, schedule patients to allow adequate numbing time.</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">4. Materials & Equipment</div>
+        <div class="sop-subheading">Medication</div>
+        <ul class="sop-list">
+          <li>Pre-compounded Lidocaine 23%/Tetracaine 7% topical ointment (licensed 503A or 503B pharmacy)</li>
+          <li>Strength: 230 mg lidocaine and 70 mg tetracaine per gram</li>
+        </ul>
+        <div class="sop-subheading">Supplies</div>
+        <ul class="sop-list">
+          <li>Sterile latex-free gloves</li>
+          <li>Alcohol wipes and dry gauze</li>
+          <li>Applicator sticks or gloved hands</li>
+          <li>Measuring guide (ruler for estimating skin area)</li>
+          <li>Timer for tracking application duration</li>
+          <li>Occlusive dressing (e.g., Tegaderm) — if prescribed</li>
+        </ul>
+        <div class="sop-subheading">Safety Equipment</div>
+        <ul class="sop-list">
+          <li>Pulse oximeter</li>
+          <li>Co-oximeter (if available — for methemoglobinemia detection)</li>
+          <li>Emergency kit: oxygen, methylene blue (1–2 mg/kg IV), epinephrine</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Regulatory Considerations</div>
+        <ul class="sop-list">
+          <li><strong>Florida Law:</strong> Application must be performed by or under direct supervision of a licensed provider (MD, DO, APRN, or PA) per Florida Statutes Chapter 458 and 464.</li>
+          <li><strong>DEA:</strong> Lidocaine and tetracaine are not controlled substances but require a prescription in a med spa setting.</li>
+          <li><strong>FDA:</strong> Topical compounded products must be sourced from a licensed 503A/503B pharmacy.</li>
+          <li><strong>OSHA:</strong> Adhere to bloodborne pathogen and chemical safety protocols during application.</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">6. Procedure for Application</div>
+        <div class="sop-subheading">6.1 Pre-Application</div>
+        <p class="sop-text"><strong>Patient Assessment — Review EMR for:</strong></p>
+        <ul class="sop-list">
+          <li>Allergies to lidocaine, tetracaine, amide/ester anesthetics, or PABA derivatives</li>
+          <li>Liver disease (impairs lidocaine metabolism)</li>
+          <li>History of methemoglobinemia or G6PD deficiency</li>
+          <li>Current medications (antiarrhythmics, sulfonamides)</li>
+        </ul>
+        <div class="sop-warning">⚠ Contraindications: Do NOT apply on broken skin, mucous membranes, eyes, or patients under 18 without parental consent.</div>
+        <p class="sop-text"><strong>Dosage:</strong> Use the lidocaine toxicity equation (Section 7). Limit to ≤5 g per session unless individually calculated. Typical area: 2–20 square inches.</p>
+        <p class="sop-text"><strong>Informed Consent:</strong> Explain risks (redness, methemoglobinemia, CNS toxicity). Obtain signed consent and upload to EMR.</p>
+        <p class="sop-text"><strong>Skin Prep:</strong> Inspect for cuts or abrasions — defer if skin is compromised. Clean with alcohol wipe and pat dry.</p>
+
+        <div class="sop-subheading">6.2 Application</div>
+        <ul class="sop-list">
+          <li>Wear sterile gloves to avoid self-numbing or contamination</li>
+          <li>Set timer: 15–30 minutes standard application time</li>
+          <li>Dispense thin layer (~1 mm thick) with gloved hand or applicator stick</li>
+          <li>Cover only the prescribed area (~0.5–1 g per 10 square inches)</li>
+          <li>Do NOT exceed calculated safe dose (see Section 7)</li>
+        </ul>
+        <div class="sop-note">📋 Occlusion (Tegaderm): Increases absorption — reduce dose by 20% if occluding. Requires APRN/MD approval.</div>
+        <p class="sop-text"><strong>Timing:</strong> 15–30 min for superficial numbing. 45–60 min for deeper procedures (APRN/MD approval required). Maximum contact time: 60 minutes.</p>
+
+        <div class="sop-subheading">6.3 Removal</div>
+        <ul class="sop-list">
+          <li>Wipe off completely with dry gauze, then clean with alcohol wipe</li>
+          <li>Inspect skin for blanching, erythema, or irritation — document in EMR</li>
+          <li>Begin procedure only after confirming adequate numbing and no adverse reactions</li>
+        </ul>
+
+        <div class="sop-subheading">6.4 Post-Application Monitoring</div>
+        <p class="sop-text">Observe patient 30–60 minutes post-removal for:</p>
+        <ul class="sop-list">
+          <li><strong>CNS:</strong> Dizziness, tinnitus, confusion, seizures</li>
+          <li><strong>Cardiovascular:</strong> Bradycardia, hypotension</li>
+          <li><strong>Methemoglobinemia:</strong> Cyanosis, shortness of breath, low O₂ saturation</li>
+        </ul>
+        <div class="sop-warning">🚨 Emergency Response: Remove residual ointment → administer O₂ → patient supine → methylene blue 1–2 mg/kg IV for methemoglobinemia → call 911 for seizures/respiratory distress → document and notify Bridget Martin and Dr. Robert Martin immediately.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">7. Lidocaine Toxicity Equation & Calculation</div>
+        <p class="sop-text">Maximum safe dose of lidocaine (topical, without vasoconstrictor): <strong>4.5 mg/kg</strong>, not to exceed <strong>300 mg</strong>.</p>
+        <div class="sop-formula">Maximum Lidocaine Dose (mg) = Body Weight (kg) × 4.5 mg/kg
+Maximum Ointment (g) = Maximum Lidocaine Dose (mg) ÷ 230 mg/g
+Tetracaine check: ≤1 mg/kg body weight</div>
+        <div class="sop-subheading">Example Calculation — 60 kg Female, Upper Lip Laser (5 sq in)</div>
+        <div class="sop-formula">Lidocaine max = 60 kg × 4.5 = 270 mg (under 300 mg cap ✓)
+Max ointment = 270 ÷ 230 = 1.17 g
+
+Tetracaine check: 1.17 g × 70 mg/g = 81.9 mg → EXCEEDS 60 mg limit
+Adjust: Max ointment = 60 ÷ 70 = 0.86 g
+Lidocaine in 0.86 g = 0.86 × 230 = 197.8 mg ✓
+
+→ Apply 0.86 g (round to 0.8–0.9 g) to upper lip
+→ Delivers 197.8 mg lidocaine + 60 mg tetracaine — both within safe limits</div>
+        <div class="sop-note">📋 Always verify BOTH lidocaine and tetracaine limits. Tetracaine toxicity threshold is often the limiting factor. Occlusion increases absorption — reduce dose by 20% if using occlusive dressing.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">8. Safety Precautions</div>
+        <div class="sop-subheading">Absolute Contraindications</div>
+        <ul class="sop-list">
+          <li>Allergy to lidocaine, tetracaine, or related anesthetics</li>
+          <li>Severe liver disease</li>
+          <li>History of methemoglobinemia or G6PD deficiency</li>
+          <li>Application to broken skin, eyes, or mucous membranes</li>
+          <li>Pediatric patients under 18 without parental consent</li>
+        </ul>
+        <div class="sop-subheading">Storage</div>
+        <ul class="sop-list">
+          <li>Store at 20–25°C in a locked cabinet</li>
+          <li>Check expiration (typically 180 days from compounding per pharmacy label)</li>
+          <li>Keep away from unauthorized personnel</li>
+        </ul>
+        <div class="sop-subheading">Disposal</div>
+        <ul class="sop-list">
+          <li>Dispose of used gauze and residual ointment in biohazard container per OSHA/Florida regulations</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">9. Documentation Requirements</div>
+        <ul class="sop-list">
+          <li>Date, time, and procedure performed</li>
+          <li>Ointment quantity applied (e.g., 0.8 g)</li>
+          <li>Skin area treated (e.g., 5 square inches)</li>
+          <li>Application time and removal time</li>
+          <li>Skin condition post-removal</li>
+          <li>Patient response (adequate numbing, no adverse effects)</li>
+          <li>Provider/aesthetician initials</li>
+          <li>Any adverse events — log in EMR and notify Bridget Martin or Dr. Robert Martin</li>
+          <li>Lot number and expiration date of ointment dispensed</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">10. Appendix A — Toxicity Symptom Progression</div>
+        <table class="sop-table">
+          <thead><tr><th>Stage</th><th>Symptoms</th></tr></thead>
+          <tbody>
+            <tr><td>Early</td><td>Numbness of lips, tinnitus, lightheadedness, dizziness</td></tr>
+            <tr><td>Progressive</td><td>Confusion, muscle twitching, blurred vision, seizures</td></tr>
+            <tr><td>Severe</td><td>Respiratory arrest, cardiac arrhythmias, cardiovascular collapse</td></tr>
+            <tr><td>Methemoglobinemia</td><td>Cyanosis (blue lips/fingernails), shortness of breath, low O₂ sat, chocolate-brown blood</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">11. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Medical Director:</strong> Robert Martin, MD — contact via office</li>
+          <li><strong>Clinical Liaison:</strong> Bridget Martin, DNP, APRN, NP-C — contact via office</li>
+          <li><strong>Emergency:</strong> Call 911 for severe reactions; notify medical director immediately</li>
+          <li><strong>All Locations:</strong> DeLand · Palm Coast · Ormond Beach</li>
+        </ul>
+      </div>
+    `
+  }
+];
+
+var activeFilter = 'all';
+var searchQuery = '';
+
+function renderSOPs(list) {
+  var grid = document.getElementById('sop-grid');
+  var label = document.getElementById('results-label');
+  var empty = document.getElementById('empty-state');
+  if (!list.length) {
+    grid.innerHTML = '';
+    empty.style.display = 'block';
+    label.textContent = 'No results';
+    return;
+  }
+  empty.style.display = 'none';
+  label.textContent = list.length + ' SOP' + (list.length !== 1 ? 's' : '');
+  grid.innerHTML = list.map(function(s) {
+    return '<div class="card" onclick="openSOP(\'' + s.id + '\')">' +
+      '<div class="card-accent" style="background:' + s.color + '"></div>' +
+      '<div class="card-top">' +
+        '<div class="card-icon" style="background:' + s.bgColor + '">' + s.icon + '</div>' +
+        '<div class="card-badges"><span class="badge" style="color:' + s.badgeColor + ';background:' + s.badgeBg + '">' + s.badge + '</span></div>' +
+      '</div>' +
+      '<h3>' + s.name + '</h3>' +
+      '<p>' + s.summary + '</p>' +
+      '<div class="card-meta">' +
+        '<span>📅 ' + s.date + '</span>' +
+        '<span>v' + s.version + '</span>' +
+        '<span>📍 ' + s.applies + '</span>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+}
+
+function setFilter(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+  btn.classList.add('active');
+  activeFilter = cat;
+  applyFilters();
+}
+
+function filterSOPs() {
+  searchQuery = document.getElementById('search').value.toLowerCase();
+  applyFilters();
+}
+
+function applyFilters() {
+  var results = SOPS;
+  if (activeFilter !== 'all') results = results.filter(function(s) { return s.category === activeFilter; });
+  if (searchQuery) results = results.filter(function(s) {
+    return s.name.toLowerCase().includes(searchQuery) ||
+           s.summary.toLowerCase().includes(searchQuery) ||
+           s.badge.toLowerCase().includes(searchQuery);
+  });
+  renderSOPs(results);
+}
+
+function openSOP(id) {
+  var s = null;
+  for (var i = 0; i < SOPS.length; i++) { if (SOPS[i].id === id) { s = SOPS[i]; break; } }
+  if (!s) return;
+  document.getElementById('modal-content').innerHTML =
+    '<button class="modal-close" onclick="closeModal()">✕</button>' +
+    '<div class="modal-top">' +
+      '<div class="modal-eyebrow">' + s.badge + ' · ' + (s.category === 'clinical' ? 'Clinical Protocol' : s.category === 'safety' ? 'Safety & Emergency' : s.category === 'pharmacy' ? 'Pharmacy & Dispensing' : s.category === 'hr' ? 'HR & Operations' : 'Patient Relations') + '</div>' +
+      '<h2>' + s.name + '</h2>' +
+      '<div class="modal-meta">' +
+        '<div class="modal-meta-item"><strong>Version</strong>' + s.version + '</div>' +
+        '<div class="modal-meta-item"><strong>Effective Date</strong>' + s.date + '</div>' +
+        '<div class="modal-meta-item"><strong>Prepared By</strong>' + s.author + '</div>' +
+        '<div class="modal-meta-item"><strong>Approved By</strong>' + s.approver + '</div>' +
+        '<div class="modal-meta-item"><strong>Applies To</strong>' + s.applies + '</div>' +
+      '</div>' +
+    '</div>' +
+    '<div class="modal-body">' + s.content + '</div>' +
+    '<div class="modal-footer">' +
+      '<span>Enchanted Medical Aesthetics · Confidential Internal Document · Do Not Distribute</span>' +
+      '<button class="print-btn" onclick="window.print()">🖨 Print SOP</button>' +
+    '</div>';
+  document.getElementById('modal-overlay').className = 'modal-overlay open';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+  document.getElementById('modal-overlay').className = 'modal-overlay';
+  document.body.style.overflow = '';
+}
+
+function handleOverlayClick(e) {
+  if (e.target === document.getElementById('modal-overlay')) closeModal();
+}
+
+document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+renderSOPs(SOPS);
+</script>
+</body>
+</html>

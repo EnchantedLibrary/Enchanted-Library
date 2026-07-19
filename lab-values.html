@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lab Values Reference | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+  --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+  --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+  --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+  --cream:#fdf9f0;--cream-2:#f0e8d4;
+  --rose:#8a3a2a;--rose-light:#f5e8e4;
+  --sage:#4a6b4a;--sage-light:#e8f0e4;
+  --high:#8a3a2a;--high-bg:#f5e8e4;
+  --low:#2a5a8a;--low-bg:#e4eef5;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.brand-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:var(--cream);text-transform:uppercase}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:.25rem;flex-wrap:wrap}
+.nav-links a{font-size:.75rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.3rem .6rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+.nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2.5rem 2rem 2rem}
+.hero-inner{max-width:1000px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.8rem,4vw,2.8rem);line-height:1.15;color:var(--cream);margin-bottom:.5rem;font-weight:300}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.95rem;color:var(--tan);max-width:600px;margin-bottom:1.5rem}
+.search-wrap{position:relative;max-width:480px}
+.search-wrap svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--ink-3);width:16px;height:16px}
+#search{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);background:var(--cream-2);outline:none;transition:border-color .15s}
+#search:focus{border-color:var(--gold)}
+#search::placeholder{color:var(--ink-3)}
+/* TABS */
+.tab-bar{background:var(--card);border-bottom:2px solid var(--border);padding:0 2rem;display:flex;gap:0;overflow-x:auto;max-width:100%}
+.tab-btn{padding:.85rem 1.25rem;font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;color:var(--ink-3);border:none;background:none;cursor:pointer;border-bottom:3px solid transparent;margin-bottom:-2px;white-space:nowrap;transition:all .15s;letter-spacing:.02em}
+.tab-btn:hover{color:var(--gold)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.main{max-width:1000px;margin:0 auto;padding:2rem}
+.tab-content{display:none}
+.tab-content.active{display:block}
+/* GLP-1 PANEL — FEATURED */
+.glp-hero{background:var(--charcoal);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem;border:2px solid var(--gold-dark)}
+.glp-hero-title{font-family:'Cormorant Garamond',serif;font-size:1.4rem;color:var(--gold-mid);font-weight:300;margin-bottom:.4rem}
+.glp-hero-sub{font-size:.85rem;color:var(--tan);line-height:1.6}
+.panel-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:640px){.panel-grid{grid-template-columns:1fr}}
+.panel-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.panel-card-header{background:var(--charcoal);padding:.7rem 1rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-mid)}
+.panel-card-body{padding:1rem}
+.lab-item{display:flex;justify-content:space-between;align-items:baseline;padding:.45rem 0;border-bottom:1px solid var(--border);font-size:.85rem}
+.lab-item:last-child{border-bottom:none}
+.lab-name{color:var(--ink-2);font-weight:500}
+.lab-range{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gold-dark);font-weight:600}
+.lab-why{font-size:.72rem;color:var(--ink-3);margin-top:1px;display:block}
+.clearance-box{background:var(--rose-light);border:2px solid var(--rose);border-radius:10px;padding:1.25rem;margin-bottom:1rem}
+.clearance-title{font-size:.75rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--rose);margin-bottom:.75rem;display:flex;align-items:center;gap:6px}
+.clearance-item{display:flex;gap:.6rem;align-items:flex-start;margin-bottom:.5rem;font-size:.85rem;color:var(--rose)}
+.clearance-item::before{content:'⚠';flex-shrink:0;font-size:.8rem}
+.note-box{background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:.85rem 1rem;font-size:.85rem;color:var(--gold-dark);line-height:1.7;margin-bottom:1rem}
+/* QUICK REF TABLE */
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;color:var(--charcoal);font-weight:400;margin-bottom:1rem;padding-bottom:.5rem;border-bottom:2px solid var(--gold);letter-spacing:.01em}
+.ref-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:1rem;margin-bottom:2rem}
+.ref-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.ref-card-header{background:var(--charcoal);padding:.6rem 1rem;font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-mid)}
+.ref-card-body{padding:.75rem 1rem}
+.ref-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;border-bottom:1px solid var(--border);font-size:.83rem}
+.ref-row:last-child{border-bottom:none}
+.ref-label{color:var(--ink-2)}
+.ref-val{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--gold-dark);font-weight:600}
+/* INTERPRETATION */
+.interp-section{margin-bottom:2rem}
+.interp-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+@media(max-width:640px){.interp-grid{grid-template-columns:1fr}}
+.interp-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;overflow:hidden}
+.interp-header{display:grid;grid-template-columns:1fr 1fr;background:var(--surface)}
+.interp-high{padding:.6rem .85rem;background:var(--high-bg);border-bottom:2px solid var(--high);font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--high)}
+.interp-low{padding:.6rem .85rem;background:var(--low-bg);border-bottom:2px solid var(--low);font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--low)}
+.interp-body{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.interp-col{padding:.75rem .85rem;font-size:.8rem;line-height:1.65;color:var(--ink-2)}
+.interp-col:first-child{border-right:1px solid var(--border)}
+.interp-col ul{margin-left:1rem}
+.interp-col li{margin-bottom:.15rem}
+.interp-name{font-family:'Cormorant Garamond',serif;font-size:1rem;font-weight:500;color:var(--charcoal);padding:.6rem .85rem;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:baseline}
+.interp-range{font-family:'JetBrains Mono',monospace;font-size:.75rem;color:var(--gold-dark)}
+/* ACID-BASE */
+.ab-table{width:100%;border-collapse:collapse;margin-bottom:1.5rem;font-size:.85rem}
+.ab-table th{background:var(--charcoal);color:var(--gold-mid);padding:.6rem 1rem;text-align:left;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.ab-table td{padding:.65rem 1rem;border-bottom:1px solid var(--border);color:var(--ink-2);vertical-align:top}
+.ab-table tr:last-child td{border-bottom:none}
+.ab-table tr:nth-child(even) td{background:var(--surface)}
+.ab-table td:first-child{font-weight:700;color:var(--charcoal);white-space:nowrap}
+.tag{display:inline-block;padding:2px 7px;border-radius:20px;font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tag-acid{background:var(--high-bg);color:var(--high)}
+.tag-alk{background:var(--sage-light);color:var(--sage)}
+/* MEMORY TRICKS */
+.tricks-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:1.5rem}
+.trick-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:1rem 1.1rem}
+.trick-value{font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--gold-dark);margin-bottom:.4rem}
+.trick-name{font-size:.85rem;font-weight:600;color:var(--charcoal);margin-bottom:.35rem}
+.trick-text{font-size:.82rem;color:var(--ink-2);line-height:1.6}
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="brand-text">Enchanted</span>
+    <span class="nav-tag">Lab Values</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="library.html">📚 Library</a>
+    <a href="calculator.html">⚗ Calc</a>
+    <a href="retatrutide.html">⚖ Retratrutide</a>
+    <a href="sop-library.html">📋 SOPs</a>
+    <a href="lab-values.html" class="active">🧪 Labs</a>
+  </div>
+</nav>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Clinical Reference — Licensed Staff Only</div>
+    <h1>Lab Values <em>Reference Guide</em></h1>
+    <p>Normal ranges, interpretations, GLP-1 pre-screening panels, and acid-base quick reference for Enchanted Medical Aesthetics clinical staff.</p>
+    <div class="search-wrap">
+      <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 3a6 6 0 100 12A6 6 0 009 3zM1 9a8 8 0 1114.32 4.906l3.387 3.387a1 1 0 01-1.414 1.414l-3.387-3.387A8 8 0 011 9z" clip-rule="evenodd"/></svg>
+      <input type="text" id="search" placeholder="Search lab values…" oninput="searchLabs()">
+    </div>
+  </div>
+</div>
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="showTab('glp1')">💊 GLP-1 Pre-Screening</button>
+  <button class="tab-btn" onclick="showTab('quickref')">📋 Quick Reference</button>
+  <button class="tab-btn" onclick="showTab('interp')">📈 Interpretations</button>
+  <button class="tab-btn" onclick="showTab('acidbase')">⚗ Acid-Base</button>
+  <button class="tab-btn" onclick="showTab('tricks')">🧠 Memory Tricks</button>
+</div>
+<div class="main">
+
+<!-- ══ TAB 1: GLP-1 PRE-SCREENING ══════════════════════════════════ -->
+<div class="tab-content active" id="tab-glp1">
+  <div class="glp-hero">
+    <div class="glp-hero-title">GLP-1 / Weight Management — Pre-Prescription Lab Panel</div>
+    <div class="glp-hero-sub">All labs below are required by the prescribing APRN/PA before initiating semaglutide, tirzepatide, retatrutide, or any GLP-1/incretin therapy. Repeat every 6 months on therapy. Results must be documented in Aesthetic Record prior to first dispense.</div>
+  </div>
+
+  <div class="panel-grid">
+    <div class="panel-card">
+      <div class="panel-card-header">🔬 Required Labs — Baseline & Every 6 Months</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">CMP (Comprehensive Metabolic Panel)<span class="lab-why">Sodium, potassium, chloride, CO₂, BUN, creatinine, glucose, calcium, total protein, albumin, ALT, AST, ALP, bilirubin — full metabolic and hepatic/renal baseline</span></span><span class="lab-range">Full panel</span></div>
+        <div class="lab-item"><span class="lab-name">CBC (Complete Blood Count)<span class="lab-why">Rule out anemia, infection, or hematologic conditions; monitor nutritional status during caloric restriction</span></span><span class="lab-range">Full panel</span></div>
+        <div class="lab-item"><span class="lab-name">Thyroid Panel (TSH + Free T3/T4)<span class="lab-why">GLP-1 black box: contraindicated in MTC/MEN2 history; hypothyroidism affects weight loss response and energy</span></span><span class="lab-range">TSH: 0.4–4.0 mIU/L</span></div>
+        <div class="lab-item"><span class="lab-name">Lipid Panel<span class="lab-why">Baseline cardiovascular risk assessment; GLP-1s improve lipid profiles — document pre-treatment to show benefit</span></span><span class="lab-range">Chol &lt;200 · LDL &lt;100 · HDL &gt;60 · TG &lt;150</span></div>
+        <div class="lab-item"><span class="lab-name">Fasting Insulin<span class="lab-why">Insulin resistance screening — essential metabolic context for weight management; helps identify candidates who may benefit most from GLP-1 therapy</span></span><span class="lab-range">2–25 µIU/mL</span></div>
+        <div class="lab-item"><span class="lab-name">HbA1c (Hemoglobin A1c)<span class="lab-why">Screens for undiagnosed diabetes; establishes glycemic baseline; monitors response to therapy every 6 months</span></span><span class="lab-range">Normal: 4.0–5.6%<br>Pre-DM: 5.7–6.4%<br>Goal (DM): &lt;6.5%</span></div>
+      </div>
+    </div>
+    <div class="panel-card">
+      <div class="panel-card-header">📅 Monitoring Schedule</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">Baseline (Before First Dose)<span class="lab-why">All 6 panels required before prescribing. Results must be in chart before first dispense.</span></span><span class="lab-range">Required</span></div>
+        <div class="lab-item"><span class="lab-name">Every 6 Months On Therapy<span class="lab-why">Repeat all 6 panels to monitor response, safety, and organ function throughout treatment</span></span><span class="lab-range">Required</span></div>
+        <div class="lab-item"><span class="lab-name">Weight / BMI<span class="lab-why">Clinical monitoring at every visit to document progress</span></span><span class="lab-range">Every visit</span></div>
+        <div class="lab-item"><span class="lab-name">Blood Pressure & Heart Rate<span class="lab-why">Especially important with tirzepatide and retatrutide — both can elevate HR</span></span><span class="lab-range">Every visit</span></div>
+        <div class="lab-item"><span class="lab-name">Amylase / Lipase (PRN)<span class="lab-why">Order immediately if patient reports abdominal pain — GLP-1s associated with pancreatitis risk</span></span><span class="lab-range">If symptoms</span></div>
+        <div class="lab-item"><span class="lab-name">Urine Pregnancy Test<span class="lab-why">GLP-1s contraindicated in pregnancy — confirm negative before each renewal if applicable</span></span><span class="lab-range">As indicated</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearance-box">
+    <div class="clearance-title">⚠ When PCP / Specialist Clearance Is Required Before Prescribing</div>
+    <div class="clearance-item">Personal or family history of medullary thyroid carcinoma (MTC) or Multiple Endocrine Neoplasia type 2 (MEN2) — GLP-1 agents are CONTRAINDICATED. Do not prescribe without oncology/endocrinology clearance.</div>
+    <div class="clearance-item">Active or history of pancreatitis — GLP-1s are associated with acute pancreatitis risk. Gastroenterology clearance required before initiating.</div>
+    <div class="clearance-item">Diabetic patients (HbA1c ≥6.5% or on insulin/sulfonylureas) — coordinating provider must communicate with prescribing PCP or endocrinologist to prevent hypoglycemia and medication duplication.</div>
+    <div class="clearance-item">Significant renal impairment (GFR &lt;30 ml/min or Stage 3b+ CKD) — nephrology or PCP clearance required; dose adjustment or contraindication may apply.</div>
+    <div class="clearance-item">Significant hepatic impairment (ALT/AST &gt;3× upper limit of normal) — hepatology or PCP clearance before initiating.</div>
+    <div class="clearance-item">Active cardiovascular disease, recent MI (&lt;3 months), or uncontrolled arrhythmia — cardiology clearance required, especially for tirzepatide/retatrutide (HR elevation).</div>
+    <div class="clearance-item">Active or recent history of eating disorder (anorexia, bulimia, ARFID) — psychiatric/behavioral health clearance required before initiating appetite-suppressing therapy.</div>
+    <div class="clearance-item">Pregnancy or breastfeeding — GLP-1s contraindicated. Must have negative pregnancy test and confirm not breastfeeding before prescribing.</div>
+    <div class="clearance-item">Patients on warfarin or other narrow therapeutic index anticoagulants — GLP-1s alter gastric emptying and may affect drug absorption. PCP/hematology coordination required.</div>
+    <div class="clearance-item">Uncontrolled hypertension (BP &gt;160/100 mmHg) — optimize blood pressure control first; PCP notification recommended.</div>
+    <div class="clearance-item">Significant psychiatric conditions (active suicidal ideation, uncontrolled severe depression) — psychiatric clearance recommended; GLP-1s may have CNS effects.</div>
+    <div class="clearance-item">Patients under 18 years old — pediatric prescribing is outside the scope of Enchanted Medical Aesthetics. Refer out.</div>
+  </div>
+
+  <div class="note-box">
+    📋 <strong>Documentation Reminder:</strong> All baseline labs must be reviewed and documented in Aesthetic Record by the prescribing APRN/PA before first dispense. A copy of labs (or notation of date, ordering provider, and results) must be in the patient chart. Labs older than 12 months should be repeated before initiation. If labs were ordered externally, obtain records before prescribing.
+  </div>
+</div>
+
+<!-- ══ TAB 2: QUICK REFERENCE ══════════════════════════════════════ -->
+<div class="tab-content" id="tab-quickref">
+  <div class="section-title">Vital Signs</div>
+  <div class="ref-grid">
+    <div class="ref-card">
+      <div class="ref-card-header">Vital Signs</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Temperature</span><span class="ref-val">36.5–37.3°C (97.8–99°F)</span></div>
+        <div class="ref-row"><span class="ref-label">Blood Pressure (Systolic)</span><span class="ref-val">100–140 mmHg</span></div>
+        <div class="ref-row"><span class="ref-label">Blood Pressure (Diastolic)</span><span class="ref-val">60–100 mmHg</span></div>
+        <div class="ref-row"><span class="ref-label">Heart Rate</span><span class="ref-val">60–100 BPM</span></div>
+        <div class="ref-row"><span class="ref-label">Respiration</span><span class="ref-val">12–20 breaths/min</span></div>
+        <div class="ref-row"><span class="ref-label">O₂ Saturation</span><span class="ref-val">95–100%</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Basic Metabolic Panel (BMP)</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Sodium (Na+)</span><span class="ref-val">135–145 mEq/L</span></div>
+        <div class="ref-row"><span class="ref-label">Potassium (K+)</span><span class="ref-val">3.5–5.0 mEq/L</span></div>
+        <div class="ref-row"><span class="ref-label">Chloride (Cl-)</span><span class="ref-val">95–105 mEq/L</span></div>
+        <div class="ref-row"><span class="ref-label">Magnesium (Mg2+)</span><span class="ref-val">1.5–2.5 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Calcium (Ca2+)</span><span class="ref-val">9–11 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">BUN</span><span class="ref-val">7–20 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Creatinine</span><span class="ref-val">0.6–1.2 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Total Protein</span><span class="ref-val">6.2–8.2 g/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Albumin</span><span class="ref-val">3.4–5.4 g/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Glucose (fasting)</span><span class="ref-val">70–100 mg/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">CBC — Complete Blood Count</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">RBC (males)</span><span class="ref-val">4.5–5.5 × 10¹²/L</span></div>
+        <div class="ref-row"><span class="ref-label">Hemoglobin (male)</span><span class="ref-val">14–18 g/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Hemoglobin (female)</span><span class="ref-val">12–16 g/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Hematocrit (male)</span><span class="ref-val">39–54%</span></div>
+        <div class="ref-row"><span class="ref-label">Hematocrit (female)</span><span class="ref-val">36–48%</span></div>
+        <div class="ref-row"><span class="ref-label">WBC</span><span class="ref-val">4,500–11,000/µL</span></div>
+        <div class="ref-row"><span class="ref-label">Neutrophils</span><span class="ref-val">1.8–7.8 × 10⁹/L (56%)</span></div>
+        <div class="ref-row"><span class="ref-label">Lymphocytes</span><span class="ref-val">1–4.8 × 10⁹/L (34%)</span></div>
+        <div class="ref-row"><span class="ref-label">Monocytes</span><span class="ref-val">0–0.8 × 10⁹/L (4%)</span></div>
+        <div class="ref-row"><span class="ref-label">Eosinophils</span><span class="ref-val">0–0.45 × 10⁹/L (2.7%)</span></div>
+        <div class="ref-row"><span class="ref-label">Basophils</span><span class="ref-val">0–0.2 × 10⁹/L (0.3%)</span></div>
+        <div class="ref-row"><span class="ref-label">Platelets</span><span class="ref-val">150–400 × 10⁹/L</span></div>
+        <div class="ref-row"><span class="ref-label">ESR</span><span class="ref-val">&lt; 20 mm/hour</span></div>
+        <div class="ref-row"><span class="ref-label">Serum Lactate</span><span class="ref-val">0.5–1.0 mmol/L</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Liver Function</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">ALT (SGPT)</span><span class="ref-val">7–56 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">AST (SGOT)</span><span class="ref-val">5–40 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">ALP</span><span class="ref-val">40–120 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">Bilirubin (total)</span><span class="ref-val">0.1–1.2 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">GGT (male)</span><span class="ref-val">&lt; 50 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">GGT (female)</span><span class="ref-val">&lt; 30 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">Urea</span><span class="ref-val">10–20 mg/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Renal Function</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Creatinine</span><span class="ref-val">0.6–1.2 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">BUN</span><span class="ref-val">7–20 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">GFR</span><span class="ref-val">90–120 ml/min</span></div>
+        <div class="ref-row"><span class="ref-label">Urine Specific Gravity</span><span class="ref-val">1.010–1.030</span></div>
+        <div class="ref-row"><span class="ref-label">Creatinine Clearance (F)</span><span class="ref-val">85–125 ml/min</span></div>
+        <div class="ref-row"><span class="ref-label">Creatinine Clearance (M)</span><span class="ref-val">95–140 ml/min</span></div>
+        <div class="ref-row"><span class="ref-label">Phosphorus</span><span class="ref-val">2.5–4.5 mg/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Thyroid</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">TSH</span><span class="ref-val">0.4–4.0 mIU/L</span></div>
+        <div class="ref-row"><span class="ref-label">T3 (Triiodothyronine)</span><span class="ref-val">100–200 ng/dL</span></div>
+        <div class="ref-row"><span class="ref-label">T4 (Thyroxine)</span><span class="ref-val">5.0–12.0 ug/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Blood Glucose & HbA1c</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Fasting Glucose</span><span class="ref-val">70–100 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">HbA1c — Non-diabetic</span><span class="ref-val">4.0–5.6%</span></div>
+        <div class="ref-row"><span class="ref-label">HbA1c — Pre-diabetic</span><span class="ref-val">5.7–6.4%</span></div>
+        <div class="ref-row"><span class="ref-label">HbA1c — Goal (Diabetic)</span><span class="ref-val">&lt; 6.5%</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Lipid Panel</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Total Cholesterol</span><span class="ref-val">&lt; 200 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">Triglycerides</span><span class="ref-val">&lt; 150 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">LDL</span><span class="ref-val">&lt; 100 mg/dL</span></div>
+        <div class="ref-row"><span class="ref-label">HDL</span><span class="ref-val">&gt; 60 mg/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Coagulation</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">PT</span><span class="ref-val">10–13 sec</span></div>
+        <div class="ref-row"><span class="ref-label">PTT</span><span class="ref-val">25–35 sec</span></div>
+        <div class="ref-row"><span class="ref-label">aPTT (Heparin)</span><span class="ref-val">30–40 sec</span></div>
+        <div class="ref-row"><span class="ref-label">INR (normal)</span><span class="ref-val">0.8–1.1</span></div>
+        <div class="ref-row"><span class="ref-label">INR (on Warfarin)</span><span class="ref-val">2–3</span></div>
+        <div class="ref-row"><span class="ref-label">D-Dimer</span><span class="ref-val">&lt; 500 ng/mL</span></div>
+        <div class="ref-row"><span class="ref-label">Fibrinogen</span><span class="ref-val">200–400 mg/dL</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">Pancreas & ABGs</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Amylase</span><span class="ref-val">30–110 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">Lipase</span><span class="ref-val">0–150 u/L</span></div>
+        <div class="ref-row"><span class="ref-label">pH</span><span class="ref-val">7.35–7.45</span></div>
+        <div class="ref-row"><span class="ref-label">PaCO₂</span><span class="ref-val">35–45 mmHg</span></div>
+        <div class="ref-row"><span class="ref-label">PaO₂</span><span class="ref-val">80–100 mmHg</span></div>
+        <div class="ref-row"><span class="ref-label">HCO₃</span><span class="ref-val">22–26 mEq/L</span></div>
+        <div class="ref-row"><span class="ref-label">SaO₂</span><span class="ref-val">95–100%</span></div>
+      </div>
+    </div>
+    <div class="ref-card">
+      <div class="ref-card-header">BMI Ranges</div>
+      <div class="ref-card-body">
+        <div class="ref-row"><span class="ref-label">Underweight</span><span class="ref-val">&lt; 18.5</span></div>
+        <div class="ref-row"><span class="ref-label">Healthy Weight</span><span class="ref-val">18.5–24.9</span></div>
+        <div class="ref-row"><span class="ref-label">Overweight</span><span class="ref-val">25–29.9</span></div>
+        <div class="ref-row"><span class="ref-label">Obese</span><span class="ref-val">≥ 30</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 3: INTERPRETATIONS ════════════════════════════════════ -->
+<div class="tab-content" id="tab-interp">
+  <div class="section-title">Lab Value Interpretations — High & Low</div>
+
+  <div class="interp-section">
+    <div class="section-title" style="font-size:1rem;border-bottom:1px solid var(--border)">Basic Metabolic Panel</div>
+    <div class="interp-grid">
+      <div class="interp-card">
+        <div class="interp-name">Sodium (Na+) <span class="interp-range">135–145 mEq/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hypernatremia (&gt;145)</div><div class="interp-low">↓ Hyponatremia (&lt;135)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Net water loss</li><li>Excess sodium intake</li><li>Renal insufficiency</li><li>Cushing's syndrome</li><li>Severe vomiting</li></ul></div>
+          <div class="interp-col"><ul><li>Diuretic use</li><li>GI impairment</li><li>Burns/wounds</li><li>Hypotonic IV fluids</li><li>Cirrhosis</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Potassium (K+) <span class="interp-range">3.5–5.0 mEq/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hyperkalemia (&gt;5.0)</div><div class="interp-low">↓ Hypokalemia (&lt;3.5)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Renal failure</li><li>Adrenal failure</li><li>ACE inhibitors</li><li>Excessive K+ intake</li><li>⚠ &gt;7 mEq/L: cardiac arrest risk</li></ul></div>
+          <div class="interp-col"><ul><li>Kidney disease</li><li>Diuretics</li><li>Vomiting/diarrhea</li><li>Excessive sweating</li><li>Potassium-poor diet</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Calcium (Ca2+) <span class="interp-range">9–11 mg/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hypercalcemia (&gt;11)</div><div class="interp-low">↓ Hypocalcemia (&lt;9)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Hyperparathyroidism</li><li>Cancer</li><li>Immobilization</li><li>Vitamin D toxicity</li><li>Thiazides, lithium</li></ul></div>
+          <div class="interp-col"><ul><li>Hypoparathyroidism</li><li>Vitamin D deficiency</li><li>Kidney disease</li><li>Symptoms: cramps, seizures, arrhythmia</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">BUN <span class="interp-range">7–20 mg/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Azotemia (&gt;20)</div><div class="interp-low">↓ Low BUN (&lt;7)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Dehydration</li><li>Kidney disease</li><li>Heart failure</li><li>GI bleeding</li><li>High-protein diet</li></ul></div>
+          <div class="interp-col"><ul><li>Malnutrition</li><li>Liver disease</li><li>Overhydration</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Creatinine <span class="interp-range">0.6–1.2 mg/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hypercreatinemia (&gt;1.2)</div><div class="interp-low">↓ Low Creatinine (&lt;0.6)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Acute/chronic renal failure</li><li>Dehydration</li><li>Muscular dystrophy</li><li>Certain medications</li></ul></div>
+          <div class="interp-col"><ul><li>Malnutrition</li><li>Age-related muscle loss</li><li>Pregnancy</li><li>Liver disease</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Glucose (fasting) <span class="interp-range">70–100 mg/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hyperglycemia (&gt;100)</div><div class="interp-low">↓ Hypoglycemia (&lt;70)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Diabetes (T1, T2, gestational)</li><li>Sepsis</li><li>IV glucose</li><li>Pancreatitis</li><li>Can lead to DKA or HHS</li></ul></div>
+          <div class="interp-col"><ul><li>Excess insulin</li><li>Skipped meals</li><li>Exercise intensity</li><li>Pituitary deficiency</li><li>Sx: shaking, sweating, confusion</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="interp-section">
+    <div class="section-title" style="font-size:1rem;border-bottom:1px solid var(--border)">CBC</div>
+    <div class="interp-grid">
+      <div class="interp-card">
+        <div class="interp-name">WBC <span class="interp-range">4,500–11,000/µL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Leukocytosis (&gt;11,000)</div><div class="interp-low">↓ Leukopenia (&lt;4,500)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Infections</li><li>Leukemia</li><li>Neoplasms</li><li>Inflammatory disease</li><li>Stress</li></ul></div>
+          <div class="interp-col"><ul><li>Viral illnesses</li><li>Chemotherapy</li><li>Bone marrow deficiency</li><li>Radiation</li><li>Splenic deficiency</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Platelets <span class="interp-range">150–400 × 10⁹/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Thrombocytosis (&gt;400)</div><div class="interp-low">↓ Thrombocytopenia (&lt;150)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Myelogenous leukemia</li><li>Splenectomy</li><li>Inflammation</li><li>Neoplasm/cancer</li></ul></div>
+          <div class="interp-col"><ul><li>Autoimmune disease</li><li>Leukemia</li><li>Medications</li><li>↑ bleeding risk</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Hemoglobin <span class="interp-range">F: 12–16 | M: 14–18 g/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Elevated Hgb</div><div class="interp-low">↓ Low Hgb (Anemia)</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>High altitude living</li><li>Long-term smoking</li><li>Polycythemia vera</li><li>Severe dehydration</li><li>Burns</li></ul></div>
+          <div class="interp-col"><ul><li>Blood loss</li><li>Anemia</li><li>Bone marrow suppression</li><li>Leukemia</li><li>Splenomegaly</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="interp-section">
+    <div class="section-title" style="font-size:1rem;border-bottom:1px solid var(--border)">Liver Function</div>
+    <div class="interp-grid">
+      <div class="interp-card">
+        <div class="interp-name">ALT <span class="interp-range">7–56 u/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Elevated ALT</div><div class="interp-low">↓ Low ALT</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Viral hepatitis</li><li>Alcoholic liver disease</li><li>Medication/toxin damage</li><li>Liver cancer</li></ul></div>
+          <div class="interp-col"><ul><li>Usually normal</li><li>Vitamin B6 deficiency</li><li>Smoking</li><li>Chronic kidney disease</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">AST <span class="interp-range">5–40 u/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Elevated AST</div><div class="interp-low">↓ Low AST</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Cirrhosis/Hepatitis</li><li>Alcoholic liver disease</li><li>Rhabdomyolysis</li><li>Heart attack</li><li>Pancreatitis</li></ul></div>
+          <div class="interp-col"><ul><li>Usually not significant</li><li>Rare: B6 deficiency</li><li>Severe cirrhosis</li></ul></div>
+        </div>
+      </div>
+      <div class="interp-card">
+        <div class="interp-name">Bilirubin <span class="interp-range">0.1–1.2 mg/dL</span></div>
+        <div class="interp-header"><div class="interp-high">↑ Hyperbilirubinemia (&gt;1.2)</div><div class="interp-low">↓ Rare</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><ul><li>Cirrhosis</li><li>Hepatitis</li><li>Hemolytic anemia</li><li>Transfusion reaction</li><li>Chemotherapy</li></ul></div>
+          <div class="interp-col"><ul><li>Rare — genetic conditions</li><li>Partial liver transplant</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="interp-section">
+    <div class="section-title" style="font-size:1rem;border-bottom:1px solid var(--border)">Thyroid</div>
+    <div class="interp-grid">
+      <div class="interp-card">
+        <div class="interp-name">TSH <span class="interp-range">0.4–4.0 mIU/L</span></div>
+        <div class="interp-header"><div class="interp-high">↑ High TSH = Hypothyroidism</div><div class="interp-low">↓ Low TSH = Hyperthyroidism</div></div>
+        <div class="interp-body">
+          <div class="interp-col"><strong>Hypothyroid Sx:</strong><ul><li>Fatigue, bradycardia</li><li>Cold intolerance</li><li>Constipation, weight gain</li><li>Primary cause: Hashimoto's</li><li>Tx: Levothyroxine</li></ul></div>
+          <div class="interp-col"><strong>Hyperthyroid Sx:</strong><ul><li>Nervousness, tachycardia</li><li>Exophthalmos, weight loss</li><li>Enlarged thyroid (goiter)</li><li>Cause: Graves' disease</li><li>Tx: Methimazole/PTU</li></ul></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 4: ACID-BASE ══════════════════════════════════════════ -->
+<div class="tab-content" id="tab-acidbase">
+  <div class="section-title">Acid-Base Disorders</div>
+  <div class="note-box" style="margin-bottom:1.5rem">
+    <strong>Quick Rule:</strong> Respiratory = Opposite (pH↑, CO₂↓ = Alkalosis | pH↓, CO₂↑ = Acidosis) &nbsp;|&nbsp; Metabolic = Equal (pH↑, CO₂↑ = Alkalosis | pH↓, CO₂↓ = Acidosis)
+  </div>
+  <table class="ab-table">
+    <thead><tr><th>Disorder</th><th>pH</th><th>PaCO₂</th><th>Causes</th><th>Symptoms</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Respiratory Alkalosis <span class="tag tag-alk">Alkalosis</span></td>
+        <td>&gt;7.45</td>
+        <td>&lt;35 mmHg</td>
+        <td>Anxiety, sedatives, COPD, pain, fever, hyperventilation</td>
+        <td>Light-headedness, confusion, muscle twitching, seizures, dizziness</td>
+      </tr>
+      <tr>
+        <td>Respiratory Acidosis <span class="tag tag-acid">Acidosis</span></td>
+        <td>&lt;7.35</td>
+        <td>&gt;45 mmHg</td>
+        <td>Asthma, COPD, pulmonary fibrosis, CNS depression, pneumonia, opioids/benzos</td>
+        <td>SOB, confusion, fatigue, headaches; severe: coma, death</td>
+      </tr>
+      <tr>
+        <td>Metabolic Alkalosis <span class="tag tag-alk">Alkalosis</span></td>
+        <td>&gt;7.45</td>
+        <td>&gt;45 mmHg</td>
+        <td>Severe vomiting/diarrhea, dehydration, diuretics, steroids, antacids, hyperaldosteronism</td>
+        <td>Irritability, muscle twitching, cramps, fatigue, confusion, arrhythmia</td>
+      </tr>
+      <tr>
+        <td>Metabolic Acidosis <span class="tag tag-acid">Acidosis</span></td>
+        <td>&lt;7.35</td>
+        <td>&lt;35 mmHg</td>
+        <td>DKA, severe diarrhea, dehydration, aspirin/ethylene glycol poisoning, lactic acidosis, kidney disease</td>
+        <td>Severe vomiting, diarrhea, Kussmaul breathing, confusion, fruity breath (DKA)</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="ref-card" style="max-width:400px;margin-bottom:1.5rem">
+    <div class="ref-card-header">ABG Normal Values</div>
+    <div class="ref-card-body">
+      <div class="ref-row"><span class="ref-label">pH</span><span class="ref-val">7.35–7.45</span></div>
+      <div class="ref-row"><span class="ref-label">PaCO₂</span><span class="ref-val">35–45 mmHg</span></div>
+      <div class="ref-row"><span class="ref-label">PaO₂</span><span class="ref-val">80–100 mmHg</span></div>
+      <div class="ref-row"><span class="ref-label">HCO₃</span><span class="ref-val">22–26 mEq/L</span></div>
+      <div class="ref-row"><span class="ref-label">SaO₂</span><span class="ref-val">95–100%</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ TAB 5: MEMORY TRICKS ══════════════════════════════════════ -->
+<div class="tab-content" id="tab-tricks">
+  <div class="section-title">Lab Value Memory Tricks</div>
+  <div class="tricks-grid">
+    <div class="trick-card"><div class="trick-value">9–11 mg/dL</div><div class="trick-name">Calcium</div><div class="trick-text">"Cal" in "Calcium" → remember "Call 911" → 9–11 mg/dL</div></div>
+    <div class="trick-card"><div class="trick-value">7–20 mg/dL</div><div class="trick-name">BUN</div><div class="trick-text">Think Hamburger BUNs — a hamburger costs anywhere from $7 to $20.</div></div>
+    <div class="trick-card"><div class="trick-value">3.5–5.0 mEq/L</div><div class="trick-name">Potassium</div><div class="trick-text">3–5 bananas in a bunch, and you want them half ripe → 3.5 to 5 mEq/L</div></div>
+    <div class="trick-card"><div class="trick-value">95–105 mEq/L</div><div class="trick-name">Chloride</div><div class="trick-text">Think of a chlorinated pool — you go when it's sunny and HOT outside: 95–105°F</div></div>
+    <div class="trick-card"><div class="trick-value">1.5–2.5 mg/dL</div><div class="trick-name">Magnesium</div><div class="trick-text">Magnifying glasses magnify objects by 1.5 to 2.5 times their regular size.</div></div>
+    <div class="trick-card"><div class="trick-value">2.5–4.5 mg/dL</div><div class="trick-name">Phosphorus</div><div class="trick-text">"phor" in "phoSphoruS" → 4. "us" = you + me = 2. Don't forget the .5!</div></div>
+    <div class="trick-card"><div class="trick-value">70–100 mg/dL</div><div class="trick-name">Glucose</div><div class="trick-text">Glucose = Energy. Energy declines in elderly years (70–100 years old).</div></div>
+    <div class="trick-card"><div class="trick-value">4,500–11,000</div><div class="trick-name">WBCs</div><div class="trick-text">"Wanna Buy a Car for $4,500–$11,000?" — WBC! Also "Never Let Monkeys Eat Bananas" = Neutrophils, Lymphocytes, Monocytes, Eosinophils, Basophils.</div></div>
+    <div class="trick-card"><div class="trick-value">4.5–5.5 × 10¹²/L</div><div class="trick-name">RBCs</div><div class="trick-text">An adult human body has approximately 4.5–5.5 L of blood — same numbers as the normal RBC range.</div></div>
+    <div class="trick-card"><div class="trick-value">12–16 (F) / 14–18 (M) g/dL</div><div class="trick-name">Hemoglobin</div><div class="trick-text">Females mature quicker: ages 12–16 → 12–16 g/dL. Males: 14–18 years old → 14–18 g/dL.</div></div>
+    <div class="trick-card"><div class="trick-value">HCT = Hgb × 3</div><div class="trick-name">Hematocrit</div><div class="trick-text">To remember HCT, multiply Hgb by 3: Female Hgb 12–16 → HCT 36–48%. Male Hgb 14–18 → HCT 39–54%.</div></div>
+    <div class="trick-card"><div class="trick-value">4.0–5.6%</div><div class="trick-name">HbA1c</div><div class="trick-text">HbA1c every 3 months for diabetics. After "3" = "4 5 6" — the three consecutive numbers are your normal range.</div></div>
+  </div>
+</div>
+
+</div><!-- /main -->
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Not a substitute for prescriber judgment</footer>
+<script>
+function showTab(id){
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+function searchLabs(){
+  var q=document.getElementById('search').value.toLowerCase();
+  if(!q)return;
+  // Activate quick ref tab on search
+  document.querySelectorAll('.tab-content').forEach(function(t){t.classList.remove('active')});
+  document.querySelectorAll('.tab-btn').forEach(function(b){b.classList.remove('active')});
+  document.getElementById('tab-quickref').classList.add('active');
+  document.querySelectorAll('.tab-btn')[1].classList.add('active');
+  document.querySelectorAll('.ref-row').forEach(function(r){
+    r.style.display=r.textContent.toLowerCase().includes(q)?'flex':'none';
+  });
+}
+</script>
+</body>
+</html>
