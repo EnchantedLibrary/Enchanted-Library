@@ -198,7 +198,86 @@ footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-t
   <div class="note-box">
     📋 <strong>Documentation Reminder:</strong> All baseline labs must be reviewed and documented in Aesthetic Record by the prescribing APRN/PA before first dispense. A copy of labs (or notation of date, ordering provider, and results) must be in the patient chart. Labs older than 12 months should be repeated before initiation. If labs were ordered externally, obtain records before prescribing.
   </div>
-</div>
+
+  <!-- VISIT SCHEDULE -->
+  <div class="section-title" style="margin-top:1.5rem">Patient Visit Schedule</div>
+  <div style="background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem">
+    <table style="width:100%;border-collapse:collapse;font-size:.88rem">
+      <thead><tr style="background:var(--charcoal)"><th style="padding:.7rem 1rem;text-align:left;color:var(--gold-mid);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Visit</th><th style="padding:.7rem 1rem;text-align:left;color:var(--gold-mid);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Timing</th><th style="padding:.7rem 1rem;text-align:left;color:var(--gold-mid);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase">Purpose & Actions</th></tr></thead>
+      <tbody>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:.75rem 1rem;font-weight:700;color:var(--charcoal)">Visit 1</td><td style="padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-dark)">Initial Consult</td><td style="padding:.75rem 1rem;color:var(--ink-2)">Intake, history, consent, measurements (weight, BMI, muscle mass, BMR), <strong>lab draw</strong> — all 6 panels ordered. Patient does NOT start medication yet.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);background:var(--surface)"><td style="padding:.75rem 1rem;font-weight:700;color:var(--charcoal)">Visit 2</td><td style="padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-dark)">Program Start</td><td style="padding:.75rem 1rem;color:var(--ink-2)"><strong>Review labs</strong> with patient, prescribe GLP-1, dispense or send prescription, education on injection technique, side effect management, dietary guidelines. Prescribe Zofran PRN for nausea and stool softener prophylactically.</td></tr>
+        <tr style="border-bottom:1px solid var(--border)"><td style="padding:.75rem 1rem;font-weight:700;color:var(--charcoal)">Visit 3</td><td style="padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-dark)">Week 8</td><td style="padding:.75rem 1rem;color:var(--ink-2)">Weight, BMI, muscle mass, BMR. Assess tolerability, side effects, titration readiness. Refill or dose adjustment as indicated. Review dietary/lifestyle compliance.</td></tr>
+        <tr style="border-bottom:1px solid var(--border);background:var(--surface)"><td style="padding:.75rem 1rem;font-weight:700;color:var(--charcoal)">Visit 4</td><td style="padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-dark)">Week 16</td><td style="padding:.75rem 1rem;color:var(--ink-2)">Weight, BMI, muscle mass, BMR. Progress review, dose optimization. Discuss response — if not achieving expected weight loss, evaluate adherence, dose, or add adjunct therapy (B12, BioBoost, MegaBurn).</td></tr>
+        <tr><td style="padding:.75rem 1rem;font-weight:700;color:var(--charcoal)">Visit 5</td><td style="padding:.75rem 1rem;font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--gold-dark)">Week 24</td><td style="padding:.75rem 1rem;color:var(--ink-2)"><strong>Repeat all 6 labs</strong> (6-month mark). Full clinical review, weight, BMI, muscle mass, BMR. Assess continued need for therapy, maintenance planning, or transition to lower maintenance dose.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- BODY COMPOSITION MONITORING -->
+  <div class="note-box" style="margin-bottom:1.5rem">
+    📊 <strong>Body Composition — Measured at Every Visit:</strong> Weight · BMI · <strong>Muscle Mass</strong> (preserving lean mass is a key clinical goal — GLP-1s can cause muscle loss alongside fat loss) · <strong>BMR (Basal Metabolic Rate)</strong> (tracks metabolic adaptation during caloric restriction). Document all measurements in Aesthetic Record at each visit to track trends over the program.
+  </div>
+
+  <!-- HOW SEMAGLUTIDE WORKS -->
+  <div class="section-title" style="margin-top:.5rem">How Semaglutide Works — Mechanism & Clinical Evidence</div>
+  <div class="panel-grid" style="margin-bottom:1rem">
+    <div class="panel-card">
+      <div class="panel-card-header">⚙ Mechanism of Action</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">GLP-1 Receptor Agonist<span class="lab-why">Mimics the endogenous incretin hormone GLP-1, naturally released from intestinal L-cells in response to food intake</span></span></div>
+        <div class="lab-item"><span class="lab-name">Hypothalamic Satiety Signaling<span class="lab-why">Activates GLP-1 receptors in the arcuate nucleus — increases satiety, reduces hunger drive, and slows gastric emptying so patients feel full longer</span></span></div>
+        <div class="lab-item"><span class="lab-name">Glucose-Dependent Insulin Secretion<span class="lab-why">Stimulates insulin release from pancreatic β-cells ONLY when blood glucose is elevated — minimal hypoglycemia risk in non-diabetic patients</span></span></div>
+        <div class="lab-item"><span class="lab-name">Glucagon Suppression<span class="lab-why">Suppresses glucagon from α-cells, reducing hepatic glucose output and improving overall glucose control</span></span></div>
+        <div class="lab-item"><span class="lab-name">CNS Dopamine / Reward Pathway<span class="lab-why">Acts on dopaminergic reward circuits — reduces food cravings and hedonic eating behavior, independent of the satiety effect</span></span></div>
+        <div class="lab-item"><span class="lab-name">Once-Weekly Dosing<span class="lab-why">~1-week half-life achieved via fatty acid side chain + albumin binding — allows weekly SQ administration with slow titration to minimize GI side effects</span></span></div>
+      </div>
+    </div>
+    <div class="panel-card">
+      <div class="panel-card-header">📊 Key Clinical Trial Data</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">STEP 1 Trial — Semaglutide 2.4 mg<span class="lab-why">Mean body weight reduction: <strong>14.9%</strong> over 68 weeks vs 2.4% placebo. 86% of participants lost ≥5% body weight.</span></span></div>
+        <div class="lab-item"><span class="lab-name">SELECT Trial — Cardiovascular<span class="lab-why">Semaglutide 2.4 mg reduced major adverse cardiovascular events (MACE) by <strong>20%</strong> in non-diabetic patients with obesity + CVD. First obesity drug to show CV benefit.</span></span></div>
+        <div class="lab-item"><span class="lab-name">SURMOUNT-1 — Tirzepatide 15 mg<span class="lab-why">Mean weight reduction: <strong>22.5%</strong> over 72 weeks. 96% of participants lost ≥5%. Superior to semaglutide in head-to-head comparisons.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Retatrutide Phase 2 Trial<span class="lab-why">Mean weight reduction: <strong>24.2%</strong> at 48 weeks at 12 mg dose — highest recorded in any incretin trial to date. Phase 3 ongoing.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Muscle Mass Consideration<span class="lab-why">~25–40% of weight lost on GLP-1 therapy is lean muscle mass. This is why monitoring muscle mass and encouraging resistance exercise + adequate protein intake is critical at every visit.</span></span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIDE EFFECTS & CLINICAL PEARLS -->
+  <div class="panel-grid">
+    <div class="panel-card">
+      <div class="panel-card-header">⚠ Side Effects to Monitor</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">Nausea<span class="lab-why">Most common — especially at initiation and dose increases. Typically improves after 4–8 weeks. Prescribe <strong>Zofran (ondansetron) 4 mg ODT PRN</strong> at program start. Advise eating smaller meals slowly.</span></span><span class="lab-range">Very Common</span></div>
+        <div class="lab-item"><span class="lab-name">Constipation<span class="lab-why">GLP-1s slow GI motility significantly. <strong>Prescribe stool softener prophylactically at program start</strong> — do not wait for patient to develop symptoms. Colace (docusate) or MiraLax daily. Increase water intake.</span></span><span class="lab-range">Very Common</span></div>
+        <div class="lab-item"><span class="lab-name">Vomiting / Diarrhea<span class="lab-why">GI side effects typically dose-related. Hold titration if persistent. Ensure adequate hydration — risk of dehydration and secondary renal impairment.</span></span><span class="lab-range">Common</span></div>
+        <div class="lab-item"><span class="lab-name">Injection Site Reactions<span class="lab-why">Redness, bruising, nodule at injection site. Rotate sites (abdomen, thigh, upper arm). Warm injection to room temp before use.</span></span><span class="lab-range">Common</span></div>
+        <div class="lab-item"><span class="lab-name">Fatigue / Low Energy<span class="lab-why">Especially early in treatment and during dose increases. May correlate with caloric restriction. Assess B12 levels — add B12 or lipotropic injections (BioBoost, MegaBurn) as adjunct.</span></span><span class="lab-range">Common</span></div>
+        <div class="lab-item"><span class="lab-name">Headache<span class="lab-why">Often due to dehydration or reduced caloric intake. Encourage fluid intake.</span></span><span class="lab-range">Common</span></div>
+        <div class="lab-item"><span class="lab-name">Hair Loss (Telogen Effluvium)<span class="lab-why">Stress of rapid weight loss can trigger temporary hair shedding 2–4 months into treatment. Counsel patients proactively — usually self-resolving. Ensure adequate protein and micronutrient intake.</span></span><span class="lab-range">Notable</span></div>
+        <div class="lab-item"><span class="lab-name">Pancreatitis<span class="lab-why">Rare but serious. Order amylase/lipase immediately if patient reports severe abdominal pain radiating to back. Discontinue GLP-1 if pancreatitis confirmed.</span></span><span class="lab-range">Rare — Monitor</span></div>
+        <div class="lab-item"><span class="lab-name">Elevated Heart Rate<span class="lab-why">Mean HR increase of 2–4 BPM (more with tirzepatide/retatrutide). Monitor at every visit. Flag if sustained HR &gt;100 BPM.</span></span><span class="lab-range">Monitor</span></div>
+        <div class="lab-item"><span class="lab-name">Thyroid C-Cell Tumors<span class="lab-why">Black box warning — rodent studies only. Contraindicated in personal/family history of MTC or MEN2. No confirmed human cases to date but must be screened.</span></span><span class="lab-range">⚠ Black Box</span></div>
+      </div>
+    </div>
+    <div class="panel-card">
+      <div class="panel-card-header">💡 Clinical Pearls</div>
+      <div class="panel-card-body">
+        <div class="lab-item"><span class="lab-name">Prescribe Zofran at Start<span class="lab-why">Ondansetron (Zofran) 4 mg ODT — prescribe PRN at Visit 2 before patient takes first dose. Nausea is the #1 reason patients discontinue. Proactive management dramatically improves retention.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Prescribe Stool Softener Prophylactically<span class="lab-why">Start Colace (docusate sodium) 100 mg daily or MiraLax at Visit 2. Do not wait for constipation to develop. GLP-1 slows gastric motility from day 1.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Titrate Slowly — Hold if Needed<span class="lab-why">It is always appropriate to hold a dose escalation if the patient is experiencing significant GI side effects. Staying at a lower dose longer is better than losing the patient to side effect intolerance.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Protein Intake — Minimum 1g/kg Body Weight<span class="lab-why">Counsel patients to prioritize protein at every meal to preserve muscle mass. 25–40% of weight lost on GLP-1 is lean mass without resistance training and adequate protein.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Resistance Exercise<span class="lab-why">Strongly encourage resistance training 2–3× per week alongside GLP-1 therapy to counteract muscle loss and maintain BMR long-term.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Hydration<span class="lab-why">Patients eat less and may drink less. Dehydration risk is real — especially with GI side effects. Counsel minimum 64 oz water daily. Monitor renal function (CMP) every 6 months.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Add Lipotropic Injections as Adjunct<span class="lab-why">B12, BioBoost, or MegaBurn injections complement GLP-1 therapy — support energy, fat metabolism, and B-vitamin levels during caloric restriction. Discuss at Visit 2 or 3.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Warm Medication Before Injection<span class="lab-why">Allow vial to sit at room temperature 15–30 min before drawing up. Reduces injection site discomfort significantly.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Counsel on Plateau<span class="lab-why">Weight loss typically slows or plateaus around weeks 12–16. This is normal and does not mean the medication has stopped working. Reinforce lifestyle adherence and stay the course before changing dose.</span></span></div>
+        <div class="lab-item"><span class="lab-name">Hair Loss Counseling<span class="lab-why">Counsel proactively at Visit 2 that temporary hair shedding is common 2–4 months in. It is a stress response to rapid weight change and typically reverses. Recommend biotin, protein, and micronutrient support.</span></span></div>
+      </div>
+    </div>
+  </div>
 
 <!-- ══ TAB 2: QUICK REFERENCE ══════════════════════════════════════ -->
 <div class="tab-content" id="tab-quickref">
