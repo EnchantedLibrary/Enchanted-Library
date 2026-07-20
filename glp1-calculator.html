@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GLP-1 Calculator | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+  --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+  --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+  --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+  --cream:#fdf9f0;--cream-2:#f0e8d4;
+  --rose:#8a3a2a;--rose-light:#f5e8e4;
+  --sema:#1a4a6a;--sema-light:#e4eef5;--sema-mid:#c9e8f0;
+  --tirz:#5a3a1a;--tirz-light:#f5ece4;--tirz-mid:#f0d9c9;
+  --reta:#1a4a2a;--reta-light:#e4f0e8;--reta-mid:#c9f0d9;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.brand-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:var(--cream);text-transform:uppercase}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{font-size:.75rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.3rem .6rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+.nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+/* HERO */
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2rem 2rem 1.75rem}
+.hero-inner{max-width:900px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--cream);font-weight:300;margin-bottom:.4rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.9rem;color:var(--tan)}
+/* DRUG SELECTOR */
+.drug-selector{background:var(--card);border-bottom:2px solid var(--border);padding:1.25rem 2rem;display:flex;gap:.75rem;flex-wrap:wrap;align-items:center;max-width:100%}
+.drug-label{font-size:.75rem;font-weight:700;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;margin-right:.25rem;white-space:nowrap}
+.drug-btn{padding:.5rem 1.1rem;border-radius:8px;border:2px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s;white-space:nowrap}
+.drug-btn.sema{color:var(--sema)}
+.drug-btn.sema:hover,.drug-btn.sema.active{background:var(--sema);border-color:var(--sema);color:white}
+.drug-btn.tirz{color:var(--tirz)}
+.drug-btn.tirz:hover,.drug-btn.tirz.active{background:var(--tirz);border-color:var(--tirz);color:white}
+.drug-btn.reta{color:var(--reta)}
+.drug-btn.reta:hover,.drug-btn.reta.active{background:var(--reta);border-color:var(--reta);color:white}
+/* MODE TOGGLE */
+.mode-bar{background:var(--surface);border-bottom:1px solid var(--border);padding:.75rem 2rem;display:flex;gap:.5rem;align-items:center}
+.mode-label{font-size:.72rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-right:.25rem}
+.mode-btn{padding:.35rem .85rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;color:var(--ink-2);transition:all .15s}
+.mode-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold)}
+.warning-pill{background:var(--rose-light);border:1px solid var(--rose);border-radius:20px;padding:.3rem .85rem;font-size:.72rem;font-weight:600;color:var(--rose);margin-left:auto}
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:1.5rem 2rem 4rem}
+/* DRUG HEADER */
+.drug-header{border-radius:10px;padding:1rem 1.25rem;margin-bottom:1.25rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.drug-header.sema{background:var(--sema);color:white}
+.drug-header.tirz{background:var(--tirz);color:white}
+.drug-header.reta{background:var(--reta);color:white}
+.drug-header-name{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:300;letter-spacing:.02em}
+.drug-header-class{font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;opacity:.8}
+.drug-header-vial{font-family:'JetBrains Mono',monospace;font-size:.82rem;background:rgba(255,255,255,.15);padding:.3rem .75rem;border-radius:20px}
+/* CALC GRID */
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;margin-bottom:1.25rem}
+@media(max-width:580px){.calc-grid{grid-template-columns:1fr}}
+.calc-card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:1.25rem}
+.calc-section-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.field{margin-bottom:.9rem}
+.field label{display:block;font-size:.82rem;font-weight:500;color:var(--ink-2);margin-bottom:.3rem}
+.field input,.field select{width:100%;padding:.55rem .8rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.88rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.field .hint{font-size:.72rem;color:var(--ink-3);margin-top:.2rem}
+/* QUICK DOSE */
+.quick-label{font-size:.7rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+.quick-btns{display:flex;flex-wrap:wrap;gap:.4rem;margin-bottom:.75rem}
+.quick-btn{padding:.32rem .7rem;border:1.5px solid var(--border);border-radius:20px;background:var(--card);font-family:'JetBrains Mono',monospace;font-size:.78rem;cursor:pointer;color:var(--ink-2);transition:all .15s;white-space:nowrap}
+.quick-btn:hover{border-color:var(--gold);color:var(--gold)}
+.quick-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold-mid)}
+/* RESULTS */
+.result-row{border-radius:8px;padding:.8rem 1rem;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+.result-row.gold{background:var(--gold)}
+.result-row.dark{background:var(--charcoal)}
+.r-label{font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.r-sub{font-size:.68rem;margin-top:.1rem}
+.result-row.gold .r-label,.result-row.gold .r-sub{color:var(--charcoal-2)}
+.result-row.dark .r-label,.result-row.dark .r-sub{color:var(--tan)}
+.r-val{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600}
+.result-row.gold .r-val{color:var(--charcoal);font-size:1.5rem;font-weight:700}
+.result-row.dark .r-val{color:var(--gold-mid)}
+.syringe-wrap{margin-top:.6rem}
+.syringe-lbl{font-size:.68rem;color:var(--ink-3);margin-bottom:.35rem;font-weight:500}
+.syringe-bar{background:var(--charcoal-light);border-radius:4px;height:10px;overflow:hidden}
+.syringe-fill{background:linear-gradient(90deg,var(--gold-dark),var(--gold));height:100%;border-radius:4px;transition:width .4s ease;min-width:2px}
+.syringe-scale{display:flex;justify-content:space-between;margin-top:2px;font-size:.6rem;color:var(--ink-3);font-family:'JetBrains Mono',monospace}
+/* TITRATION TABLE */
+.table-wrap{background:var(--card);border:1.5px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:1.25rem}
+.table-header{padding:.7rem 1.1rem;font-size:.72rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase}
+.table-header.sema{background:var(--sema);color:var(--sema-mid)}
+.table-header.tirz{background:var(--tirz);color:var(--tirz-mid)}
+.table-header.reta{background:var(--reta);color:var(--reta-mid)}
+.tit-table{width:100%;border-collapse:collapse;font-size:.83rem}
+.tit-table th{padding:.5rem .9rem;text-align:left;font-size:.68rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3);border-bottom:1px solid var(--border);background:var(--surface)}
+.tit-table td{padding:.55rem .9rem;border-bottom:1px solid var(--border);color:var(--ink-2);font-family:'JetBrains Mono',monospace;font-size:.8rem}
+.tit-table tr:last-child td{border-bottom:none}
+.tit-table td:first-child{color:var(--ink);font-family:'Inter',sans-serif;font-weight:600}
+.tit-table tr.current td{background:var(--gold-light);color:var(--gold-dark);font-weight:600}
+.tit-table tr.current td:first-child{color:var(--gold-dark)}
+/* CONVERSION TABLE */
+.conv-scroll{overflow-x:auto}
+.conv-table{width:100%;border-collapse:collapse;min-width:400px;font-size:.82rem}
+.conv-table th{padding:.5rem .85rem;text-align:center;font-size:.68rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);border-bottom:2px solid var(--border);background:var(--surface)}
+.conv-table th:first-child{text-align:left}
+.conv-table td{padding:.5rem .85rem;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.8rem;text-align:center;color:var(--ink-2)}
+.conv-table td:first-child{font-weight:600;color:var(--ink);font-family:'Inter',sans-serif;text-align:left}
+.conv-table tr:last-child td{border-bottom:none}
+.col-a{background:var(--gold-light);color:var(--gold-dark);font-weight:600}
+.col-b{background:var(--cream-2);color:var(--tan-dark);font-weight:600}
+/* NOTES */
+.note-box{background:var(--gold-light);border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:.85rem 1rem;font-size:.83rem;color:var(--tan-dark);line-height:1.7;margin-bottom:1.25rem}
+.warn-box{background:var(--rose-light);border-left:3px solid var(--rose);border-radius:0 8px 8px 0;padding:.85rem 1rem;font-size:.83rem;color:var(--rose);line-height:1.7;margin-bottom:1.25rem}
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="brand-text">Enchanted</span>
+    <span class="nav-tag">GLP-1 Calculator</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="library.html">📚 Library</a>
+    <a href="calculator.html">⚗ Calc</a>
+    <a href="lab-values.html">🧪 Labs</a>
+    <a href="sop-library.html">📋 SOPs</a>
+    <a href="glp1-calculator.html" class="active">💉 GLP-1</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Clinical Dosing Tool — Licensed Staff Only</div>
+    <h1>GLP-1 <em>Dose & Units</em> Calculator</h1>
+    <p>Select a medication and dosing mode. All calculations use Enchanted Medical Aesthetics pharmacy concentrations.</p>
+  </div>
+</div>
+
+<div class="drug-selector">
+  <span class="drug-label">Medication:</span>
+  <button class="drug-btn sema active" onclick="selectDrug('sema',this)">💉 Semaglutide</button>
+  <button class="drug-btn tirz" onclick="selectDrug('tirz',this)">💉 Tirzepatide</button>
+  <button class="drug-btn reta" onclick="selectDrug('reta',this)">💉 Retatrutide</button>
+</div>
+
+<div class="mode-bar">
+  <span class="mode-label">Dosing Mode:</span>
+  <button class="mode-btn active" onclick="selectMode('standard',this)">📋 Standard Protocol</button>
+  <button class="mode-btn" onclick="selectMode('micro',this)">🔬 Microdosing</button>
+  <span class="warning-pill" id="reta-warn" style="display:none">⚠ Investigational — Prescriber Auth Required</span>
+</div>
+
+<div class="main">
+  <div id="drug-header" class="drug-header sema">
+    <div>
+      <div class="drug-header-name" id="dh-name">Semaglutide</div>
+      <div class="drug-header-class" id="dh-class">GLP-1 Receptor Agonist · Once Weekly SQ</div>
+    </div>
+    <div class="drug-header-vial" id="dh-vial">2.5 mg/mL · 5 mg/2 mL vial</div>
+  </div>
+
+  <div class="calc-grid">
+    <div class="calc-card">
+      <div class="calc-section-title">Inputs</div>
+      <div class="field">
+        <label id="conc-label">Concentration (mg/mL)</label>
+        <input type="number" id="f-conc" value="2.5" min="0.1" step="0.1" oninput="calculate()">
+        <div class="hint" id="conc-hint">Enchanted standard: 2.5 mg/mL (5 mg/2 mL vial)</div>
+      </div>
+      <div class="field" id="vial-field" style="display:none">
+        <label>Vial Size</label>
+        <select id="f-vial" onchange="updateRetaConc()">
+          <option value="30">30 mg vial (+ 3 mL BAC → 10 mg/mL)</option>
+          <option value="60">60 mg vial (+ 3 mL BAC → 20 mg/mL)</option>
+        </select>
+      </div>
+      <div class="field">
+        <label id="dose-label">Prescribed Dose (mg)</label>
+        <input type="number" id="f-dose" value="0.25" min="0.01" step="0.05" oninput="syncQuick();calculate()">
+        <div class="hint" id="dose-hint">Per prescriber order — do not adjust without authorization</div>
+      </div>
+      <div class="quick-label">Quick Dose</div>
+      <div class="quick-btns" id="quick-btns"></div>
+      <div class="field" id="micro-freq-field" style="display:none">
+        <label>Injection Frequency</label>
+        <select id="f-freq" onchange="calculate()">
+          <option value="1">Once weekly</option>
+          <option value="2">Twice weekly (Mon/Thu)</option>
+          <option value="3">3× weekly (Mon/Wed/Fri)</option>
+        </select>
+        <div class="hint">Microdosing splits weekly dose into smaller more frequent injections</div>
+      </div>
+    </div>
+    <div class="calc-card">
+      <div class="calc-section-title">Results</div>
+      <div id="results-area"></div>
+    </div>
+  </div>
+
+  <div id="titration-wrap" class="table-wrap">
+    <div class="table-header sema" id="tit-header">📋 Standard Titration Schedule — Semaglutide</div>
+    <div class="conv-scroll"><table class="tit-table"><thead id="tit-head"></thead><tbody id="tit-body"></tbody></table></div>
+  </div>
+
+  <div id="conv-wrap" class="table-wrap" style="display:none">
+    <div class="table-header reta" id="conv-header">📊 Units Conversion Chart — Retatrutide</div>
+    <div class="conv-scroll"><table class="conv-table"><thead id="conv-head"></thead><tbody id="conv-body"></tbody></table></div>
+  </div>
+
+  <div id="notes-area"></div>
+</div>
+
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Not a substitute for prescriber judgment</footer>
+
+<script>
+var DRUG = 'sema';
+var MODE = 'standard';
+
+var DRUGS = {
+  sema: {
+    name: 'Semaglutide',
+    cls: 'sema',
+    drugClass: 'GLP-1 Receptor Agonist · Once Weekly SQ',
+    vialLabel: '2.5 mg/mL · 5 mg/2 mL vial',
+    defaultConc: 2.5,
+    concHint: 'Enchanted standard: 2.5 mg/mL (5 mg/2 mL vial) · 1 mL = 100 units',
+    standardDoses: [0.25, 0.5, 1.0, 1.7, 2.4],
+    microDoses: [0.1, 0.125, 0.25, 0.5, 0.75, 1.0],
+    standardTitration: [
+      {period:'Weeks 1–4',dose:'0.25 mg',units:'10 units',notes:'Initiation dose — do not exceed'},
+      {period:'Weeks 5–8',dose:'0.5 mg',units:'20 units',notes:'8-week F/U refill Rx'},
+      {period:'Weeks 9–12',dose:'1.0 mg',units:'40 units',notes:'Continue if tolerating well'},
+      {period:'Weeks 13–16',dose:'1.7 mg',units:'68 units',notes:'Per prescriber order'},
+      {period:'Week 17+',dose:'2.4 mg',units:'96 units',notes:'Max dose — per prescriber'},
+    ],
+    microTitration: [
+      {period:'Weeks 1–4',dose:'0.1 mg',units:'4 units',notes:'Ultra-low start for sensitive patients'},
+      {period:'Weeks 5–8',dose:'0.125 mg',units:'5 units',notes:'Hold longer if any GI symptoms'},
+      {period:'Weeks 9–12',dose:'0.25 mg',units:'10 units',notes:'Standard starting dose reached'},
+      {period:'Weeks 13–16',dose:'0.5 mg',units:'20 units',notes:'Increase by 10 units vs doubling after wk 8'},
+      {period:'Weeks 17–20',dose:'0.75 mg',units:'30 units',notes:'Gradual step-up'},
+      {period:'Weeks 21–24',dose:'1.0 mg',units:'40 units',notes:'Continue per tolerability & response'},
+      {period:'Week 25+',dose:'Per provider',units:'Per provider',notes:'Continue standard titration from here'},
+    ],
+    stdNote: '📋 <strong>Semaglutide Standard Protocol:</strong> 2.5 mg/mL vial (5 mg/2 mL). Administer once weekly SQ — abdomen, thigh, or upper arm. Rotate sites. Store refrigerated 2–8°C. Discard 28 days after first use. Prescribe Zofran PRN + stool softener prophylactically at program start. Can increase by 10 units instead of doubling after 8-week mark. Hold dose escalation if GI intolerance. Patient may stay at any dose longer than 4 weeks — drug tolerability and weight loss are patient dependent.',
+    microNote: '🔬 <strong>Semaglutide Microdosing:</strong> Off-label protocol for patients sensitive to GLP-1 side effects or those who discontinued due to nausea on standard dosing. Start at 0.1–0.125 mg weekly and titrate based on tolerability. Microdosing does not produce the same weight loss as standard titration — typically 5–8% vs 15% at full dose. Best for: highly sensitive patients, maintenance after goal weight achieved, or patients who need slower GI adaptation. Always document off-label consent.',
+  },
+  tirz: {
+    name: 'Tirzepatide',
+    cls: 'tirz',
+    drugClass: 'GIP + GLP-1 Dual Agonist · Once Weekly SQ',
+    vialLabel: '10 mg/mL · 3 mL vial (order one 3 mL vial)',
+    defaultConc: 10,
+    concHint: 'Enchanted standard: 10 mg/mL (5 mg/0.5 mL = 10 mg/1 mL · order ONE 3 mL vial)',
+    standardDoses: [2.5, 5, 7.5, 10, 12.5, 15],
+    microDoses: [0.5, 1.0, 1.25, 2.0, 2.5, 3.75, 5.0],
+    standardTitration: [
+      {period:'Weeks 1–4',dose:'2.5 mg',units:'25 units',notes:'Initiation dose'},
+      {period:'Weeks 5–8',dose:'5 mg',units:'50 units',notes:'2 mL used from vial at end of wk 8'},
+      {period:'Weeks 9–12',dose:'7.5 mg',units:'75 units',notes:'3 mL used from vial at end of wk 12'},
+      {period:'Weeks 13–16',dose:'10 mg',units:'100 units',notes:'Per prescriber order'},
+      {period:'Weeks 17–20',dose:'12.5 mg',units:'125 units',notes:'Per prescriber order'},
+      {period:'Week 21+',dose:'15 mg',units:'150 units',notes:'Max dose — per prescriber'},
+    ],
+    microTitration: [
+      {period:'Weeks 1–4',dose:'0.5 mg',units:'5 units',notes:'Well below standard start — gentle acclimation'},
+      {period:'Weeks 5–8',dose:'1.0 mg',units:'10 units',notes:'Increase only if well tolerated'},
+      {period:'Weeks 9–12',dose:'1.25 mg',units:'12.5 units',notes:'Optional intermediate step'},
+      {period:'Weeks 13–16',dose:'2.0 mg',units:'20 units',notes:'Building toward standard start dose'},
+      {period:'Weeks 17–20',dose:'2.5 mg',units:'25 units',notes:'Standard start dose reached'},
+      {period:'Weeks 21–24',dose:'3.75 mg',units:'37.5 units',notes:'Intermediate step before 5 mg'},
+      {period:'Week 25+',dose:'5.0 mg+',units:'50+ units',notes:'Continue standard titration from here'},
+    ],
+    stdNote: '📋 <strong>Tirzepatide Standard Protocol:</strong> 10 mg/mL (5 mg/0.5 mL = 10 mg/1 mL). Order ONE 3 mL vial. Can be administered with or without food. Store refrigerated 2–8°C. GI side effects are more pronounced than semaglutide at initiation — Zofran PRN + stool softener are essential at program start. If changing injection day, ensure previous dose was given 3+ days before. Drug tolerability and weight loss are patient dependent. Patient may remain at any dose longer than 4 weeks.',
+    microNote: '🔬 <strong>Tirzepatide Microdosing:</strong> Off-label protocol. Standard start (2.5 mg) may cause significant nausea — especially in women (2.5× higher nausea rate than men). Microdosing begins at 0.5–1.0 mg weekly and titrates gradually. At 10 mg/mL concentration, small doses require very precise measurement (5 units = 0.5 mg = 0.05 mL). Use insulin syringe carefully. Twice-weekly split dosing (total dose ÷ 2, inject Mon/Thu) reduces peak drug concentration by ~28% and may reduce nausea. Document off-label consent.',
+  },
+  reta: {
+    name: 'Retatrutide',
+    cls: 'reta',
+    drugClass: 'GIP + GLP-1 + Glucagon Triple Agonist · Once Weekly SQ · ⚠ INVESTIGATIONAL',
+    vialLabel: '30 mg + 3 mL BAC → 10 mg/mL · or · 60 mg + 3 mL BAC → 20 mg/mL',
+    defaultConc: 10,
+    concHint: 'Enchanted: 30 mg vial + 3 mL BAC = 10 mg/mL · 60 mg vial + 3 mL BAC = 20 mg/mL',
+    standardDoses: [1, 2, 4, 8, 12],
+    microDoses: [0.5, 1.0, 2.0, 3.0, 4.0, 6.0, 8.0],
+    standardTitration: [
+      {period:'Weeks 1–4',dose:'1 mg',units:'10 units @ 10mg/mL · 5 units @ 20mg/mL',notes:'Starting dose — hold full 4 weeks minimum'},
+      {period:'Weeks 5–8',dose:'2 mg',units:'20 units @ 10mg/mL · 10 units @ 20mg/mL',notes:'Escalate only if well tolerated'},
+      {period:'Weeks 9–12',dose:'4 mg',units:'40 units @ 10mg/mL · 20 units @ 20mg/mL',notes:'Phase 2 trial escalation point'},
+      {period:'Weeks 13–16',dose:'8 mg',units:'80 units @ 10mg/mL · 40 units @ 20mg/mL',notes:'Per prescriber order'},
+      {period:'Week 17+',dose:'Up to 12 mg',units:'120 units @ 10mg/mL · 60 units @ 20mg/mL',notes:'Max studied dose — not all patients need this'},
+    ],
+    microTitration: [
+      {period:'Weeks 1–4',dose:'0.5 mg',units:'5 units @ 10mg/mL',notes:'Sub-clinical micro start — gentlest option'},
+      {period:'Weeks 5–8',dose:'1.0 mg',units:'10 units @ 10mg/mL',notes:'Standard starting dose reached'},
+      {period:'Weeks 9–12',dose:'2.0 mg',units:'20 units @ 10mg/mL',notes:'Continue gradual escalation'},
+      {period:'Weeks 13–16',dose:'3.0 mg',units:'30 units @ 10mg/mL',notes:'Intermediate step — monitor HR and BP'},
+      {period:'Weeks 17–20',dose:'4.0 mg',units:'40 units @ 10mg/mL',notes:'Per prescriber order'},
+      {period:'Weeks 21–24',dose:'6.0 mg',units:'60 units @ 10mg/mL',notes:'Approaching standard escalation'},
+      {period:'Week 25+',dose:'8–12 mg',units:'Per standard titration',notes:'Continue per standard protocol'},
+    ],
+    stdNote: '📋 <strong>Retatrutide Standard Protocol:</strong> Lyophilized — reconstitute 30 mg + 3 mL BAC = 10 mg/mL, or 60 mg + 3 mL BAC = 20 mg/mL. Refrigerate after reconstitution. Use 60 mg vial for higher doses (avoids >1 mL injection volume at 10 mg/mL). Phase 2 protocol: 4-week intervals between escalation steps. Not all patients need or tolerate 12 mg. Monitor BP and HR at every visit — glucagon receptor component elevates HR more than semaglutide/tirzepatide. Most pronounced GI side effects of all three agents.',
+    microNote: '🔬 <strong>Retatrutide Microdosing:</strong> Off-label — no clinical trials. Based on pharmacokinetic modeling. Starting at 10 units (0.5 mg at 10 mg/mL) is a conservative sub-clinical start. Twice-weekly split dosing (total ÷ 2, Mon/Thu) reduces peak concentration ~28%, three-times weekly (Mon/Wed/Fri) reduces ~35%. Retatrutide has a 6-day half-life — slightly longer than tirzepatide — so the curve is already relatively flat on once-weekly dosing. Microdosing is primarily for GI sensitivity management. <strong>⚠ Investigational compound — prescriber authorization and written informed consent required before every prescription.</strong>',
+  }
+};
+
+function selectDrug(d, btn) {
+  DRUG = d;
+  document.querySelectorAll('.drug-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById('reta-warn').style.display = d === 'reta' ? 'inline-block' : 'none';
+  document.getElementById('vial-field').style.display = d === 'reta' ? 'block' : 'none';
+  var drug = DRUGS[d];
+  // Update header
+  var hdr = document.getElementById('drug-header');
+  hdr.className = 'drug-header ' + d;
+  document.getElementById('dh-name').textContent = drug.name;
+  document.getElementById('dh-class').textContent = drug.drugClass;
+  document.getElementById('dh-vial').textContent = drug.vialLabel;
+  // Update conc
+  document.getElementById('f-conc').value = drug.defaultConc;
+  document.getElementById('conc-hint').textContent = drug.concHint;
+  // Update table header
+  var th = document.getElementById('tit-header');
+  th.className = 'table-header ' + d;
+  // Conv table
+  document.getElementById('conv-wrap').style.display = d === 'reta' ? 'block' : 'none';
+  if (d === 'reta') buildConvTable();
+  updateQuickBtns();
+  buildTitration();
+  buildNotes();
+  calculate();
+}
+
+function selectMode(m, btn) {
+  MODE = m;
+  document.querySelectorAll('.mode-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  document.getElementById('micro-freq-field').style.display = m === 'micro' ? 'block' : 'none';
+  updateQuickBtns();
+  buildTitration();
+  buildNotes();
+  calculate();
+}
+
+function updateQuickBtns() {
+  var drug = DRUGS[DRUG];
+  var doses = MODE === 'micro' ? drug.microDoses : drug.standardDoses;
+  var el = document.getElementById('quick-btns');
+  var curDose = parseFloat(document.getElementById('f-dose').value);
+  el.innerHTML = doses.map(function(d) {
+    return '<button class="quick-btn' + (d === curDose ? ' active' : '') + '" onclick="setDose(' + d + ',this)">' + d + ' mg</button>';
+  }).join('');
+}
+
+function setDose(d, btn) {
+  document.getElementById('f-dose').value = d;
+  document.querySelectorAll('.quick-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  highlightRow(d);
+  calculate();
+}
+
+function syncQuick() {
+  var d = parseFloat(document.getElementById('f-dose').value);
+  document.querySelectorAll('.quick-btn').forEach(function(b){
+    b.classList.toggle('active', parseFloat(b.textContent) === d);
+  });
+  highlightRow(d);
+}
+
+function highlightRow(d) {
+  var rows = document.querySelectorAll('#tit-body tr');
+  rows.forEach(function(r){ r.classList.remove('current'); });
+  rows.forEach(function(r){
+    var doseCell = r.cells[1];
+    if (doseCell && doseCell.textContent.trim().indexOf(d + ' mg') === 0) r.classList.add('current');
+  });
+}
+
+function updateRetaConc() {
+  var v = parseInt(document.getElementById('f-vial').value);
+  document.getElementById('f-conc').value = v === 30 ? 10 : 20;
+  buildConvTable();
+  calculate();
+}
+
+function calculate() {
+  var conc = parseFloat(document.getElementById('f-conc').value) || 1;
+  var dose = parseFloat(document.getElementById('f-dose').value) || 0.25;
+  var freq = parseInt(document.getElementById('f-freq').value) || 1;
+  var perInj = MODE === 'micro' ? dose / freq : dose;
+  var vol = perInj / conc;
+  var u100 = (vol * 100).toFixed(1);
+  var u30 = (vol * 100).toFixed(1); // same scale
+  var vialMg = DRUG === 'reta' ? parseInt(document.getElementById('f-vial') ? document.getElementById('f-vial').value : 30) : (DRUG === 'sema' ? 5 : 30);
+  var dosesPerVial = Math.floor(vialMg / dose);
+  var weeksPerVial = dosesPerVial;
+  var warn = vol > 1 ? '⚠ Exceeds 1 mL — use 60mg vial or split injection' : vol > 0.3 ? 'Use 1 mL (100-unit) syringe' : '30-unit (3/10 mL) syringe OK';
+
+  var freqLabel = freq === 1 ? 'per injection (once weekly)' : 'per injection (' + (freq === 2 ? 'Mon/Thu' : 'Mon/Wed/Fri') + ')';
+
+  document.getElementById('results-area').innerHTML =
+    '<div class="result-row gold" style="margin-bottom:.5rem"><div><div class="r-label">Draw Volume</div><div class="r-sub">' + freqLabel + '</div></div><div class="r-val">' + vol.toFixed(3) + ' mL</div></div>' +
+    '<div class="result-row dark" style="margin-bottom:.5rem"><div><div class="r-label">100-unit (1mL) syringe</div><div class="r-sub">Draw to this many units</div></div><div class="r-val">' + u100 + ' units</div></div>' +
+    '<div class="result-row dark" style="margin-bottom:.5rem"><div><div class="r-label">30-unit (3/10mL) syringe</div><div class="r-sub">Draw to this many units</div></div><div class="r-val">' + u30 + ' units</div></div>' +
+    (MODE === 'standard' ? '<div class="result-row dark" style="margin-bottom:.5rem"><div><div class="r-label">Doses per vial</div><div class="r-sub">At current dose</div></div><div class="r-val">' + dosesPerVial + ' doses</div></div>' +
+    '<div class="result-row dark" style="margin-bottom:.5rem"><div><div class="r-label">Weeks of supply</div><div class="r-sub">Once weekly dosing</div></div><div class="r-val">' + weeksPerVial + ' weeks</div></div>' : '') +
+    '<div style="background:' + (vol > 1 ? 'var(--rose-light)' : 'var(--gold-light)') + ';border-radius:7px;padding:.5rem .75rem;font-size:.75rem;color:' + (vol > 1 ? 'var(--rose)' : 'var(--gold-dark)') + ';margin-top:.4rem;font-weight:600">' + warn + '</div>' +
+    '<div class="syringe-wrap"><div class="syringe-lbl">Volume visual (vs 1 mL max)</div><div class="syringe-bar"><div class="syringe-fill" style="width:' + Math.min(vol/1.0*100,100) + '%"></div></div><div class="syringe-scale"><span>0</span><span>0.25</span><span>0.5</span><span>0.75</span><span>1.0mL</span></div></div>';
+}
+
+function buildTitration() {
+  var drug = DRUGS[DRUG];
+  var rows = MODE === 'micro' ? drug.microTitration : drug.standardTitration;
+  var title = (MODE === 'micro' ? '🔬 Microdosing Titration Schedule — ' : '📋 Standard Titration Schedule — ') + drug.name;
+  document.getElementById('tit-header').textContent = title;
+  document.getElementById('tit-head').innerHTML = '<tr><th>Period</th><th>Dose</th><th>Units</th><th>Notes</th></tr>';
+  document.getElementById('tit-body').innerHTML = rows.map(function(r) {
+    return '<tr><td>' + r.period + '</td><td>' + r.dose + '</td><td>' + r.units + '</td><td>' + r.notes + '</td></tr>';
+  }).join('');
+}
+
+function buildConvTable() {
+  document.getElementById('conv-header').textContent = '📊 Units Conversion Chart — Retatrutide (Both Vial Sizes)';
+  document.getElementById('conv-head').innerHTML = '<tr><th>Dose</th><th class="col-a">10 mg/mL (30mg + 3mL BAC)</th><th class="col-b">20 mg/mL (60mg + 3mL BAC)</th></tr>';
+  var doses = [1,2,3,4,6,8,10,12];
+  document.getElementById('conv-body').innerHTML = doses.map(function(d) {
+    var u10 = (d/10*100).toFixed(0) + ' units / ' + (d/10).toFixed(2) + ' mL';
+    var u20 = (d/20*100).toFixed(0) + ' units / ' + (d/20).toFixed(2) + ' mL';
+    var warn = d/10 > 1 ? ' ⚠' : '';
+    return '<tr><td>' + d + ' mg</td><td class="col-a">' + u10 + warn + '</td><td class="col-b">' + u20 + '</td></tr>';
+  }).join('');
+}
+
+function buildNotes() {
+  var drug = DRUGS[DRUG];
+  var note = MODE === 'micro' ? drug.microNote : drug.stdNote;
+  var warn = DRUG === 'reta' ? '<div class="warn-box" style="margin-bottom:1rem">⚠ <strong>Retatrutide is NOT FDA-approved.</strong> Investigational compound. Prescriber authorization and signed informed consent required before every prescription. Monitor BP and HR at every visit — glucagon receptor activity causes greater HR elevation than semaglutide or tirzepatide.</div>' : '';
+  document.getElementById('notes-area').innerHTML = warn + '<div class="note-box">' + note + '</div>';
+}
+
+// Init
+updateQuickBtns();
+buildTitration();
+buildNotes();
+calculate();
+</script>
+</body>
+</html>
