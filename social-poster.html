@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Social Media Poster | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root {
+  --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+  --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+  --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+  --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+  --cream:#fdf9f0;--cream-2:#f0e8d4;
+  --ok:#2e7d4f;--ok-bg:#eaf7ef;--err:#b8392b;--err-bg:#fcecea;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:.25rem}
+.nav-links a{font-size:.78rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.35rem .7rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+.nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2.5rem 2rem 2rem}
+.hero-inner{max-width:820px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
+.hero h1{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);line-height:1.15;letter-spacing:-.02em;color:var(--cream);margin-bottom:.5rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.9rem;color:var(--tan);max-width:560px}
+.main{max-width:820px;margin:0 auto;padding:2rem}
+.panel{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.5rem;margin-bottom:1.5rem}
+.panel-title{font-size:.7rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;display:flex;align-items:center;justify-content:space-between}
+.panel-title button{font-size:.7rem;font-weight:600;letter-spacing:.05em;color:var(--gold-dark);background:none;border:1px solid var(--border);border-radius:20px;padding:4px 12px;cursor:pointer;text-transform:none}
+.panel-title button:hover{border-color:var(--gold)}
+.notice{background:var(--gold-light);border:1px solid var(--gold-mid);border-radius:8px;padding:.9rem 1.1rem;font-size:.82rem;color:var(--ink-2);margin-bottom:1.5rem}
+.notice strong{color:var(--gold-dark)}
+.notice ol,.notice ul{margin:.5rem 0 0 1.1rem}
+.notice li{margin-bottom:.3rem}
+.notice code{background:rgba(0,0,0,.06);padding:1px 5px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:.78rem}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.82rem;font-weight:500;color:var(--ink-2);margin-bottom:.35rem}
+.field input,.field textarea{width:100%;padding:.65rem .85rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+.field textarea{font-family:'Inter',sans-serif;font-size:.9rem;resize:vertical;min-height:110px}
+.field input:focus,.field textarea:focus{border-color:var(--gold)}
+.field .hint{font-size:.72rem;color:var(--ink-3);margin-top:.25rem}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.checks{display:flex;gap:1.5rem;margin-bottom:1.2rem;flex-wrap:wrap}
+.check-item{display:flex;align-items:center;gap:.5rem;font-size:.88rem;color:var(--ink-2);background:var(--surface);border:1.5px solid var(--border);border-radius:8px;padding:.6rem 1rem;cursor:pointer;user-select:none}
+.check-item input{width:16px;height:16px;accent-color:var(--gold-dark)}
+.charcount{text-align:right;font-size:.72rem;color:var(--ink-3);margin-top:.2rem}
+.btn-row{display:flex;gap:.75rem;flex-wrap:wrap;margin-top:.5rem}
+.btn{font-family:'Inter',sans-serif;font-size:.85rem;font-weight:600;padding:.7rem 1.4rem;border-radius:8px;cursor:pointer;border:none;transition:opacity .15s}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.btn-primary{background:var(--charcoal);color:var(--gold-mid)}
+.btn-primary:hover:not(:disabled){opacity:.88}
+.btn-secondary{background:none;color:var(--ink-2);border:1.5px solid var(--border)}
+.btn-secondary:hover:not(:disabled){border-color:var(--gold)}
+.log{margin-top:1.5rem;display:flex;flex-direction:column;gap:.6rem}
+.log-item{border-radius:8px;padding:.8rem 1rem;font-size:.85rem;border:1px solid transparent}
+.log-item.ok{background:var(--ok-bg);color:var(--ok);border-color:rgba(46,125,79,.25)}
+.log-item.err{background:var(--err-bg);color:var(--err);border-color:rgba(184,57,43,.25)}
+.log-item a{color:inherit;font-weight:600}
+.log-item .plat{font-weight:700;text-transform:uppercase;font-size:.7rem;letter-spacing:.05em;margin-right:.5rem}
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+.settings-body{display:none}
+.settings-body.visible{display:block}
+@media(max-width:580px){.row2{grid-template-columns:1fr}.nav-name{display:none}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span style="font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:#c9a84c;text-transform:uppercase">Enchanted</span>
+    <span class="nav-tag">Social Poster</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="library.html">📚 Library</a>
+    <a href="calculator.html">⚗ Calculator</a>
+    <a href="social-poster.html" class="active">📣 Social Poster</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Marketing Tool</div>
+    <h1>Post to <em>Facebook &amp; Instagram</em></h1>
+    <p>Compose once and publish to your connected Facebook Page and Instagram Business account using Meta's official Graph API.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <div class="notice">
+    <strong>Before this works, you need Meta credentials.</strong> There's no way for any tool — this one included — to post to your accounts without them; Meta requires it. One-time setup:
+    <ol>
+      <li>Make sure your Instagram account is a <strong>Business/Creator</strong> account linked to your Facebook <strong>Page</strong>.</li>
+      <li>Create an app at <code>developers.facebook.com</code> (Meta for Developers), add the "Facebook Login for Business" / Graph API product.</li>
+      <li>Using the app's <strong>Graph API Explorer</strong>, generate a User Access Token with these permissions: <code>pages_show_list</code>, <code>pages_manage_posts</code>, <code>pages_read_engagement</code>, <code>instagram_basic</code>, <code>instagram_content_publish</code>.</li>
+      <li>Exchange it for a <strong>long-lived Page Access Token</strong> (Graph API Explorer → select your Page → "Get Token" → Page Access Token; then use the "Access Token Debugger" to extend it to ~60 days).</li>
+      <li>Look up your <strong>Page ID</strong> and <strong>Instagram Business Account ID</strong> (Graph API Explorer: <code>GET /me/accounts</code>, then <code>GET /&#123;page-id&#125;?fields=instagram_business_account</code>).</li>
+    </ol>
+    While your account is in "Development Mode" on the Meta app, only accounts with a role on the app (admins/editors) can post — for public/production use, Meta requires an App Review of these permissions.
+  </div>
+
+  <div class="panel">
+    <div class="panel-title">
+      <span>Connection Settings</span>
+      <button type="button" id="settings-toggle" onclick="toggleSettings()">Edit</button>
+    </div>
+    <div class="settings-body" id="settings-body">
+      <div class="field">
+        <label>Page Access Token</label>
+        <input type="password" id="access-token" placeholder="EAAG..." autocomplete="off">
+        <div class="hint">Stored only in this browser (localStorage). Never sent anywhere except graph.facebook.com.</div>
+      </div>
+      <div class="row2">
+        <div class="field">
+          <label>Facebook Page ID</label>
+          <input type="text" id="page-id" placeholder="e.g. 102938475610234">
+        </div>
+        <div class="field">
+          <label>Instagram Business Account ID</label>
+          <input type="text" id="ig-id" placeholder="e.g. 178294857392019">
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-secondary" onclick="testConnection()">Test Connection</button>
+        <button class="btn btn-secondary" onclick="saveSettings()">Save</button>
+        <button class="btn btn-secondary" onclick="clearSettings()">Clear Saved Credentials</button>
+      </div>
+    </div>
+    <div id="settings-summary" style="font-size:.85rem;color:var(--ink-3)"></div>
+  </div>
+
+  <div class="panel">
+    <div class="panel-title"><span>Compose Post</span></div>
+
+    <div class="checks">
+      <label class="check-item"><input type="checkbox" id="post-fb" checked> Post to Facebook Page</label>
+      <label class="check-item"><input type="checkbox" id="post-ig" checked> Post to Instagram</label>
+    </div>
+
+    <div class="field">
+      <label>Caption / Message</label>
+      <textarea id="caption" placeholder="Write your post..." oninput="updateCharCount()"></textarea>
+      <div class="charcount" id="char-count">0 characters</div>
+    </div>
+
+    <div class="field">
+      <label>Image URL <span style="color:var(--ink-3);font-weight:400">(required for Instagram; optional for Facebook)</span></label>
+      <input type="url" id="image-url" placeholder="https://example.com/your-image.jpg">
+      <div class="hint">Instagram's API requires a publicly reachable image URL — it cannot accept a file straight from your computer. Upload your image somewhere public first (e.g. your website, Google Drive share link, Imgur) and paste that link here.</div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="post-btn" onclick="publish()">Publish Post</button>
+    </div>
+
+    <div class="log" id="log"></div>
+  </div>
+
+</div>
+
+<footer>
+  Enchanted Medical Aesthetics &middot; Internal Marketing Tool &middot; Uses the official Meta Graph API — no data passes through any third-party server.
+</footer>
+
+<script>
+const GRAPH = 'https://graph.facebook.com/v19.0';
+
+function loadSettings() {
+  document.getElementById('access-token').value = localStorage.getItem('smp_token') || '';
+  document.getElementById('page-id').value = localStorage.getItem('smp_page_id') || '';
+  document.getElementById('ig-id').value = localStorage.getItem('smp_ig_id') || '';
+  renderSummary();
+}
+
+function renderSummary() {
+  const token = localStorage.getItem('smp_token');
+  const pageId = localStorage.getItem('smp_page_id');
+  const igId = localStorage.getItem('smp_ig_id');
+  const el = document.getElementById('settings-summary');
+  if (token && (pageId || igId)) {
+    el.textContent = `Saved — Page ID: ${pageId || '—'} · Instagram ID: ${igId || '—'} · Token: ${'•'.repeat(8)}`;
+  } else {
+    el.textContent = 'No credentials saved yet. Click "Edit" to add them.';
+  }
+}
+
+function toggleSettings() {
+  const body = document.getElementById('settings-body');
+  body.classList.toggle('visible');
+  document.getElementById('settings-toggle').textContent = body.classList.contains('visible') ? 'Hide' : 'Edit';
+}
+
+function saveSettings() {
+  localStorage.setItem('smp_token', document.getElementById('access-token').value.trim());
+  localStorage.setItem('smp_page_id', document.getElementById('page-id').value.trim());
+  localStorage.setItem('smp_ig_id', document.getElementById('ig-id').value.trim());
+  renderSummary();
+  addLog('ok', 'Settings', 'Credentials saved to this browser.');
+}
+
+function clearSettings() {
+  localStorage.removeItem('smp_token');
+  localStorage.removeItem('smp_page_id');
+  localStorage.removeItem('smp_ig_id');
+  document.getElementById('access-token').value = '';
+  document.getElementById('page-id').value = '';
+  document.getElementById('ig-id').value = '';
+  renderSummary();
+  addLog('ok', 'Settings', 'Saved credentials cleared from this browser.');
+}
+
+function updateCharCount() {
+  const len = document.getElementById('caption').value.length;
+  document.getElementById('char-count').textContent = `${len} characters (Instagram limit: 2,200)`;
+}
+
+function addLog(kind, platform, message, url) {
+  const log = document.getElementById('log');
+  const item = document.createElement('div');
+  item.className = 'log-item ' + kind;
+  item.innerHTML = `<span class="plat">${platform}</span>${message}` + (url ? ` — <a href="${url}" target="_blank" rel="noopener">view</a>` : '');
+  log.prepend(item);
+}
+
+async function graphGet(path, token) {
+  const res = await fetch(`${GRAPH}/${path}${path.includes('?') ? '&' : '?'}access_token=${encodeURIComponent(token)}`);
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error ? data.error.message : `HTTP ${res.status}`);
+  return data;
+}
+
+async function graphPost(path, params) {
+  const res = await fetch(`${GRAPH}/${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: new URLSearchParams(params)
+  });
+  const data = await res.json();
+  if (!res.ok || data.error) throw new Error(data.error ? data.error.message : `HTTP ${res.status}`);
+  return data;
+}
+
+async function testConnection() {
+  const token = document.getElementById('access-token').value.trim();
+  const pageId = document.getElementById('page-id').value.trim();
+  const igId = document.getElementById('ig-id').value.trim();
+  if (!token) { addLog('err', 'Setup', 'Enter an access token first.'); return; }
+
+  if (pageId) {
+    try {
+      const data = await graphGet(`${pageId}?fields=name`, token);
+      addLog('ok', 'Facebook', `Connected to Page "${data.name}".`);
+    } catch (e) {
+      addLog('err', 'Facebook', `Connection failed — ${e.message}`);
+    }
+  }
+  if (igId) {
+    try {
+      const data = await graphGet(`${igId}?fields=username`, token);
+      addLog('ok', 'Instagram', `Connected to @${data.username}.`);
+    } catch (e) {
+      addLog('err', 'Instagram', `Connection failed — ${e.message}`);
+    }
+  }
+}
+
+async function publish() {
+  const token = localStorage.getItem('smp_token') || document.getElementById('access-token').value.trim();
+  const pageId = localStorage.getItem('smp_page_id') || document.getElementById('page-id').value.trim();
+  const igId = localStorage.getItem('smp_ig_id') || document.getElementById('ig-id').value.trim();
+  const caption = document.getElementById('caption').value.trim();
+  const imageUrl = document.getElementById('image-url').value.trim();
+  const toFb = document.getElementById('post-fb').checked;
+  const toIg = document.getElementById('post-ig').checked;
+
+  if (!token) { addLog('err', 'Setup', 'Missing access token — open Connection Settings.'); return; }
+  if (!toFb && !toIg) { addLog('err', 'Setup', 'Select at least one platform to post to.'); return; }
+  if (!caption && !imageUrl) { addLog('err', 'Setup', 'Write a caption or add an image URL.'); return; }
+  if (toIg && !imageUrl) { addLog('err', 'Instagram', 'An image URL is required — Instagram does not support text-only posts.'); return; }
+  if (toIg && !igId) { addLog('err', 'Instagram', 'Missing Instagram Business Account ID.'); return; }
+  if (toFb && !pageId) { addLog('err', 'Facebook', 'Missing Facebook Page ID.'); return; }
+
+  const btn = document.getElementById('post-btn');
+  btn.disabled = true;
+  btn.textContent = 'Publishing...';
+
+  if (toFb) {
+    try {
+      let data;
+      if (imageUrl) {
+        data = await graphPost(`${pageId}/photos`, { url: imageUrl, caption, access_token: token });
+        addLog('ok', 'Facebook', 'Photo post published.', `https://www.facebook.com/${data.post_id || data.id}`);
+      } else {
+        data = await graphPost(`${pageId}/feed`, { message: caption, access_token: token });
+        addLog('ok', 'Facebook', 'Post published.', `https://www.facebook.com/${data.id}`);
+      }
+    } catch (e) {
+      addLog('err', 'Facebook', `Failed to publish — ${e.message}`);
+    }
+  }
+
+  if (toIg) {
+    try {
+      const container = await graphPost(`${igId}/media`, { image_url: imageUrl, caption, access_token: token });
+      const published = await graphPost(`${igId}/media_publish`, { creation_id: container.id, access_token: token });
+      addLog('ok', 'Instagram', 'Post published.', `https://www.instagram.com/p/${published.id}`);
+    } catch (e) {
+      addLog('err', 'Instagram', `Failed to publish — ${e.message}`);
+    }
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Publish Post';
+}
+
+loadSettings();
+updateCharCount();
+</script>
+</body>
+</html>
