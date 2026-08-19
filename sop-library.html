@@ -17,8 +17,6 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh;line-height:1.6}
-
-/* NAV */
 nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 2rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
 .nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
 .nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
@@ -29,8 +27,6 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .nav-links a{font-size:.78rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.35rem .7rem;border-radius:6px;transition:all .15s;white-space:nowrap}
 .nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
 .nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
-
-/* HERO */
 .hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2.5rem 2rem 2rem}
 .hero-inner{max-width:960px;margin:0 auto}
 .hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.6rem}
@@ -42,21 +38,15 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 #search{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:1.5px solid var(--border);border-radius:8px;font-family:'Inter',sans-serif;font-size:.9rem;color:var(--ink);background:var(--cream-2);outline:none;transition:border-color .15s}
 #search:focus{border-color:var(--gold)}
 #search::placeholder{color:var(--ink-3)}
-
-/* FILTER BAR */
 .filter-bar{max-width:960px;margin:0 auto;padding:1.25rem 2rem;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
 .filter-label{font-size:.75rem;font-weight:700;color:var(--ink-3);letter-spacing:.05em;text-transform:uppercase;margin-right:.25rem}
 .filter-btn{padding:.4rem .9rem;border-radius:20px;border:1.5px solid var(--border);background:var(--card);color:var(--ink-2);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:500;cursor:pointer;transition:all .15s}
 .filter-btn:hover{border-color:var(--gold);color:var(--gold)}
 .filter-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold)}
-
-/* LIBRARY WRAP */
 .library-wrap{max-width:960px;margin:0 auto;padding:0 2rem 4rem}
 .section-heading{font-size:.72rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);margin-bottom:1rem;padding-bottom:.5rem;border-bottom:1px solid var(--border)}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1rem;margin-bottom:2.5rem}
 .empty{text-align:center;padding:3rem 1rem;color:var(--ink-3);font-size:.9rem}
-
-/* SOP CARD */
 .card{background:var(--card);border:1.5px solid var(--border);border-radius:10px;padding:1.25rem;cursor:pointer;transition:border-color .15s,box-shadow .15s,transform .12s;display:flex;flex-direction:column;gap:.75rem;position:relative;overflow:hidden}
 .card:hover{border-color:var(--gold);box-shadow:0 4px 16px rgba(184,151,42,.12);transform:translateY(-1px)}
 .card-accent{position:absolute;top:0;left:0;right:0;height:3px;border-radius:10px 10px 0 0}
@@ -68,8 +58,6 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .card p{font-size:.85rem;color:var(--ink-2);line-height:1.55;flex:1}
 .card-meta{display:flex;gap:.75rem;padding-top:.5rem;border-top:1px solid var(--border);font-size:.75rem;color:var(--ink-3);flex-wrap:wrap}
 .card-meta span{display:flex;align-items:center;gap:3px}
-
-/* MODAL */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(10,9,7,.65);backdrop-filter:blur(4px);z-index:200;padding:1.5rem;overflow-y:auto}
 .modal-overlay.open{display:flex;align-items:flex-start;justify-content:center}
 .modal{background:var(--card);border-radius:14px;max-width:760px;width:100%;padding:0;margin:auto;position:relative;box-shadow:0 24px 64px rgba(0,0,0,.2);animation:modalIn .2s ease;overflow:hidden}
@@ -86,8 +74,6 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .modal-body::-webkit-scrollbar{width:4px}
 .modal-body::-webkit-scrollbar-track{background:var(--surface)}
 .modal-body::-webkit-scrollbar-thumb{background:var(--tan);border-radius:2px}
-
-/* SOP CONTENT STYLES */
 .sop-section{margin-bottom:1.5rem}
 .sop-section-title{font-family:'Cormorant Garamond',serif;font-size:1.05rem;font-weight:500;color:var(--charcoal);padding:.5rem 0;border-bottom:2px solid var(--gold);margin-bottom:.85rem;letter-spacing:.01em}
 .sop-text{font-size:.88rem;color:var(--ink-2);line-height:1.75;margin-bottom:.6rem}
@@ -105,7 +91,6 @@ nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);pad
 .modal-footer{background:var(--surface);border-top:1px solid var(--border);padding:.85rem 2rem;display:flex;justify-content:space-between;align-items:center;font-size:.75rem;color:var(--ink-3);flex-wrap:wrap;gap:.5rem}
 .print-btn{padding:.4rem 1rem;background:var(--charcoal);color:var(--gold);border:none;border-radius:6px;font-family:'Inter',sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;letter-spacing:.03em}
 .print-btn:hover{background:var(--charcoal-light)}
-
 footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
 @media(max-width:600px){.hero{padding:2rem 1rem 1.5rem}.filter-bar{padding:1rem}.library-wrap{padding:0 1rem 3rem}.modal{margin:.5rem}.modal-top{padding:1.25rem 1rem}.modal-body{padding:1rem}.grid{grid-template-columns:1fr}}
 </style>
@@ -143,9 +128,9 @@ footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-t
   <span class="filter-label">Category:</span>
   <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
   <button class="filter-btn" onclick="setFilter('clinical',this)">Clinical Protocols</button>
-  <button class="filter-btn" onclick="setFilter('safety',this)">Safety & Emergency</button>
-  <button class="filter-btn" onclick="setFilter('pharmacy',this)">Pharmacy & Dispensing</button>
-  <button class="filter-btn" onclick="setFilter('hr',this)">HR & Operations</button>
+  <button class="filter-btn" onclick="setFilter('safety',this)">Safety &amp; Emergency</button>
+  <button class="filter-btn" onclick="setFilter('pharmacy',this)">Pharmacy &amp; Dispensing</button>
+  <button class="filter-btn" onclick="setFilter('hr',this)">HR &amp; Operations</button>
   <button class="filter-btn" onclick="setFilter('patient',this)">Patient Relations</button>
 </div>
 
@@ -163,6 +148,7 @@ footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-t
 
 <script>
 var SOPS = [
+
   {
     id: 'ema-anesth-001',
     category: 'clinical',
@@ -173,191 +159,495 @@ var SOPS = [
     badgeColor: '#b8972a',
     badgeBg: '#faf6e8',
     name: 'Topical Numbing — Lidocaine 23% / Tetracaine 7%',
-    summary: 'Application of compounded lidocaine/tetracaine topical ointment prior to laser, microneedling, and injectable procedures. Includes toxicity equation and dose calculation.',
-    version: '1.0',
-    date: 'April 13, 2025',
+    summary: 'Application of compounded lidocaine/tetracaine topical ointment prior to laser, microneedling, and injectable procedures. Includes toxicity equation, dose calculation, and the modified protocol for breastfeeding patients.',
+    version: '2.0',
+    date: 'August 7, 2026',
     author: 'Bridget Martin, DNP, APRN, NP-C',
     approver: 'Robert Martin, MD',
     applies: 'All Locations',
     content: `
       <div class="sop-section">
         <div class="sop-section-title">1. Purpose</div>
-        <p class="sop-text">To establish a standardized procedure for the safe application of topical numbing ointment containing lidocaine 23% and tetracaine 7% at Enchanted Medical Aesthetics. This SOP ensures patient safety, procedural efficacy, and Florida regulatory compliance. Includes the lidocaine toxicity equation to prevent systemic toxicity.</p>
+        <p class="sop-text">To establish a standardized procedure for the safe application of topical numbing ointment containing lidocaine 23% and tetracaine 7% at Enchanted Medical Aesthetics. Includes the lidocaine toxicity equation to prevent systemic toxicity, and a modified protocol for breastfeeding patients.</p>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">2. Scope</div>
-        <p class="sop-text">Applies to licensed providers (APRNs, PAs, MDs) and trained medical aestheticians under direct supervision of Bridget Martin, DNP, APRN, NP-C or Robert Martin, MD. Covers pre-compounded lidocaine 23%/tetracaine 7% ointment from a licensed 503A/503B pharmacy applied to intact skin prior to aesthetic procedures. Does NOT cover compounding.</p>
+        <div class="sop-section-title">2. Two Absolute Exclusions</div>
+        <div class="sop-warning">⚠ Under 18 — this practice does not treat patients under 18. There is no parental-consent exception.<br>⚠ Broken skin — no application to cuts, abrasions, inflamed skin, mucous membranes, or eyes.</div>
+        <p class="sop-text"><strong>Breastfeeding is not an exclusion</strong> — it changes the protocol. See Section 8 before applying.</p>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">3. Responsibilities</div>
-        <ul class="sop-list">
-          <li><strong>Medical Director (Robert Martin, MD):</strong> Oversees protocol compliance, approves SOP, manages adverse events.</li>
-          <li><strong>Clinical Liaison (Bridget Martin, DNP, APRN, NP-C):</strong> Supervises staff, verifies patient eligibility, calculates safe doses, applies or delegates application.</li>
-          <li><strong>Licensed Providers (APRNs, PAs):</strong> Assess patients, apply ointment, monitor for toxicity, document in EMR.</li>
-          <li><strong>Medical Aestheticians:</strong> Apply ointment under direct supervision, report adverse reactions, assist with monitoring.</li>
-          <li><strong>Administrative Staff:</strong> Maintain inventory, ensure proper storage, schedule patients to allow adequate numbing time.</li>
-        </ul>
+        <div class="sop-section-title">3. Scope</div>
+        <p class="sop-text">Applies to licensed providers (APRNs, PAs, MDs) and trained medical aestheticians under direct supervision of Bridget Martin, DNP, APRN, NP-C or Robert Martin, MD. Covers pre-compounded lidocaine 23%/tetracaine 7% ointment from a licensed 503A/503B pharmacy applied to intact skin prior to aesthetic procedures.</p>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">4. Materials & Equipment</div>
+        <div class="sop-section-title">4. Materials</div>
         <div class="sop-subheading">Medication</div>
         <ul class="sop-list">
           <li>Pre-compounded Lidocaine 23%/Tetracaine 7% topical ointment (licensed 503A or 503B pharmacy)</li>
           <li>Strength: 230 mg lidocaine and 70 mg tetracaine per gram</li>
         </ul>
-        <div class="sop-subheading">Supplies</div>
-        <ul class="sop-list">
-          <li>Sterile latex-free gloves</li>
-          <li>Alcohol wipes and dry gauze</li>
-          <li>Applicator sticks or gloved hands</li>
-          <li>Measuring guide (ruler for estimating skin area)</li>
-          <li>Timer for tracking application duration</li>
-          <li>Occlusive dressing (e.g., Tegaderm) — if prescribed</li>
-        </ul>
         <div class="sop-subheading">Safety Equipment</div>
         <ul class="sop-list">
-          <li>Pulse oximeter</li>
-          <li>Co-oximeter (if available — for methemoglobinemia detection)</li>
+          <li>Pulse oximeter; co-oximeter if available</li>
           <li>Emergency kit: oxygen, methylene blue (1–2 mg/kg IV), epinephrine</li>
         </ul>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">5. Regulatory Considerations</div>
-        <ul class="sop-list">
-          <li><strong>Florida Law:</strong> Application must be performed by or under direct supervision of a licensed provider (MD, DO, APRN, or PA) per Florida Statutes Chapter 458 and 464.</li>
-          <li><strong>DEA:</strong> Lidocaine and tetracaine are not controlled substances but require a prescription in a med spa setting.</li>
-          <li><strong>FDA:</strong> Topical compounded products must be sourced from a licensed 503A/503B pharmacy.</li>
-          <li><strong>OSHA:</strong> Adhere to bloodborne pathogen and chemical safety protocols during application.</li>
-        </ul>
-      </div>
-
-      <div class="sop-section">
-        <div class="sop-section-title">6. Procedure for Application</div>
-        <div class="sop-subheading">6.1 Pre-Application</div>
-        <p class="sop-text"><strong>Patient Assessment — Review EMR for:</strong></p>
-        <ul class="sop-list">
-          <li>Allergies to lidocaine, tetracaine, amide/ester anesthetics, or PABA derivatives</li>
-          <li>Liver disease (impairs lidocaine metabolism)</li>
-          <li>History of methemoglobinemia or G6PD deficiency</li>
-          <li>Current medications (antiarrhythmics, sulfonamides)</li>
-        </ul>
-        <div class="sop-warning">⚠ Contraindications: Do NOT apply on broken skin, mucous membranes, eyes, or patients under 18 without parental consent.</div>
-        <p class="sop-text"><strong>Dosage:</strong> Use the lidocaine toxicity equation (Section 7). Limit to ≤5 g per session unless individually calculated. Typical area: 2–20 square inches.</p>
-        <p class="sop-text"><strong>Informed Consent:</strong> Explain risks (redness, methemoglobinemia, CNS toxicity). Obtain signed consent and upload to EMR.</p>
-        <p class="sop-text"><strong>Skin Prep:</strong> Inspect for cuts or abrasions — defer if skin is compromised. Clean with alcohol wipe and pat dry.</p>
-
-        <div class="sop-subheading">6.2 Application</div>
+        <div class="sop-section-title">5. Application</div>
         <ul class="sop-list">
           <li>Wear sterile gloves to avoid self-numbing or contamination</li>
-          <li>Set timer: 15–30 minutes standard application time</li>
-          <li>Dispense thin layer (~1 mm thick) with gloved hand or applicator stick</li>
-          <li>Cover only the prescribed area (~0.5–1 g per 10 square inches)</li>
-          <li>Do NOT exceed calculated safe dose (see Section 7)</li>
+          <li>Thin layer, ~1 mm thick, with gloved hand or applicator stick</li>
+          <li>Cover only the prescribed area; do not exceed the calculated safe dose (Section 7)</li>
+          <li>Standard contact time: 15–60 minutes, 60 minutes absolute maximum</li>
         </ul>
-        <div class="sop-note">📋 Occlusion (Tegaderm): Increases absorption — reduce dose by 20% if occluding. Requires APRN/MD approval.</div>
-        <p class="sop-text"><strong>Timing:</strong> 15–30 min for superficial numbing. 45–60 min for deeper procedures (APRN/MD approval required). Maximum contact time: 60 minutes.</p>
-
-        <div class="sop-subheading">6.3 Removal</div>
-        <ul class="sop-list">
-          <li>Wipe off completely with dry gauze, then clean with alcohol wipe</li>
-          <li>Inspect skin for blanching, erythema, or irritation — document in EMR</li>
-          <li>Begin procedure only after confirming adequate numbing and no adverse reactions</li>
-        </ul>
-
-        <div class="sop-subheading">6.4 Post-Application Monitoring</div>
-        <p class="sop-text">Observe patient 30–60 minutes post-removal for:</p>
-        <ul class="sop-list">
-          <li><strong>CNS:</strong> Dizziness, tinnitus, confusion, seizures</li>
-          <li><strong>Cardiovascular:</strong> Bradycardia, hypotension</li>
-          <li><strong>Methemoglobinemia:</strong> Cyanosis, shortness of breath, low O₂ saturation</li>
-        </ul>
-        <div class="sop-warning">🚨 Emergency Response: Remove residual ointment → administer O₂ → patient supine → methylene blue 1–2 mg/kg IV for methemoglobinemia → call 911 for seizures/respiratory distress → document and notify Bridget Martin and Dr. Robert Martin immediately.</div>
+        <div class="sop-note">📋 Occlusion increases absorption — reduce dose by 20% if occluding. Requires APRN/MD approval.</div>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">7. Lidocaine Toxicity Equation & Calculation</div>
-        <p class="sop-text">Maximum safe dose of lidocaine (topical, without vasoconstrictor): <strong>4.5 mg/kg</strong>, not to exceed <strong>300 mg</strong>.</p>
+        <div class="sop-section-title">6. Removal and Monitoring</div>
+        <ul class="sop-list">
+          <li>Wipe off completely with dry gauze, then clean with alcohol wipe</li>
+          <li>Inspect skin for blanching, erythema, or irritation — document</li>
+          <li>Observe 30–60 minutes post-removal for CNS, cardiovascular, or methemoglobinemia signs</li>
+        </ul>
+        <div class="sop-warning">🚨 Emergency Response: Remove residual ointment → administer O₂ → patient supine → methylene blue 1–2 mg/kg IV for methemoglobinemia → call 911 for seizures/respiratory distress → document and notify the medical director immediately.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">7. Lidocaine Toxicity Equation</div>
+        <p class="sop-text">Maximum safe dose of lidocaine (topical, without vasoconstrictor): <strong>4.5 mg/kg</strong>, not to exceed <strong>300 mg</strong>. Tetracaine usually limits the dose, not lidocaine — calculate both.</p>
         <div class="sop-formula">Maximum Lidocaine Dose (mg) = Body Weight (kg) × 4.5 mg/kg
 Maximum Ointment (g) = Maximum Lidocaine Dose (mg) ÷ 230 mg/g
 Tetracaine check: ≤1 mg/kg body weight</div>
-        <div class="sop-subheading">Example Calculation — 60 kg Female, Upper Lip Laser (5 sq in)</div>
-        <div class="sop-formula">Lidocaine max = 60 kg × 4.5 = 270 mg (under 300 mg cap ✓)
-Max ointment = 270 ÷ 230 = 1.17 g
-
-Tetracaine check: 1.17 g × 70 mg/g = 81.9 mg → EXCEEDS 60 mg limit
-Adjust: Max ointment = 60 ÷ 70 = 0.86 g
-Lidocaine in 0.86 g = 0.86 × 230 = 197.8 mg ✓
-
-→ Apply 0.86 g (round to 0.8–0.9 g) to upper lip
-→ Delivers 197.8 mg lidocaine + 60 mg tetracaine — both within safe limits</div>
-        <div class="sop-note">📋 Always verify BOTH lidocaine and tetracaine limits. Tetracaine toxicity threshold is often the limiting factor. Occlusion increases absorption — reduce dose by 20% if using occlusive dressing.</div>
+        <div class="sop-note">📋 Always verify BOTH limits. Occlusion increases absorption — reduce dose by 20% if using occlusive dressing.</div>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">8. Safety Precautions</div>
-        <div class="sop-subheading">Absolute Contraindications</div>
-        <ul class="sop-list">
-          <li>Allergy to lidocaine, tetracaine, or related anesthetics</li>
-          <li>Severe liver disease</li>
-          <li>History of methemoglobinemia or G6PD deficiency</li>
-          <li>Application to broken skin, eyes, or mucous membranes</li>
-          <li>Pediatric patients under 18 without parental consent</li>
-        </ul>
-        <div class="sop-subheading">Storage</div>
-        <ul class="sop-list">
-          <li>Store at 20–25°C in a locked cabinet</li>
-          <li>Check expiration (typically 180 days from compounding per pharmacy label)</li>
-          <li>Keep away from unauthorized personnel</li>
-        </ul>
-        <div class="sop-subheading">Disposal</div>
-        <ul class="sop-list">
-          <li>Dispose of used gauze and residual ointment in biohazard container per OSHA/Florida regulations</li>
-        </ul>
+        <div class="sop-section-title">8. Breastfeeding — Modified Protocol</div>
+        <p class="sop-text">Breastfeeding patients <strong>may</strong> receive topical numbing. Systemic absorption through intact skin is minimal and transfer into milk is low. The modifications below are precautionary and are followed in full.</p>
+        <div class="sop-note">
+          <strong>Six modifications, all required:</strong><br>
+          1. Verify the formulation — lidocaine 23% and tetracaine 7% only, no bupivacaine<br>
+          2. Never near the breast, nipple, areola, or chest<br>
+          3. No occlusive dressing, ever, under any circumstance<br>
+          4. Smallest effective area, thin layer of 1–2 mm<br>
+          5. Remove thoroughly with soap and water before the procedure<br>
+          6. Pump and discard for 4–6 hours after removal
+        </div>
+        <p class="sop-text"><strong>Plan the pumping around the appointment.</strong> Raise this at booking, not check-in — a mother without a pump or expressed milk faces 4–6 hours she hasn't prepared for.</p>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">9. Documentation Requirements</div>
+        <div class="sop-section-title">9. Documentation</div>
         <ul class="sop-list">
-          <li>Date, time, and procedure performed</li>
-          <li>Ointment quantity applied (e.g., 0.8 g)</li>
-          <li>Skin area treated (e.g., 5 square inches)</li>
-          <li>Application time and removal time</li>
-          <li>Skin condition post-removal</li>
-          <li>Patient response (adequate numbing, no adverse effects)</li>
-          <li>Provider/aesthetician initials</li>
-          <li>Any adverse events — log in EMR and notify Bridget Martin or Dr. Robert Martin</li>
+          <li>Date, time, procedure; ointment quantity and skin area treated</li>
+          <li>Application and removal time; skin condition post-removal</li>
           <li>Lot number and expiration date of ointment dispensed</li>
+          <li>For breastfeeding patients: formulation verified, pump-and-discard interval given</li>
         </ul>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">10. Appendix A — Toxicity Symptom Progression</div>
+        <div class="sop-section-title">10. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>Medical Director:</strong> Robert Martin, MD — via office</li>
+          <li><strong>Emergency:</strong> Call 911 for severe reactions; notify medical director immediately</li>
+          <li><strong>All Locations:</strong> Ormond Beach · DeLand · Palm Coast</li>
+        </ul>
+      </div>
+    `
+  },
+
+  {
+    id: 'ema-emerg-001',
+    category: 'safety',
+    icon: '🩸',
+    color: '#8a3a2a',
+    bgColor: '#f5e8e4',
+    badge: 'EMA-EMERG-001',
+    badgeColor: '#8a3a2a',
+    badgeBg: '#f5e8e4',
+    name: 'Vascular Occlusion — Recognition, Prevention & Management',
+    summary: 'One protocol for dermal filler vascular occlusion. Replaces every prior VO document. Region-specific hyaluronidase dosing, vision-loss response, and the whole-face intra-arterial technique.',
+    version: '2.1',
+    date: 'August 7, 2026',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-warning">⚠ Suspected occlusion right now? Go straight to Step 1 below. Any vision change or neurological sign — call 911 and ophthalmology now, before anything else.</div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">1. Recognition</div>
+        <ul class="sop-list">
+          <li>Immediate, disproportionate, severe pain out of keeping with the injection</li>
+          <li>Blanching — a dusky, mottled, or livedoid skin pattern, whiter or grayer than surrounding tissue</li>
+          <li>Delayed capillary refill</li>
+          <li>Any visual disturbance or eye pain — treat as a vision-threatening emergency, see Section 5</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Step 1 — Stop and Assess</div>
+        <ul class="sop-list">
+          <li>Stop injecting immediately</li>
+          <li>Aspirate if using a needle — a negative aspiration does not exclude intravascular placement</li>
+          <li>Confirm hyaluronidase is stocked, in date, and in the room — not another room, not another building</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Hyaluronidase Dosing by Territory</div>
         <table class="sop-table">
-          <thead><tr><th>Stage</th><th>Symptoms</th></tr></thead>
+          <thead><tr><th>Territory</th><th>Dose</th></tr></thead>
           <tbody>
-            <tr><td>Early</td><td>Numbness of lips, tinnitus, lightheadedness, dizziness</td></tr>
-            <tr><td>Progressive</td><td>Confusion, muscle twitching, blurred vision, seizures</td></tr>
-            <tr><td>Severe</td><td>Respiratory arrest, cardiac arrhythmias, cardiovascular collapse</td></tr>
-            <tr><td>Methemoglobinemia</td><td>Cyanosis (blue lips/fingernails), shortness of breath, low O₂ sat, chocolate-brown blood</td></tr>
+            <tr><td>Lips, nose</td><td>30–60 units</td></tr>
+            <tr><td>Cheek, glabella, forehead</td><td>60–150 units</td></tr>
+            <tr><td>Large territory / whole-face pattern</td><td>200–450 units</td></tr>
           </tbody>
         </table>
+        <p class="sop-text">Reassess reperfusion every 30–60 minutes. Repeat dosing if no improvement — do not under-dose out of caution.</p>
       </div>
 
       <div class="sop-section">
-        <div class="sop-section-title">11. Emergency Contacts</div>
+        <div class="sop-section-title">4. CaHA and PLLA Occlusion</div>
+        <p class="sop-text">Neither dissolves. <strong>That does not mean hyaluronidase is withheld.</strong></p>
+        <div class="sop-note">
+          <strong>Give hyaluronidase anyway — it is not for dissolution.</strong><br>
+          600 IU per 0.1 mL of CaHA placed, injected into the affected area to reduce edema and inflammation, despite no direct dissolution of CaHA.<br>
+          Reassess reperfusion every 30–60 minutes. Repeat 600 IU every 2 hours for 3–4 cycles if no improvement.<br>
+          <em>Per expert consensus on intravascular complications following calcium hydroxylapatite (van Loghem et al., 2020).</em>
+        </div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Vision Loss — Time-Critical</div>
+        <div class="sop-warning">🚨 Call EMS and ophthalmology at the same time. Do not finish hyaluronidase first.<br><br>Then start ocular massage and rebreathing immediately — do not simply wait for transfer. Irreversible loss is likely after 60 minutes.</div>
         <ul class="sop-list">
-          <li><strong>Medical Director:</strong> Robert Martin, MD — contact via office</li>
-          <li><strong>Clinical Liaison:</strong> Bridget Martin, DNP, APRN, NP-C — contact via office</li>
-          <li><strong>Emergency:</strong> Call 911 for severe reactions; notify medical director immediately</li>
-          <li><strong>All Locations:</strong> DeLand · Palm Coast · Ormond Beach</li>
+          <li><strong>Ocular massage:</strong> indent the globe 2–3 mm, release 2–3 times per second, for 1–3 hours</li>
+          <li><strong>Rebreathing:</strong> paper bag technique alongside massage</li>
+          <li>Aspirin 325 mg sublingually immediately, then daily</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">6. Adjunct Measures</div>
+        <ul class="sop-list">
+          <li>Sildenafil 50 mg daily × 3–5 days — concurrent use with nitroglycerin permitted at medical director discretion, with BP monitoring</li>
+          <li>Nitroglycerin: apply immediately on suspected necrosis, then every 1–2 hours — HA filler NOT recommended (may worsen ischemia); particulate filler (PLLA/CaHA) recommended</li>
+          <li>Hyperbaric oxygen daily, start ASAP, continue until improved (~2.4 ATA, 100% O₂, ~90 min, ~6 sessions)</li>
+          <li>LMWH within 4 hours for CaHA occlusion</li>
+          <li>Valaciclovir prophylaxis if mucosa involved and HSV history</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">7. No Ultrasound Available?</div>
+        <p class="sop-text">Treat presumptively on clinical signs. Lack of ultrasound is never a reason to delay hyaluronidase.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">8. Documentation and Handoff</div>
+        <p class="sop-text">Give the receiving clinician: product and lot, total volume, every site treated, instrument, time of onset, every intervention with timestamps, cumulative hyaluronidase units, ultrasound findings, photo series.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">9. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>Medical Director:</strong> Robert Martin, MD</li>
+          <li><strong>Emergency:</strong> Call 911; ophthalmology simultaneously for any vision change</li>
+        </ul>
+      </div>
+    `
+  },
+
+  {
+    id: 'ema-emerg-002',
+    category: 'safety',
+    icon: '🚨',
+    color: '#8a3a2a',
+    bgColor: '#f5e8e4',
+    badge: 'EMA-EMERG-002',
+    badgeColor: '#8a3a2a',
+    badgeBg: '#f5e8e4',
+    name: 'Anaphylaxis — Recognition & Immediate Response',
+    summary: 'One protocol for anaphylaxis in this practice. Parallel-action sequencing, epinephrine dosing, and biphasic reaction guidance.',
+    version: '1.0',
+    date: 'August 16, 2026',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-warning">⚠ Active anaphylaxis right now? Go straight to Step 1. Epinephrine is never delayed for anything else on this page.</div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">1. Recognition</div>
+        <table class="sop-table">
+          <thead><tr><th>System</th><th>Signs</th></tr></thead>
+          <tbody>
+            <tr><td>Skin / Mucosal</td><td>Hives, flushing, itching, swelling of lips, tongue, or face</td></tr>
+            <tr><td>Respiratory</td><td>Difficult or noisy breathing, wheeze, throat tightness, difficulty talking</td></tr>
+            <tr><td>Cardiovascular</td><td>Persistent dizziness, fainting, rapid or weak pulse, collapse</td></tr>
+            <tr><td>Gastrointestinal</td><td>Sudden nausea, vomiting, cramping — especially with any sign above</td></tr>
+          </tbody>
+        </table>
+        <div class="sop-note">📋 Skin symptoms plus any respiratory or cardiovascular sign together = anaphylaxis, treat now. Respiratory or cardiovascular collapse alone, even without a rash, is still anaphylaxis — skin signs are absent in a meaningful minority of cases.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Immediate Action — In Order, In Parallel</div>
+        <div class="sop-note">With more than one staff member present, these happen simultaneously — one gives epinephrine while another calls 911. If only one staff member is present, epinephrine comes before the 911 call.</div>
+        <ul class="sop-list">
+          <li><strong>STOP.</strong> Stop the injection, stop the application, remove the causative product from contact with the skin if topical.</li>
+          <li><strong>GIVE EPINEPHRINE.</strong> Do not wait to see if symptoms resolve. Do not give an antihistamine first.</li>
+          <li><strong>CALL 911.</strong> State the location precisely — which practice address, room number.</li>
+          <li><strong>POSITION THE PATIENT.</strong> Supine with legs elevated, unless breathing is difficult — then sit with legs outstretched. Recovery position if unconscious. Left side if pregnant.</li>
+          <li><strong>REASSESS.</strong> Airway, breathing, circulation. Begin CPR if unresponsive and not breathing normally.</li>
+          <li><strong>NOTIFY.</strong> Medical director or on-duty covering provider, and the patient's emergency contact.</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Epinephrine Dosing</div>
+        <table class="sop-table">
+          <thead><tr><th>Form</th><th>Dose</th><th>Site</th></tr></thead>
+          <tbody>
+            <tr><td>Auto-injector (EpiPen)</td><td>0.3 mg, fixed adult dose</td><td>Mid-outer thigh, through clothing if needed</td></tr>
+            <tr><td>Manually drawn, 1:1000 (1 mg/mL)</td><td>0.3–0.5 mg IM (0.3–0.5 mL)</td><td>Vastus lateralis — mid-outer thigh</td></tr>
+          </tbody>
+        </table>
+        <p class="sop-text"><strong>Repeat every 5–15 minutes</strong> if no improvement or symptoms return. IM in the thigh only, never IV at this concentration. Note the exact time of every dose given.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">4. What Not to Do</div>
+        <div class="sop-warning">⚠ Antihistamines and steroids are adjuncts, never first-line. Diphenhydramine, cetirizine, and similar do not treat the airway or cardiovascular components and do not substitute for epinephrine under any circumstance. Corticosteroids act too slowly to matter in the acute phase.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Transport and Biphasic Reaction</div>
+        <p class="sop-text"><strong>Every patient who received epinephrine goes to emergency care</strong>, even if symptoms fully resolve on-site. Not optional.</p>
+        <div class="sop-note">📋 A biphasic reaction can occur up to 72 hours later, most commonly within 8–10 hours. This is why every patient goes to emergency care rather than being monitored and sent home. Advise in writing: seek immediate care again if any symptom returns.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">6. Readiness</div>
+        <ul class="sop-list">
+          <li>Check epinephrine expiration dates monthly, at every location</li>
+          <li>Confirm every treatment room has immediate access to the supply — not locked away, not in a different room</li>
+          <li>Quarterly drills practicing recognition and the parallel-action sequence</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">7. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>Medical Director:</strong> Robert Martin, MD — via office</li>
+          <li><strong>Emergency:</strong> 911</li>
+        </ul>
+      </div>
+    `
+  },
+
+  {
+    id: 'ema-emerg-003',
+    category: 'safety',
+    icon: '💫',
+    color: '#8a3a2a',
+    bgColor: '#f5e8e4',
+    badge: 'EMA-EMERG-003',
+    badgeColor: '#8a3a2a',
+    badgeBg: '#f5e8e4',
+    name: 'Vasovagal Response Management',
+    summary: 'Recognition and immediate response for vasovagal syncope — the most common on-site medical event in an injectable practice — and how to tell it apart from anaphylaxis or a cardiac event.',
+    version: '2.0',
+    date: 'August 16, 2026',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-section">
+        <div class="sop-section-title">1. Signs and Symptoms</div>
+        <ul class="sop-list">
+          <li>Lightheadedness or dizziness; nausea; pale, clammy skin; sweating</li>
+          <li>Blurred or tunnel vision; weakness</li>
+          <li>Slow heart rate (bradycardia)</li>
+          <li>Brief loss of consciousness, typically under a minute</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Distinguish From More Serious Events</div>
+        <div class="sop-warning">⚠ A fainting presentation is not always vasovagal. Anaphylaxis can present with dizziness and collapse before hives or airway symptoms appear — if there is any respiratory symptom, treat as possible allergic reaction until ruled out. Vasovagal syncope responds quickly to leg elevation, typically within 1–2 minutes, and the patient returns to baseline without lingering symptoms. A presentation that does not resolve promptly, or leaves persistent chest pain or irregular pulse, is not simple vasovagal syncope.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Immediate Response</div>
+        <div class="sop-note">Stop the procedure first — withdraw the needle or pause treatment before doing anything else.</div>
+        <ul class="sop-list">
+          <li>Have the patient lie supine with legs elevated 8–12 inches above heart level — not full Trendelenburg</li>
+          <li>If lying down isn't immediately possible, sit and lower head between the knees</li>
+          <li>Loosen tight clothing; ensure ventilation</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">4. Monitor and Escalate</div>
+        <ul class="sop-list">
+          <li>Assess pulse and blood pressure</li>
+          <li>Observe for breathing difficulty, cyanosis, or unconsciousness over 1 minute — any of these moves this out of simple vasovagal syncope</li>
+          <li>If no recovery within a few minutes, call 911</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Recovery</div>
+        <ul class="sop-list">
+          <li>Encourage slow, deep breathing; offer fluids if dehydration is suspected</li>
+          <li><strong>No sudden standing</strong> — assist up slowly, in stages, to prevent a recurrence</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">6. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>Emergency:</strong> 911</li>
+        </ul>
+      </div>
+    `
+  },
+
+  {
+    id: 'ema-emerg-004',
+    category: 'safety',
+    icon: '👁',
+    color: '#8a3a2a',
+    bgColor: '#f5e8e4',
+    badge: 'EMA-EMERG-004',
+    badgeColor: '#8a3a2a',
+    badgeBg: '#f5e8e4',
+    name: 'Emergency Eyewash Station',
+    summary: 'Location, use, and inspection of emergency eyewash stations for chemical exposure — Hibiclens, chemical peel solutions, and other hazardous products used in this practice.',
+    version: '2.1',
+    date: 'August 16, 2026',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-section">
+        <div class="sop-section-title">1. Using the Station — During an Emergency</div>
+        <ul class="sop-list">
+          <li>Move quickly to the nearest eyewash station and activate it</li>
+          <li>Hold eyelids open with fingers to ensure flow reaches all areas of the eye</li>
+          <li><strong>Flush for a minimum of 15 minutes</strong></li>
+          <li>Remove contact lenses, if worn, after the 15-minute flush — not before</li>
+          <li>Notify the on-duty manager and seek immediate medical attention if needed</li>
+        </ul>
+        <div class="sop-note">📋 15 minutes is the minimum, not a target. Continue flushing if pain or irritation persists; tell the receiving provider exactly what the exposure was.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Location</div>
+        <p class="sop-text">Within 10 seconds (approximately 55 feet) of any point where hazardous materials are handled. Brightly lit, unobstructed, clear path.</p>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Post-Emergency Reporting</div>
+        <ul class="sop-list">
+          <li>Complete an incident report: nature of exposure, time, date, location, actions taken</li>
+          <li>Report per EMA-COMP-002, Medical Error and Adverse Event Reporting</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">4. Inspection</div>
+        <ul class="sop-list">
+          <li>Weekly: water flow, cleanliness, obstructions, flushing fluid condition</li>
+          <li>Document every inspection in the Eyewash Station Log</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>Emergency:</strong> 911</li>
+        </ul>
+      </div>
+    `
+  },
+
+  {
+    id: 'ema-emerg-005',
+    category: 'safety',
+    icon: '🌀',
+    color: '#8a3a2a',
+    bgColor: '#f5e8e4',
+    badge: 'EMA-EMERG-005',
+    badgeColor: '#8a3a2a',
+    badgeBg: '#f5e8e4',
+    name: 'Emergency Closure — Hurricane',
+    summary: 'Decision, communication, facility securing, and reopening for hurricane and severe weather — all three locations, with per-location decision-making across two counties.',
+    version: '2.1',
+    date: 'August 16, 2026',
+    author: 'Bridget Martin, DNP, APRN, NP-C',
+    approver: 'Robert Martin, MD',
+    applies: 'All Locations',
+    content: `
+      <div class="sop-warning">⚠ Three locations, two counties, different authorities. Ormond Beach and DeLand fall under Volusia County Emergency Management. Palm Coast falls under Flagler County — a different authority with its own evacuation zones. Monitor both independently.</div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">1. Decision to Close</div>
+        <ul class="sop-list">
+          <li>Monitor the National Hurricane Center and the relevant county Emergency Management office for each location</li>
+          <li>Closure based on: warnings for that county, mandatory evacuation orders, safety risk to staff and patients</li>
+          <li>Decide at least 24–48 hours in advance where possible</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">2. Secure the Facility</div>
+        <ul class="sop-list">
+          <li>Shut off non-essential equipment; secure outdoor signage and furniture</li>
+          <li>Address refrigerated and cold-chain product — see Section 3</li>
+          <li>Confirm all staff have evacuated safely before facility-securing is considered complete</li>
+        </ul>
+        <div class="sop-note">📋 Staff safety comes before facility securing. Do not remain at any location if an evacuation order is in place.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">3. Cold-Chain Product</div>
+        <div class="sop-warning">⚠ A refrigerator that loses power may invalidate what's inside it — not just spoil it. A temperature excursion invalidates a vial's beyond-use date regardless of appearance. Note the time and last logged temperature before closing. On reopening, check whether power was lost and for how long before assuming any refrigerated product is still usable. When in doubt, discard rather than guess.</div>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">4. Reopening</div>
+        <ul class="sop-list">
+          <li>Assess the facility in person before authorizing staff to return — structural safety, power, water first</li>
+          <li>Confirm refrigeration status before resuming use of any temperature-sensitive product</li>
+        </ul>
+      </div>
+
+      <div class="sop-section">
+        <div class="sop-section-title">5. Emergency Contacts</div>
+        <ul class="sop-list">
+          <li><strong>Enchanted Medical Aesthetics:</strong> (386) 317-1449</li>
+          <li><strong>National Hurricane Center and county Emergency Management offices</strong> — both counties</li>
         </ul>
       </div>
     `
   }
+
+
+
 ];
 
 var activeFilter = 'all';
