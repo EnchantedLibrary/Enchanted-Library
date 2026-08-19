@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Anaphylaxis | SOP Library | Enchanted</title>
+<style>
+:root{
+  --ink:#1C1710;--gold:#B8972A;--gold-bright:#C9A227;--champagne:#F5EFE3;
+  --card:#FBF8F1;--line:#E2D9C6;--body:#33302B;--muted:#7A7266;
+  --alarm:#9B2C2C;--alarm-bg:#FCF1EF;
+  --serif:Georgia,'Times New Roman',serif;
+  --sans:'Segoe UI',-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
+body{margin:0;background:var(--champagne);color:var(--body);font-family:var(--sans);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+
+.topbar{background:var(--ink);padding:14px 28px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:60}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.mark{width:34px;height:34px;border-radius:7px;background:linear-gradient(145deg,var(--gold-bright),#8E7420);display:grid;place-items:center;color:#1C1710;font-weight:700;font-size:15px;font-family:var(--serif)}
+.wordmark{font-family:var(--serif);letter-spacing:.22em;color:#F3ECDC;font-size:15px}
+.tag{background:var(--gold);color:#1C1710;font-size:11px;font-weight:700;letter-spacing:.13em;padding:4px 11px;border-radius:4px}
+.nav{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+.nav a{color:#CFC6B4;text-decoration:none;font-size:13.5px;padding:7px 13px;border-radius:6px}
+.nav a:hover{background:rgba(255,255,255,.07);color:#F3ECDC}
+.nav a.on{background:var(--gold);color:#1C1710;font-weight:600}
+.nav a:focus-visible,.brand:focus-visible{outline:2px solid var(--gold-bright);outline-offset:2px}
+
+.head{background:var(--ink);color:#F3ECDC;padding:38px 28px 44px;border-bottom:3px solid var(--gold)}
+.wrap{max-width:1020px;margin:0 auto}
+.crumb{color:var(--gold);font-size:12px;letter-spacing:.16em;font-weight:700;text-transform:uppercase;margin-bottom:14px}
+.crumb a{color:var(--gold);text-decoration:none}
+.crumb a:hover{text-decoration:underline}
+h1{font-family:var(--serif);font-size:clamp(30px,5vw,46px);line-height:1.12;margin:0 0 10px;font-weight:400;color:#fff}
+h1 em{color:var(--gold);font-style:italic}
+.sub{color:#BCB3A2;font-size:16.5px;max-width:640px;margin:0 0 22px}
+.meta{display:flex;gap:10px;flex-wrap:wrap}
+.chip{background:rgba(255,255,255,.07);border:1px solid rgba(184,151,42,.4);color:#E4DBC7;font-size:12.5px;padding:6px 13px;border-radius:20px}
+.chip.id{background:var(--gold);color:#1C1710;font-weight:700;letter-spacing:.06em;border-color:var(--gold)}
+
+.shell{max-width:1020px;margin:0 auto;padding:0 28px 80px;display:grid;grid-template-columns:212px 1fr;gap:44px;align-items:start}
+@media(max-width:880px){.shell{grid-template-columns:1fr;gap:0;padding-bottom:56px}}
+.side{position:sticky;top:78px;padding-top:34px}
+@media(max-width:880px){.side{position:static;padding:24px 0 0}}
+.side h2{font-size:11px;letter-spacing:.16em;color:var(--muted);text-transform:uppercase;margin:0 0 12px;font-weight:700}
+.side a{display:block;color:var(--body);text-decoration:none;font-size:13.5px;padding:6px 0 6px 12px;border-left:2px solid var(--line)}
+.side a:hover{border-left-color:var(--gold);color:var(--ink)}
+.side a.hot{color:var(--alarm);font-weight:600}
+.side a:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+main{padding-top:34px;min-width:0}
+section{scroll-margin-top:82px}
+h2.sec{font-family:var(--serif);font-size:26px;font-weight:400;color:var(--ink);margin:44px 0 6px;padding-bottom:9px;border-bottom:2px solid var(--gold)}
+main>section:first-child h2.sec{margin-top:0}
+h3{font-family:var(--serif);font-size:19px;color:var(--gold);margin:28px 0 8px;font-weight:700}
+h4{font-size:15px;color:var(--ink);margin:20px 0 6px;font-weight:700}
+p{margin:0 0 13px}
+ul,ol{margin:0 0 14px;padding-left:22px}
+li{margin-bottom:6px}
+strong{color:var(--ink)}
+a{color:#8A6D1E}
+
+.alarm{max-width:1020px;margin:16px auto 0;padding:14px 28px;background:var(--alarm-bg);border-top:2px solid var(--alarm);border-bottom:2px solid var(--alarm);color:#6E1F1F;font-size:14.5px;display:flex;gap:10px;align-items:flex-start}
+.alarm strong{color:#6E1F1F}
+.alarm a{color:#6E1F1F;text-decoration:underline}
+
+.box{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--gold);border-radius:8px;padding:18px 20px;margin:16px 0}
+.box.stop{border-left-color:var(--alarm);background:var(--alarm-bg)}
+.box h3{margin-top:0;font-size:15.5px;color:var(--alarm);font-family:var(--sans);font-weight:700;letter-spacing:.02em;text-transform:uppercase}
+.box.gold h3{color:#8A6D1E}
+.box p:last-child{margin-bottom:0}
+
+table{width:100%;border-collapse:collapse;margin:14px 0 20px;font-size:14.5px}
+th{background:var(--ink);color:#F3ECDC;text-align:left;padding:10px 12px;font-weight:600;font-size:13px}
+td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:nth-child(even) td{background:#FAF6EC}
+
+.steps{counter-reset:step}
+.steps li{list-style:none;position:relative;padding-left:38px;margin-bottom:14px}
+.steps li::before{counter-increment:step;content:counter(step);position:absolute;left:0;top:0;width:26px;height:26px;background:var(--ink);color:var(--gold);border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;font-family:var(--serif)}
+
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+@media(max-width:600px){.contact-grid{grid-template-columns:1fr}}
+.contact{background:var(--card);border:1px solid var(--line);border-radius:8px;padding:12px 15px}
+.contact .role{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.contact .num{font-family:var(--serif);font-size:19px;color:var(--ink)}
+
+footer{max-width:1020px;margin:0 auto;padding:24px 28px 60px;color:var(--muted);font-size:12.5px;border-top:1px solid var(--line)}
+.updated{margin:0}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="index.html" class="brand">
+    <span class="mark">E</span>
+    <span class="wordmark">ENCHANTED</span>
+  </a>
+  <span class="tag">SOP LIBRARY</span>
+  <nav class="nav">
+    <a href="index.html">Home</a>
+    <a href="sop-library.html" class="on">SOPs</a>
+  </nav>
+</div>
+
+<div class="alarm">
+  <span aria-hidden="true">⚠</span>
+  <span><strong>Active anaphylaxis right now?</strong> Go straight to <a href="#step1">Step 1</a>. Epinephrine is never delayed for anything else on this page.</span>
+</div>
+
+<header class="head">
+  <div class="wrap">
+    <p class="crumb"><a href="sop-library.html">SOP Library</a> &nbsp;/&nbsp; Safety &amp; Emergency</p>
+    <h1>Anaphylaxis — <em>Recognition &amp; Immediate Response</em></h1>
+    <p class="sub">One protocol for anaphylaxis in this practice. Replaces the single-line "give epinephrine" references in other SOPs — this document owns that dosing and response.</p>
+    <div class="meta">
+      <span class="chip id">EMA-EMERG-002</span>
+      <span class="chip">v1.0</span>
+      <span class="chip">Effective August 16, 2026</span>
+      <span class="chip">All Locations</span>
+      <span class="chip">Robert Martin, MD</span>
+    </div>
+  </div>
+</header>
+
+<div class="shell">
+  <aside class="side">
+    <h2>On This Page</h2>
+    <a href="#recognize">Recognition</a>
+    <a href="#step1" class="hot">Immediate Action</a>
+    <a href="#dosing" class="hot">Epinephrine Dosing</a>
+    <a href="#notdo">What Not To Do</a>
+    <a href="#transport">Transport &amp; Handoff</a>
+    <a href="#biphasic">Biphasic Reaction</a>
+    <a href="#post">Post-Event</a>
+    <a href="#readiness">Readiness</a>
+    <a href="#contacts">Contacts</a>
+  </aside>
+
+  <main>
+
+    <section id="recognize">
+      <h2 class="sec">Recognition</h2>
+      <p>Anaphylaxis can develop within minutes of exposure to any product used in this practice — neuromodulator, filler, topical anesthetic, vitamin or peptide injection — and can worsen quickly after appearing mild. Treat any of the following as anaphylaxis until proven otherwise.</p>
+      <table>
+        <tr><th>System</th><th>Signs</th></tr>
+        <tr><td>Skin / Mucosal</td><td>Hives, flushing, generalized itching, swelling of lips, tongue, or face</td></tr>
+        <tr><td>Respiratory</td><td>Difficult or noisy breathing, wheeze, persistent cough, hoarse voice, throat tightness or swelling, difficulty talking</td></tr>
+        <tr><td>Cardiovascular</td><td>Persistent dizziness, fainting or near-fainting, rapid or weak pulse, pale and floppy appearance, collapse</td></tr>
+        <tr><td>Gastrointestinal</td><td>Sudden nausea, vomiting, cramping, or diarrhea, especially combined with any sign above</td></tr>
+      </table>
+      <div class="box gold">
+        <h3>One System Can Be Enough</h3>
+        <p>Skin symptoms plus any respiratory or cardiovascular sign together are treated as anaphylaxis without waiting for the picture to worsen.</p>
+        <p>Respiratory or cardiovascular collapse alone, even without a rash, is treated as anaphylaxis — skin signs are absent in a meaningful minority of cases.</p>
+        <p><strong>Do not wait for the patient to deteriorate further to confirm the diagnosis. Treat on the systems above, not on certainty.</strong></p>
+      </div>
+    </section>
+
+    <section id="step1">
+      <h2 class="sec">Immediate Action — In Order, In Parallel</h2>
+      <div class="box stop">
+        <h3>Multiple Staff Act At The Same Time</h3>
+        <p>With more than one staff member present, these steps happen simultaneously — one person gives epinephrine while another calls 911, rather than working through a list end to end.</p>
+        <p><strong>If only one staff member is present, epinephrine comes before the 911 call.</strong> Give the injection, then call.</p>
+      </div>
+      <ol class="steps">
+        <li><strong>STOP.</strong> If anaphylaxis develops during a procedure, stop the injection, stop the application, remove the causative product from contact with the skin if topical. This is the first thing that happens here, unlike generic bystander first aid.</li>
+        <li><strong>GIVE EPINEPHRINE.</strong> Do not wait to see if symptoms resolve, and do not give an antihistamine first — see <a href="#notdo">What Not To Do</a>. This is the single most time-critical action on this page.</li>
+        <li><strong>CALL 911.</strong> State the location precisely — which practice address, room number. Happens at the same time as step 2 where staffing allows.</li>
+        <li><strong>POSITION THE PATIENT.</strong> Supine with legs elevated, unless breathing is difficult — then allow the patient to sit with legs outstretched. If unconscious, recovery position. If pregnant, position on the left side.</li>
+        <li><strong>REASSESS.</strong> Airway, breathing, circulation. Begin CPR at any point if the patient becomes unresponsive and is not breathing normally.</li>
+        <li><strong>NOTIFY.</strong> The medical director or on-duty covering provider, and the patient's emergency contact.</li>
+      </ol>
+    </section>
+
+    <section id="dosing">
+      <h2 class="sec">Epinephrine Dosing</h2>
+      <div class="box">
+        <h3>Confirm What This Practice Stocks</h3>
+        <p>Complete against the specific product and concentration actually stocked at each location before this protocol is relied on in an event.</p>
+      </div>
+      <table>
+        <tr><th>Form</th><th>Dose</th><th>Site</th><th>Notes</th></tr>
+        <tr><td>Auto-injector (e.g. EpiPen)</td><td>0.3 mg, fixed adult dose</td><td>Mid-outer thigh, through clothing if necessary</td><td>Hold per device instructions, ~3 seconds; note the time given</td></tr>
+        <tr><td>Manually drawn, 1:1000 (1 mg/mL)</td><td>0.3–0.5 mg IM (0.3–0.5 mL)</td><td>Vastus lateralis — mid-outer thigh</td><td>Intramuscular only, never IV at this concentration</td></tr>
+      </table>
+      <p><strong>Repeat every 5–15 minutes</strong> if there is no improvement, or symptoms return. Most patients respond to a single dose; some need a second.</p>
+      <p>Intramuscular in the thigh, not the arm or buttock — faster, more reliable absorption. Note the exact time of every dose given.</p>
+    </section>
+
+    <section id="notdo">
+      <h2 class="sec">What Not To Do</h2>
+      <div class="box stop">
+        <h3>Antihistamines &amp; Steroids Are Adjuncts, Never First</h3>
+        <p>Diphenhydramine, cetirizine, and similar antihistamines do not treat the airway or cardiovascular components of anaphylaxis and do not substitute for epinephrine under any circumstance.</p>
+        <p>Corticosteroids act too slowly to matter in the acute phase.</p>
+        <p><strong>Both may be given after epinephrine, if ordered by the treating provider — never in place of the injection, and never first.</strong></p>
+      </div>
+      <ul>
+        <li>Do not allow the patient to stand or walk</li>
+        <li>Do not wait for a second sign or symptom before treating if the first is already respiratory or cardiovascular</li>
+        <li>Do not delay the epinephrine dose to ask whether the patient carries a personal auto-injector — use what the practice stocks</li>
+      </ul>
+    </section>
+
+    <section id="transport">
+      <h2 class="sec">Transport &amp; Handoff</h2>
+      <p><strong>Every patient who received epinephrine is transported to emergency care</strong>, even if symptoms fully resolve on-site. Not optional, not a judgment call left to the patient.</p>
+      <p>At handoff to EMS, provide:</p>
+      <ul>
+        <li>What was given — medication, dose, route, exact time</li>
+        <li>The suspected trigger — product name and lot number where applicable</li>
+        <li>Symptom timeline — onset, progression, response to treatment</li>
+        <li>Any relevant medical history disclosed by the patient</li>
+      </ul>
+    </section>
+
+    <section id="biphasic">
+      <h2 class="sec">Biphasic Reaction</h2>
+      <div class="box gold">
+        <h3>Symptoms Can Return Hours Later</h3>
+        <p>A biphasic reaction — recurrence of anaphylaxis after apparent resolution, without re-exposure — can occur up to 72 hours later, most commonly within 8–10 hours.</p>
+        <p>This is exactly why every patient goes to emergency care rather than being monitored in-office and sent home once symptoms settle.</p>
+        <p><strong>Advise the patient in writing before they leave:</strong> seek immediate care again if any symptom returns, even hours later, even if the first episode felt fully resolved.</p>
+      </div>
+    </section>
+
+    <section id="post">
+      <h2 class="sec">Post-Event</h2>
+      <ul>
+        <li>Do not resume the procedure that triggered the reaction</li>
+        <li>Document the suspected trigger clearly in the chart and flag it prominently for future visits</li>
+        <li>Refer to an allergist for formal evaluation before any future treatment with the same or a related product category</li>
+        <li>Report per EMA-COMP-002, Medical Error and Adverse Event Reporting, regardless of outcome</li>
+      </ul>
+      <h3>Documentation</h3>
+      <ul>
+        <li>Time of onset and every symptom observed, by system</li>
+        <li>Suspected trigger, including product name and lot number</li>
+        <li>Every dose of epinephrine given — time, dose, route, site</li>
+        <li>Time 911 called and time EMS arrived</li>
+        <li>Positioning and any additional intervention — CPR, oxygen</li>
+        <li>Transport destination and receiving provider, where known</li>
+        <li>Biphasic reaction warning provided in writing</li>
+      </ul>
+    </section>
+
+    <section id="readiness">
+      <h2 class="sec">Readiness — Before It Happens</h2>
+      <ul>
+        <li><strong>Check epinephrine expiration dates monthly</strong>, at every location. An expired dose discovered mid-event is entirely preventable.</li>
+        <li>Confirm every treatment room has immediate access to the practice's epinephrine supply — not locked away, not in a different room</li>
+        <li>Quarterly drills practicing recognition and the parallel-action sequence above</li>
+        <li>All clinical staff trained at onboarding and annually, regardless of whether they are authorized to administer epinephrine themselves</li>
+      </ul>
+    </section>
+
+    <section id="contacts">
+      <h2 class="sec">Emergency Contacts</h2>
+      <div class="contact-grid">
+        <div class="contact"><div class="role">Emergency Services</div><div class="num">911</div></div>
+        <div class="contact"><div class="role">Enchanted Medical Aesthetics</div><div class="num">(386) 317-1449</div></div>
+        <div class="contact"><div class="role">Medical Director</div><div class="num">Robert Martin, MD — via office</div></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  <p class="updated">EMA-EMERG-002 &middot; Version 1.0 &middot; Effective August 16, 2026 &middot; Next review August 2027<br>
+  Enchanted Medical Aesthetics, LLC &middot; Internal use only &middot; Confidential</p>
+</footer>
+
+</body>
+</html>
