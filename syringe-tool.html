@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Neuromodulator Syringe & Dosing Tool | Enchanted Medical Aesthetics</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+:root{
+  --ink:#0f0e0c;--ink-2:#2e2b25;--ink-3:#7a7468;--surface:#f5f0e8;--card:#fdfcf8;--border:#ddd5c0;
+  --gold:#b8972a;--gold-light:#faf6e8;--gold-dark:#8a6e18;--gold-mid:#e8d48a;
+  --tan:#c9b99a;--tan-light:#f5efe3;--tan-dark:#8a7055;
+  --charcoal:#1a1814;--charcoal-2:#2c2820;--charcoal-light:#3d3830;
+  --cream:#fdf9f0;--cream-2:#f0e8d4;
+  --rose:#8a3a2a;--rose-light:#f5e8e4;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',sans-serif;background:var(--surface);color:var(--ink);min-height:100vh}
+nav{background:var(--charcoal);border-bottom:1px solid var(--charcoal-light);padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:60px;position:sticky;top:0;z-index:100;flex-wrap:wrap;gap:.5rem}
+.nav-brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-logo{width:32px;height:32px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center}
+.nav-logo svg{width:18px;height:18px;fill:var(--charcoal)}
+.brand-text{font-family:'Cormorant Garamond',Georgia,serif;font-size:20px;font-weight:300;letter-spacing:4px;color:var(--cream);text-transform:uppercase}
+.nav-tag{font-size:.65rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);background:rgba(184,151,42,.15);padding:2px 7px;border-radius:20px}
+.nav-links{display:flex;gap:.2rem;flex-wrap:wrap}
+.nav-links a{font-size:.75rem;color:var(--tan);text-decoration:none;font-weight:500;padding:.3rem .6rem;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-links a:hover{color:var(--gold);background:rgba(184,151,42,.1)}
+.nav-links a.active{color:var(--gold);background:rgba(184,151,42,.15)}
+.hero{background:var(--charcoal);border-bottom:2px solid var(--gold-dark);padding:2rem 2rem 1.75rem}
+.hero-inner{max-width:960px;margin:0 auto}
+.hero-eyebrow{font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-bottom:.5rem}
+.hero h1{font-family:'Cormorant Garamond',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);color:var(--cream);font-weight:300;margin-bottom:.4rem}
+.hero h1 em{font-style:italic;color:var(--gold)}
+.hero p{font-size:.9rem;color:var(--tan)}
+.main{max-width:960px;margin:0 auto;padding:1.5rem 2rem 4rem}
+
+/* DRUG + SYRINGE SELECTOR */
+.selector-row{display:flex;gap:1rem;margin-bottom:1.25rem;flex-wrap:wrap}
+.selector-group{flex:1;min-width:200px}
+.selector-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3);margin-bottom:.5rem}
+.btn-group{display:flex;gap:.4rem;flex-wrap:wrap}
+.sel-btn{padding:.45rem .9rem;border-radius:8px;border:2px solid var(--border);background:var(--card);font-family:'Inter',sans-serif;font-size:.82rem;font-weight:600;cursor:pointer;transition:all .2s;color:var(--ink-2)}
+.sel-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold)}
+
+/* MAIN LAYOUT */
+.tool-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+@media(max-width:640px){.tool-grid{grid-template-columns:1fr}}
+
+/* SYRINGE VISUAL */
+.syringe-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem;display:flex;flex-direction:column;align-items:center}
+.syringe-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;align-self:flex-start}
+.syringe-wrap{position:relative;display:flex;align-items:flex-start;gap:0;width:100%;justify-content:center}
+
+/* SVG SYRINGE */
+.syringe-svg-wrap{position:relative}
+.fill-indicator{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,#2a6b8a,#5a9fc0);border-radius:0 0 2px 2px;transition:height .5s ease}
+.syringe-labels{display:flex;flex-direction:column;justify-content:space-between;padding:8px 0 8px;margin-left:8px}
+.mark-label{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--ink-3);line-height:1;white-space:nowrap}
+.mark-label.active-mark{color:var(--gold-dark);font-weight:700;font-size:.75rem}
+.mark-label.dose-mark{color:var(--rose);font-weight:700}
+
+/* DOSE DISPLAY */
+.dose-display{background:var(--charcoal);border-radius:10px;padding:1rem 1.25rem;margin-top:1rem;width:100%;text-align:center}
+.dose-val{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;color:var(--gold-mid)}
+.dose-unit-label{font-size:.72rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--tan);margin-top:.2rem}
+.dose-ml{font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--gold);margin-top:.25rem}
+
+/* INPUT PANEL */
+.input-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;padding:1.25rem}
+.input-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:1rem;padding-bottom:.4rem;border-bottom:1px solid var(--border)}
+.field{margin-bottom:1rem}
+.field label{display:block;font-size:.82rem;font-weight:500;color:var(--ink-2);margin-bottom:.35rem}
+.field input,.field select{width:100%;padding:.55rem .8rem;border:1.5px solid var(--border);border-radius:7px;font-family:'JetBrains Mono',monospace;font-size:.9rem;color:var(--ink);background:var(--surface);outline:none;transition:border-color .15s}
+.field input:focus,.field select:focus{border-color:var(--gold)}
+.field .hint{font-size:.72rem;color:var(--ink-3);margin-top:.2rem}
+.quick-label{font-size:.7rem;font-weight:700;color:var(--ink-3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem}
+.quick-btns{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:.75rem}
+.quick-btn{padding:.32rem .7rem;border:1.5px solid var(--border);border-radius:20px;background:var(--card);font-family:'JetBrains Mono',monospace;font-size:.78rem;cursor:pointer;color:var(--ink-2);transition:all .15s}
+.quick-btn:hover{border-color:var(--gold);color:var(--gold)}
+.quick-btn.active{background:var(--charcoal);border-color:var(--charcoal);color:var(--gold-mid)}
+.result-row{border-radius:8px;padding:.75rem 1rem;margin-bottom:.5rem;display:flex;justify-content:space-between;align-items:center}
+.result-row.gold{background:var(--gold)}
+.result-row.dark{background:var(--charcoal)}
+.r-label{font-size:.7rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.result-row.gold .r-label{color:var(--charcoal-2)}
+.result-row.dark .r-label{color:var(--tan)}
+.r-val{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700}
+.result-row.gold .r-val{color:var(--charcoal)}
+.result-row.dark .r-val{color:var(--gold-mid)}
+
+/* DYSPORT CONVERSION TABLE */
+.conv-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+.conv-header{background:var(--charcoal);padding:.75rem 1.25rem;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem}
+.conv-header-title{font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-mid)}
+.conv-header-note{font-size:.72rem;color:var(--tan)}
+.conv-scroll{overflow-x:auto}
+.conv-table{width:100%;border-collapse:collapse;min-width:500px}
+.conv-table th{padding:.55rem 1rem;text-align:center;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;border-bottom:2px solid var(--border);background:var(--surface)}
+.conv-table th.col-dysport{color:#5a3a1a;background:#f5ece4}
+.conv-table th.col-botox{color:#1a3a4a;background:#e4eef5}
+.conv-table th.col-site{color:var(--ink-3)}
+.conv-table td{padding:.55rem 1rem;border-bottom:1px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:.82rem;text-align:center;color:var(--ink-2)}
+.conv-table td:first-child{font-family:'Inter',sans-serif;font-weight:600;color:var(--ink);text-align:left;font-size:.82rem}
+.conv-table tr:last-child td{border-bottom:none}
+.conv-table td.dysport-val{background:#fff8f4;color:#5a3a1a;font-weight:700}
+.conv-table td.botox-val{background:#f4f8ff;color:#1a3a4a;font-weight:700}
+.conv-table tr.highlight-row td{background:var(--gold-light) !important;color:var(--gold-dark) !important}
+.conv-note{background:var(--tan-light);border-top:1px solid var(--border);padding:.75rem 1.25rem;font-size:.78rem;color:var(--tan-dark);line-height:1.6}
+
+/* DILUTION REFERENCE */
+.dilution-card{background:var(--card);border:1.5px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:1.5rem}
+.dilution-header{background:var(--charcoal);padding:.75rem 1.25rem;font-size:.75rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--gold-mid)}
+.dilution-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:0}
+@media(max-width:580px){.dilution-grid{grid-template-columns:1fr}}
+.dilution-item{padding:1rem 1.1rem;border-right:1px solid var(--border);border-bottom:1px solid var(--border)}
+.dilution-item:last-child,.dilution-item:nth-child(3n){border-right:none}
+.dilution-drug{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-dark);margin-bottom:.35rem}
+.dilution-formula{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink-2);line-height:1.7}
+.dilution-result{font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:700;color:var(--charcoal);margin-top:.25rem}
+
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--tan);border-top:1px solid var(--charcoal-light);background:var(--charcoal);margin-top:2rem}
+</style>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="index.html">
+    <div class="nav-logo"><svg viewBox="0 0 20 20"><path d="M10 2C7.2 2 5 4.2 5 7c0 2 1.1 3.8 2.8 4.7L7 17h6l-.8-5.3C13.9 10.8 15 9 15 7c0-2.8-2.2-5-5-5z"/></svg></div>
+    <span class="brand-text">Enchanted</span>
+    <span class="nav-tag">Neuromodulator Tool</span>
+  </a>
+  <div class="nav-links">
+    <a href="index.html">🏠 Home</a>
+    <a href="library.html">📚 Library</a>
+    <a href="calculator.html">⚗ Calc</a>
+    <a href="glp1-calculator.html">💉 GLP-1</a>
+    <a href="lab-values.html">🧪 Labs</a>
+    <a href="syringe-tool.html" class="active">🔬 Syringe</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Clinical Dosing Tool — Neuromodulators</div>
+    <h1>Syringe <em>Visual Dosing</em> Tool</h1>
+    <p>Select your neuromodulator and syringe. See exactly where to draw on the barrel — plus Dysport ↔ Botox conversion table.</p>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- SELECTORS -->
+  <div class="selector-row">
+    <div class="selector-group">
+      <div class="selector-label">Neuromodulator</div>
+      <div class="btn-group">
+        <button class="sel-btn active" onclick="setDrug('botox',this)">Botox</button>
+        <button class="sel-btn" onclick="setDrug('dysport',this)">Dysport</button>
+        <button class="sel-btn" onclick="setDrug('xeomin',this)">Xeomin</button>
+      </div>
+    </div>
+    <div class="selector-group">
+      <div class="selector-label">Syringe</div>
+      <div class="btn-group">
+        <button class="sel-btn active" onclick="setSyringe('1ml',this)">1 mL (100-unit)</button>
+        <button class="sel-btn" onclick="setSyringe('03ml',this)">3/10 mL (30-unit)</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="tool-grid">
+
+    <!-- SYRINGE VISUAL -->
+    <div class="syringe-card">
+      <div class="syringe-title" id="syringe-title">1 mL Insulin Syringe — Botox</div>
+      <div class="syringe-wrap">
+        <!-- SVG SYRINGE -->
+        <svg id="syringe-svg" width="80" height="340" viewBox="0 0 80 340" style="flex-shrink:0">
+          <!-- Plunger handle -->
+          <rect x="20" y="4" width="40" height="10" rx="3" fill="#3d3830"/>
+          <rect x="35" y="14" width="10" height="20" fill="#3d3830"/>
+          <!-- Barrel -->
+          <rect x="18" y="34" width="44" height="270" rx="4" fill="#e8f4f8" stroke="#b0c8d4" stroke-width="1.5"/>
+          <!-- Graduation lines -->
+          <g id="grad-lines"></g>
+          <!-- Fill -->
+          <clipPath id="barrel-clip">
+            <rect x="19" y="35" width="42" height="268" rx="3"/>
+          </clipPath>
+          <rect id="fill-rect" x="19" y="303" width="42" height="0" fill="url(#fillGrad)" clip-path="url(#barrel-clip)" style="transition:y .5s ease,height .5s ease"/>
+          <defs>
+            <linearGradient id="fillGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5a9fc0"/>
+              <stop offset="100%" stop-color="#2a6b8a"/>
+            </linearGradient>
+          </defs>
+          <!-- Needle hub -->
+          <rect x="28" y="304" width="24" height="12" rx="2" fill="#c9b99a"/>
+          <!-- Needle -->
+          <rect x="37" y="316" width="6" height="20" rx="1" fill="#8a7055"/>
+          <!-- Dose arrow -->
+          <g id="dose-arrow" style="display:none">
+            <line id="dose-line" x1="65" y1="100" x2="75" y2="100" stroke="#8a3a2a" stroke-width="2"/>
+            <polygon id="dose-tri" points="62,97 62,103 68,100" fill="#8a3a2a"/>
+          </g>
+        </svg>
+
+        <!-- LABELS COLUMN -->
+        <div id="label-col" style="display:flex;flex-direction:column;padding:34px 0 34px;margin-left:6px;justify-content:space-between;height:340px"></div>
+      </div>
+
+      <div class="dose-display">
+        <div class="dose-val" id="disp-units">—</div>
+        <div class="dose-unit-label" id="disp-drug-label">units — draw to this mark</div>
+        <div class="dose-ml" id="disp-ml">— mL</div>
+      </div>
+    </div>
+
+    <!-- INPUT + RESULTS -->
+    <div class="input-card">
+      <div class="input-title">Enter Dose</div>
+
+      <div class="field">
+        <label id="dose-input-label">Dose (Botox units)</label>
+        <input type="number" id="f-dose" value="20" min="1" step="1" oninput="syncQuick();calculate()">
+        <div class="hint" id="dose-hint">Enter total units to inject</div>
+      </div>
+
+      <div class="field" id="dilution-field">
+        <label>Dilution (mL NS added to 100U vial)</label>
+        <select id="f-dilution" onchange="calculate()">
+          <option value="2.5" selected>2.5 mL → 4 U per 0.1 mL (standard)</option>
+          <option value="1.0">1.0 mL → 10 U per 0.1 mL (concentrated)</option>
+          <option value="4.0">4.0 mL → 2.5 U per 0.1 mL (hyperhidrosis)</option>
+        </select>
+      </div>
+
+      <div class="field" id="dysport-dilution-field" style="display:none">
+        <label>Dilution (mL NS added to 300U vial)</label>
+        <select id="f-dys-dilution" onchange="calculate()">
+          <option value="2.5" selected>2.5 mL → 12 U per 0.1 mL (standard · 3:1 Botox)</option>
+          <option value="1.5">1.5 mL → 20 U per 0.1 mL (concentrated)</option>
+        </select>
+      </div>
+
+      <div class="quick-label">Common Doses</div>
+      <div class="quick-btns" id="quick-btns"></div>
+
+      <div id="results-area"></div>
+
+      <div id="dysport-equiv" style="display:none;margin-top:.75rem">
+        <div class="result-row" style="background:var(--gold-light);border:1px solid var(--gold)">
+          <div>
+            <div class="r-label" style="color:var(--gold-dark)">Botox Equivalent (3:1 ratio)</div>
+            <div style="font-size:.7rem;color:var(--gold-dark);margin-top:.1rem">Dysport ÷ 3 = Botox units</div>
+          </div>
+          <div class="r-val" style="color:var(--gold-dark)" id="botox-equiv">—</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DYSPORT CONVERSION TABLE -->
+  <div class="conv-card" id="dysport-table" style="display:none">
+    <div class="conv-header">
+      <span class="conv-header-title">Dysport ↔ Botox Conversion Table (3:1 Ratio)</span>
+      <span class="conv-header-note">3 units Dysport = 1 unit Botox</span>
+    </div>
+    <div class="conv-scroll">
+      <table class="conv-table">
+        <thead>
+          <tr>
+            <th class="col-site">Treatment Site</th>
+            <th class="col-botox">Botox Dose</th>
+            <th class="col-dysport">Dysport (×3)</th>
+          </tr>
+        </thead>
+        <tbody>
+              <tr><td>Glabella (11s)</td><td class="botox-val">20 U</td><td class="dysport-val">60 U (20×3)</td></tr>
+          <tr><td>Glabella — heavy M</td><td class="botox-val">24–30 U</td><td class="dysport-val">72–90 U</td></tr>
+          <tr><td>Frontalis</td><td class="botox-val">10–20 U</td><td class="dysport-val">30–60 U</td></tr>
+          <tr><td>Crow's feet (per side)</td><td class="botox-val">10–12 U</td><td class="dysport-val">30–36 U</td></tr>
+          <tr><td>Crow's feet (both sides)</td><td class="botox-val">20–24 U</td><td class="dysport-val">60–72 U</td></tr>
+          <tr><td>Brow lift</td><td class="botox-val">2–4 U</td><td class="dysport-val">6–12 U</td></tr>
+          <tr><td>Bunny lines</td><td class="botox-val">5–10 U</td><td class="dysport-val">15–30 U</td></tr>
+          <tr><td>Lip flip</td><td class="botox-val">4–8 U</td><td class="dysport-val">12–24 U</td></tr>
+          <tr><td>Chin (mentalis)</td><td class="botox-val">5–15 U</td><td class="dysport-val">15–45 U</td></tr>
+          <tr><td>Masseter (per side)</td><td class="botox-val">25–30 U</td><td class="dysport-val">75–90 U</td></tr>
+          <tr><td>Platysma (per band)</td><td class="botox-val">15–25 U</td><td class="dysport-val">45–75 U</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="conv-note">
+      <strong>Conversion formula: Dysport units ÷ 3 = Botox units &nbsp;|&nbsp; Botox units × 3 = Dysport units</strong><br>
+      Dysport draw above based on standard 2.5 mL dilution (10 U per 0.1 mL) · Botox draw based on standard 2.5 mL dilution (4 U per 0.1 mL = 0.025 mL/U)<br>
+      The 3:1 conversion is the clinically supported standard for aesthetics — literature supports ≤3:1 as appropriate. Higher ratios risk Dysport overdose.
+    </div>
+  </div>
+
+  <!-- DILUTION REFERENCE -->
+  <div class="dilution-card">
+    <div class="dilution-header">📋 Dilution Reference — All Neuromodulators</div>
+    <div class="dilution-grid">
+      <div class="dilution-item">
+        <div class="dilution-drug">Botox — 100 U vial</div>
+        <div class="dilution-formula">+ 2.5 mL NS<br>= 4 U / 0.1 mL<br><br>+ 1.0 mL NS<br>= 10 U / 0.1 mL<br><br>+ 5.0 mL NS<br>= 2 U / 0.1 mL</div>
+        <div class="dilution-result">Standard: 4 U/0.1 mL</div>
+      </div>
+      <div class="dilution-item">
+        <div class="dilution-drug">Dysport — 300 U vial</div>
+        <div class="dilution-formula">+ 2.5 mL NS<br>= 12 U / 0.1 mL<br><br>+ 1.5 mL NS<br>= 20 U / 0.1 mL</div>
+        <div class="dilution-result">Standard: 12 U/0.1 mL<br>Conversion: ÷3 for Botox equiv</div>
+      </div>
+      <div class="dilution-item">
+        <div class="dilution-drug">Xeomin — 100 U vial</div>
+        <div class="dilution-formula">+ 2.5 mL NS<br>= 4 U / 0.1 mL<br><br>Same dilution protocol<br>as Botox<br>1:1 conversion with Botox</div>
+        <div class="dilution-result">1:1 with Botox — same draw</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+<footer>For licensed clinical staff only · Enchanted Medical Aesthetics · Not a substitute for prescriber judgment</footer>
+
+<script>
+var DRUG = 'botox';
+var SYRINGE = '1ml';
+
+var DRUGS = {
+  botox: {
+    label: 'Botox',
+    unitLabel: 'Botox units',
+    commonDoses: [2,4,8,12,16,18,20,24,30,40],
+    uPerML_std: 40, // 4U per 0.1mL = 40U per mL
+  },
+  dysport: {
+    label: 'Dysport',
+    unitLabel: 'Dysport units',
+    commonDoses: [6,12,24,36,48,54,60,72,90,120],
+    uPerML_std: 120, // 300U / 2.5mL = 120 U/mL = 12 U per 0.1 mL (3:1 Botox ratio)
+  },
+  xeomin: {
+    label: 'Xeomin',
+    unitLabel: 'Xeomin units',
+    commonDoses: [2,4,8,12,16,18,20,24,30,40],
+    uPerML_std: 40,
+  }
+};
+
+var SYRINGES = {
+  '1ml': {label:'1 mL (100-unit)', maxU:100, maxML:1.0, totalPx:268, marks:10, stepU:10, stepML:0.1},
+  '03ml': {label:'3/10 mL (30-unit)', maxU:30, maxML:0.3, totalPx:268, marks:6, stepU:5, stepML:0.05}
+};
+
+function setDrug(d, btn) {
+  DRUG = d;
+  document.querySelectorAll('.sel-btn').forEach(function(b){
+    if(['botox','dysport','xeomin'].some(function(x){return b.textContent.toLowerCase().indexOf(x)>-1})) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  document.getElementById('dose-input-label').textContent = 'Dose (' + DRUGS[d].label + ' units)';
+  document.getElementById('dilution-field').style.display = d !== 'dysport' ? 'block' : 'none';
+  document.getElementById('dysport-dilution-field').style.display = d === 'dysport' ? 'block' : 'none';
+  document.getElementById('dysport-table').style.display = d === 'dysport' ? 'block' : 'none';
+  document.getElementById('dysport-equiv').style.display = d === 'dysport' ? 'block' : 'none';
+  updateQuickBtns();
+  calculate();
+}
+
+function setSyringe(s, btn) {
+  SYRINGE = s;
+  document.querySelectorAll('.sel-btn').forEach(function(b){
+    if(b.textContent.indexOf('mL')>-1) b.classList.remove('active');
+  });
+  btn.classList.add('active');
+  drawSyringe();
+  calculate();
+}
+
+function updateQuickBtns() {
+  var doses = DRUGS[DRUG].commonDoses;
+  var cur = parseFloat(document.getElementById('f-dose').value);
+  document.getElementById('quick-btns').innerHTML = doses.map(function(d){
+    return '<button class="quick-btn'+(d===cur?' active':'')+'" onclick="setDose('+d+',this)">'+d+'</button>';
+  }).join('');
+}
+
+function setDose(d, btn) {
+  document.getElementById('f-dose').value = d;
+  document.querySelectorAll('.quick-btn').forEach(function(b){b.classList.remove('active')});
+  btn.classList.add('active');
+  calculate();
+}
+
+function syncQuick() {
+  var d = parseFloat(document.getElementById('f-dose').value);
+  document.querySelectorAll('.quick-btn').forEach(function(b){
+    b.classList.toggle('active', parseInt(b.textContent)===d);
+  });
+}
+
+function getUPerML() {
+  if (DRUG === 'dysport') {
+    var dil = parseFloat(document.getElementById('f-dys-dilution').value);
+    return 300 / dil; // 300U vial: 300/2.5 = 120 U/mL = 12 U per 0.1 mL
+  } else {
+    var dil = parseFloat(document.getElementById('f-dilution').value);
+    return 100 / dil; // 100U vial
+  }
+}
+
+function drawSyringe() {
+  var syr = SYRINGES[SYRINGE];
+  var totalPx = syr.totalPx;
+  var marks = syr.marks;
+  var stepU = syr.stepU;
+  var stepML = syr.stepML;
+  var svgHeight = 340;
+  var barrelTop = 35;
+  var barrelH = 268;
+  var pxPerStep = barrelH / marks;
+
+  // Draw graduation lines
+  var gradLines = document.getElementById('grad-lines');
+  gradLines.innerHTML = '';
+  var labelCol = document.getElementById('label-col');
+  labelCol.innerHTML = '';
+  labelCol.style.height = svgHeight + 'px';
+  labelCol.style.paddingTop = barrelTop + 'px';
+  labelCol.style.paddingBottom = (svgHeight - barrelTop - barrelH) + 'px';
+
+  for (var i = 0; i <= marks; i++) {
+    var y = barrelTop + (i * pxPerStep);
+    var units = syr.maxU - (i * stepU);
+    var ml = (syr.maxML - (i * stepML)).toFixed(2);
+    var isMajor = true;
+
+    // Line
+    var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line.setAttribute('x1','18'); line.setAttribute('x2', i%2===0?'28':'24');
+    line.setAttribute('y1', y); line.setAttribute('y2', y);
+    line.setAttribute('stroke', '#8a7055'); line.setAttribute('stroke-width','1');
+    gradLines.appendChild(line);
+    // Right side too
+    var line2 = document.createElementNS('http://www.w3.org/2000/svg','line');
+    line2.setAttribute('x1','52'); line2.setAttribute('x2', i%2===0?'62':'58');
+    line2.setAttribute('y1', y); line2.setAttribute('y2', y);
+    line2.setAttribute('stroke','#8a7055'); line2.setAttribute('stroke-width','1');
+    gradLines.appendChild(line2);
+
+    // Labels every mark
+    var div = document.createElement('div');
+    div.className = 'mark-label';
+    div.style.position = 'absolute';
+    div.style.top = (i * pxPerStep) + 'px';
+    div.style.transform = 'translateY(-50%)';
+    div.innerHTML = '<span style="color:#5a3a1a;font-weight:700">' + units + 'u</span> <span style="color:#8a7468;font-size:.65rem">/' + ml + 'mL</span>';
+    div.style.fontSize = '.68rem';
+    div.style.fontFamily = "'JetBrains Mono', monospace";
+    div.style.whiteSpace = 'nowrap';
+    div.style.lineHeight = '1';
+    labelCol.style.position = 'relative';
+    labelCol.appendChild(div);
+  }
+  labelCol.style.position = 'relative';
+  labelCol.style.height = barrelH + 'px';
+  labelCol.style.paddingTop = '0';
+  labelCol.style.paddingBottom = '0';
+  labelCol.style.marginTop = barrelTop + 'px';
+}
+
+function calculate() {
+  var dose = parseFloat(document.getElementById('f-dose').value) || 0;
+  var uPerML = getUPerML();
+  var ml = dose / uPerML;
+  var syr = SYRINGES[SYRINGE];
+  var drug = DRUGS[DRUG];
+
+  // Syringe fill — based on mL drawn vs syringe mL capacity
+  // This correctly positions fill regardless of drug concentration
+  var barrelH = 268;
+  var barrelTop = 35;
+  var pct = Math.min(ml / syr.maxML, 1);
+  var fillH = barrelH * pct;
+  var fillY = barrelTop + barrelH - fillH;
+  var fillRect = document.getElementById('fill-rect');
+  fillRect.setAttribute('y', fillY);
+  fillRect.setAttribute('height', fillH);
+
+  // Syringe barrel units = mL position on barrel (0.1mL = 10 units on U-100 syringe)
+  var syringeUnits = ml * 100; // U-100: 1mL = 100 units, so mL × 100 = barrel units
+  var overMax = ml > syr.maxML;
+
+  document.getElementById('disp-units').textContent = overMax ? '⚠ Over max' : dose + 'u';
+  document.getElementById('disp-drug-label').textContent = drug.label + ' units — draw to this mark';
+  document.getElementById('disp-ml').textContent = ml.toFixed(3) + ' mL  |  draw to ' + (overMax ? 'OVER MAX' : syringeUnits.toFixed(1) + ' units on barrel');
+
+  // Results
+  document.getElementById('results-area').innerHTML =
+    '<div class="result-row gold" style="margin-bottom:.4rem"><div><div class="r-label">Draw volume</div></div><div class="r-val">' + ml.toFixed(3) + ' mL</div></div>' +
+    '<div class="result-row dark" style="margin-bottom:.4rem"><div><div class="r-label">' + syr.label + ' — draw to</div><div style="font-size:.68rem;color:var(--tan);margin-top:.1rem">units on barrel</div></div><div class="r-val">' + (overMax ? '⚠ >Max' : syringeUnits.toFixed(1) + ' units') + '</div></div>' +
+    (overMax ? '<div style="background:var(--rose-light);border-radius:7px;padding:.5rem .75rem;font-size:.78rem;color:var(--rose);font-weight:600;margin-top:.4rem">⚠ Dose exceeds syringe max — switch to 1mL syringe or split into 2 injections</div>' : '');
+
+  // Dysport equiv
+  if (DRUG === 'dysport') {
+    var botoxEquiv = (dose / 3).toFixed(1);
+    document.getElementById('botox-equiv').textContent = botoxEquiv + ' U Botox';
+  }
+
+  // Title
+  document.getElementById('syringe-title').textContent = syr.label + ' — ' + drug.label;
+  updateQuickBtns();
+  // Redraw dose arrow
+  drawGraduations();
+}
+
+function buildSyringeLabels() {
+  // Labels now drawn inside SVG via drawGraduations — clear the external column
+  var labelCol = document.getElementById('label-col');
+  labelCol.innerHTML = '';
+  labelCol.style.cssText = 'display:none';
+}
+
+function drawGraduations() {
+  var syr = SYRINGES[SYRINGE];
+  var barrelH = 268;
+  var barrelTop = 35;
+  var barrelBottom = barrelTop + barrelH;
+  var maxU = syr.maxU;
+  var maxML = syr.maxML;
+  var gradLines = document.getElementById('grad-lines');
+  gradLines.innerHTML = '';
+
+  // BD syringe mark scheme:
+  // 1mL syringe: major every 10u, mid every 5u, minor every 2u
+  // 3/10mL syringe: major every 5u, minor every 1u
+  var minorStep = SYRINGE === '1ml' ? 2 : 1;
+  var midStep   = SYRINGE === '1ml' ? 5 : null;
+  var majorStep = SYRINGE === '1ml' ? 10 : 5;
+  var pxPerUnit = barrelH / maxU;
+
+  for (var u = 0; u <= maxU; u += minorStep) {
+    var y = barrelTop + ((maxU - u) * pxPerUnit);
+    var isMajor = (u % majorStep === 0);
+    var isMid   = midStep && (u % midStep === 0) && !isMajor;
+
+    // Tick lengths mirroring a BD syringe
+    var leftLen  = isMajor ? 16 : isMid ? 11 : 7;
+    var rightLen = isMajor ? 16 : isMid ? 11 : 7;
+    var stroke   = isMajor ? '#1a1814' : isMid ? '#3d3830' : '#8a7055';
+    var sw       = isMajor ? 2 : 1;
+
+    // Left tick (inward from left wall)
+    var l = document.createElementNS('http://www.w3.org/2000/svg','line');
+    l.setAttribute('x1','19'); l.setAttribute('x2', 19 + leftLen);
+    l.setAttribute('y1', y); l.setAttribute('y2', y);
+    l.setAttribute('stroke', stroke); l.setAttribute('stroke-width', sw);
+    gradLines.appendChild(l);
+
+    // Right tick (inward from right wall)
+    var r = document.createElementNS('http://www.w3.org/2000/svg','line');
+    r.setAttribute('x1','61'); r.setAttribute('x2', 61 - rightLen);
+    r.setAttribute('y1', y); r.setAttribute('y2', y);
+    r.setAttribute('stroke', stroke); r.setAttribute('stroke-width', sw);
+    gradLines.appendChild(r);
+
+    // Unit number on LEFT of barrel for major marks (BD style)
+    if (isMajor) {
+      // mL label right side
+      var mlVal = (u / maxU * maxML).toFixed(SYRINGE === '1ml' ? 1 : 2);
+      var mlTxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      mlTxt.setAttribute('x','65');
+      mlTxt.setAttribute('y', y + 3.5);
+      mlTxt.setAttribute('text-anchor','start');
+      mlTxt.setAttribute('font-size','8.5');
+      mlTxt.setAttribute('font-family','JetBrains Mono, monospace');
+      mlTxt.setAttribute('fill','#2a5a8a');
+      mlTxt.setAttribute('font-weight','700');
+      mlTxt.textContent = mlVal + ' mL';
+      gradLines.appendChild(mlTxt);
+
+      // Unit label left side
+      var uTxt = document.createElementNS('http://www.w3.org/2000/svg','text');
+      uTxt.setAttribute('x','15');
+      uTxt.setAttribute('y', y + 3.5);
+      uTxt.setAttribute('text-anchor','end');
+      uTxt.setAttribute('font-size','8.5');
+      uTxt.setAttribute('font-family','JetBrains Mono, monospace');
+      uTxt.setAttribute('fill','#1a1814');
+      uTxt.setAttribute('font-weight','700');
+      uTxt.textContent = u + 'u';
+      gradLines.appendChild(uTxt);
+    }
+  }
+
+  // Dose arrow — red indicator using mL ratio for correct position regardless of drug concentration
+  var curDose = parseFloat(document.getElementById('f-dose').value) || 0;
+  var uPerML = getUPerML();
+  var doseML = curDose / uPerML;
+  var arrowPct = Math.min(doseML / maxML, 1);
+  var arrowY = barrelTop + barrelH - (arrowPct * barrelH);
+  var overMLMax = doseML > maxML;
+  if (curDose > 0 && !overMLMax) {
+    var arrow = document.createElementNS('http://www.w3.org/2000/svg','line');
+    arrow.setAttribute('x1','19'); arrow.setAttribute('x2','61');
+    arrow.setAttribute('y1', arrowY); arrow.setAttribute('y2', arrowY);
+    arrow.setAttribute('stroke','#8a3a2a'); arrow.setAttribute('stroke-width','2');
+    arrow.setAttribute('stroke-dasharray','3,2');
+    gradLines.appendChild(arrow);
+    // Arrow label
+    var aLabel = document.createElementNS('http://www.w3.org/2000/svg','text');
+    aLabel.setAttribute('x','40');
+    aLabel.setAttribute('y', arrowY - 3);
+    aLabel.setAttribute('text-anchor','middle');
+    aLabel.setAttribute('font-size','7.5');
+    aLabel.setAttribute('font-family','JetBrains Mono, monospace');
+    aLabel.setAttribute('fill','#8a3a2a');
+    aLabel.setAttribute('font-weight','700');
+    aLabel.textContent = '← draw here';
+    gradLines.appendChild(aLabel);
+  }
+
+  // Widen SVG viewBox to accommodate right-side mL labels
+  document.getElementById('syringe-svg').setAttribute('viewBox','0 0 110 340');
+  document.getElementById('syringe-svg').setAttribute('width','110');
+}
+
+// Init
+drawGraduations();
+buildSyringeLabels();
+updateQuickBtns();
+calculate();
+</script>
+</body>
+</html>
