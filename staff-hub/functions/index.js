@@ -361,6 +361,8 @@ exports.importTeamsPosts = onCall(async (req) => {
   const uidFor = (name) => (users.find((u) => u.name && u.name === String(name).trim().toLowerCase()) || {}).id || null;
   // "__owner__" marks something the person running the import wrote themselves ("You" in Teams).
   const who = (name) => { if (name === "__owner__") return { author: me.id }; const id = uidFor(name); return id ? { author: id } : { author: me.id, displayAuthor: name }; };
+  // "@[Name]" in a saved post becomes a real mention when that person has an account.
+  const tagged = (text, ids) => String(text || "").replace(/@\[([^\]]+)\]/g, (m, n) => { const id = uidFor(n); if (id) { ids.push(id); return `<@${id}>`; } return `**@${n}**`; });
   const comms = (await db.collection("communities").get()).docs;
   const chans = (await db.collection("channels").get()).docs;
   let posts = 0, replies = 0, skipped = 0;
@@ -372,18 +374,21 @@ exports.importTeamsPosts = onCall(async (req) => {
     const ch = c && chans.find((d) => d.get("communityId") === c.id && (item.channel === "General" ? d.get("general") : d.get("name").toLowerCase() === item.channel.toLowerCase()));
     if (!ch) { missing.add(`${item.community} › ${item.channel}`); continue; }
     const ref = db.collection("posts").doc();
+    const postMentions = [];
+    const body = tagged(item.body, postMentions);
     await ref.set(Object.assign({
       channelId: ch.id, communityId: c.id, group: ch.get("group") || "all",
-      subject: item.subject || "", body: item.body || "", priority: item.priority || "update", mentions: [],
+      subject: item.subject || "", body, priority: item.priority || "update", mentions: postMentions,
       attachments: item.attachments || [], pinned: !!item.pinned, reachAll: false, acks: {}, reactions: {}, replyCount: 0,
       createdAt: Date.parse(item.at), imported: true, importKey: item.key,
     }, who(item.author)));
     posts++;
     for (const r of item.replies || []) {
       const mentionIds = [];
+      const text = tagged(r.body, mentionIds);
       const tags = (r.mentions || []).map((n) => { const id = uidFor(n); if (id) { mentionIds.push(id); return `<@${id}>`; } return `**@${n}**`; });
       await ref.collection("replies").add(Object.assign({
-        body: tags.length ? `${r.body} ${tags.join(" ")}` : r.body, mentions: mentionIds, createdAt: Date.parse(r.at), imported: true,
+        body: tags.length ? `${text} ${tags.join(" ")}` : text, mentions: mentionIds, createdAt: Date.parse(r.at), imported: true,
       }, who(r.author)));
       replies++;
     }

@@ -7,7 +7,8 @@
     { "name": "Skincare Sales Goals", "icon": "🧴" }
   ] },
   { "name": "ALLE FLASH GOALS", "icon": "📱", "channels": [
-    { "name": "Monthly ALLE Flash Metrics", "icon": "📊" }
+    { "name": "Monthly ALLE Flash Metrics Deland", "icon": "🏷️" },
+    { "name": "Monthly ALLE Flash Metrics Ormond", "icon": "🌷" }
   ] },
   { "name": "Front Office Updates", "icon": "📣", "channels": [
     { "name": "Weekend Coverage", "icon": "🐱" }
