@@ -28,7 +28,18 @@ jobs:
         env:
           SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+          VAPID: ${{ secrets.FIREBASE_VAPID_KEY }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_PASS: ${{ secrets.MAIL_APP_PASSWORD }}
         run: |
+          for pair in "FIREBASE_PROJECT_ID:$PROJECT" "FIREBASE_SERVICE_ACCOUNT:$SA" "FIREBASE_VAPID_KEY:$VAPID" "MAIL_USER:$MAIL_USER" "MAIL_APP_PASSWORD:$MAIL_PASS"; do
+            name="${pair%%:*}"; value="${pair#*:}"
+            if [ -n "$value" ]; then echo "found    $name"; else echo "MISSING  $name"; fi
+          done
+          if [ -n "$SA" ] && ! printf '%s' "$SA" | python3 -c 'import json,sys; d=json.load(sys.stdin); assert d.get("type")=="service_account"' 2>/dev/null; then
+            echo "::error::FIREBASE_SERVICE_ACCOUNT isn't the full key file. Paste the entire contents of the downloaded .json file, from the first { to the last }."
+            exit 1
+          fi
           if [ -z "$SA" ] || [ -z "$PROJECT" ]; then
             echo "::warning::Firebase isn't connected yet. Add the FIREBASE_PROJECT_ID and FIREBASE_SERVICE_ACCOUNT repository secrets, then re-run this workflow."
             echo "ready=false" >> "$GITHUB_OUTPUT"
