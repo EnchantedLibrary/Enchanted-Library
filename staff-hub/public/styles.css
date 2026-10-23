@@ -308,3 +308,24 @@ body { -webkit-font-smoothing: antialiased; }
 [hidden] { display: none !important; }
 img { max-width: 100%; }
 .panel > .btn { align-self: flex-start; }
+
+/* Files and links */
+.ft { display: inline-grid; place-items: center; min-width: 30px; height: 20px; padding: 0 5px; border-radius: 4px; font-size: 10px; font-weight: 700; color: #fff; flex: none; letter-spacing: .02em; background: #6b6357; }
+.ft-pdf { background: #b3263e; } .ft-word { background: #2b579a; } .ft-excel { background: #217346; } .ft-ppt { background: #c43e1c; }
+.ft-image { background: #7a6a4f; } .ft-gdoc { background: #4285f4; } .ft-gsheet { background: #0f9d58; } .ft-gslide { background: #e8a400; }
+.ft-gform { background: #7248b9; } .ft-gfolder, .ft-gdrive { background: #5f6368; } .ft-link { background: #8a6314; }
+.drive-chip { display: inline-flex; align-items: center; gap: 6px; padding: 2px 8px 2px 3px; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); color: var(--fg) !important; text-decoration: none; font-weight: 500; vertical-align: middle; max-width: 100%; }
+.drive-chip span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.drive-chip:hover { border-color: var(--gold); }
+.att-file .ft { margin-right: 2px; }
+.tabs { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; }
+.tabs button { border: 0; background: var(--card); padding: 5px 12px; font-size: 12.5px; color: var(--muted); }
+.tabs button + button { border-left: 1px solid var(--line); }
+.tabs button[aria-selected="true"] { background: var(--fg); color: var(--bg); font-weight: 600; }
+.file-list { display: flex; flex-direction: column; gap: 6px; }
+.file-row { display: flex; align-items: center; gap: 12px; background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+.file-main { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.file-main a { color: var(--fg); font-weight: 600; text-decoration: none; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.file-main a:hover { text-decoration: underline; }
+.photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; }
+.photo-grid img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 1px solid var(--line); display: block; }

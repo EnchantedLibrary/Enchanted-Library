@@ -1,6 +1,6 @@
 rules_version = '2';
 
-// Photos and PDFs attached to posts. Only signed-in staff can read them,
+// Photos, PDFs and Office documents attached to posts. Only signed-in staff can read them,
 // and each person can only upload into their own folder.
 service firebase.storage {
   match /b/{bucket}/o {
@@ -9,7 +9,13 @@ service firebase.storage {
       allow create: if request.auth != null
         && request.auth.uid == uid
         && request.resource.size < 20 * 1024 * 1024
-        && (request.resource.contentType.matches('image/.*') || request.resource.contentType == 'application/pdf');
+        && (request.resource.contentType.matches('image/.*')
+            || request.resource.contentType in [
+              'application/pdf', 'text/csv', 'text/plain',
+              'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              'application/vnd.ms-excel', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+              'application/vnd.ms-powerpoint', 'application/vnd.openxmlformats-officedocument.presentationml.presentation'
+            ]);
       allow delete: if request.auth != null && request.auth.uid == uid;
     }
   }

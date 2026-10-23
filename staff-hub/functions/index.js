@@ -56,6 +56,7 @@ function plain(text) {
   return String(text || "")
     .replace(/<@([^>]+)>/g, "@someone")
     .replace(/\*\*([^*\n]+)\*\*/g, "$1")
+    .replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, "$1")
     .replace(/^#{1,3}\s+/gm, "")
     .replace(/^\s*[-*]\s+/gm, "• ")
     .replace(/\s+/g, " ").trim();
@@ -102,7 +103,8 @@ function postHtml(text, names) {
   const inline = (line) => esc(line)
     .replace(/&lt;@([A-Za-z0-9_-]+)&gt;/g, (m, id) => `<span style="color:#5b4eb0;font-weight:600">@${esc(names[id] || "someone")}</span>`)
     .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, '<a href="$1" style="color:#5b4eb0">$1</a>');
+    .replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<()]+[^\s<.,;:!?)])/g,
+      (m, label, named, bare) => `<a href="${named || bare}" style="color:#5b4eb0">${label || bare}</a>`);
   const out = []; let list = false;
   for (const line of String(text || "").split("\n")) {
     const li = line.match(/^\s*[-•*]\s+(.*)$/);

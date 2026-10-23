@@ -80,8 +80,9 @@
             <button class="tool" type="button" data-fmt="heading" title="Section heading">H</button>
             <button class="tool" type="button" data-fmt="list" title="Bulleted list">• List</button>
             <button class="tool" type="button" data-fmt="mention" title="Mention someone">@</button>
-            <button class="tool" type="button" id="attachBtn" title="Attach photo or PDF">📎 Photo / file</button>
-            <input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden>
+            <button class="tool" type="button" data-fmt="link" title="Add a Google Drive or web link">🔗 Link</button>
+            <button class="tool" type="button" id="attachBtn" title="Attach a photo, PDF, Word, Excel or PowerPoint file">📎 File</button>
+            <input type="file" id="fileIn" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.csv,.txt" multiple hidden>
           </div>
           <textarea id="cBody" placeholder="Share an update. Type @ to mention someone." aria-label="Post text"></textarea>
           <div class="pending" id="cFiles"></div>

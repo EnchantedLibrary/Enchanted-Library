@@ -23,7 +23,7 @@ const S = {
   threads: {}, threadUnsubs: {}, lastSeen: {},
   view: null, query: "", open: new Set(), picking: null, editing: null, confirm: null,
   drafts: {}, maps: { compose: {} }, composing: false, pending: [], busy: false,
-  flash: null, showNotYet: new Set(), mail: null,
+  flash: null, showNotYet: new Set(), mail: null, tab: "posts",
 };
 
 // ---------- small helpers ----------
@@ -113,15 +113,66 @@ function markSeen(key, ts) {
   }, 1500);
 }
 
+// ---------- files and links ----------
+const EXT_MIME = {
+  pdf: "application/pdf", doc: "application/msword", docx: "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+  xls: "application/vnd.ms-excel", xlsx: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ppt: "application/vnd.ms-powerpoint", pptx: "application/vnd.openxmlformats-officedocument.presentationml.presentation",
+  csv: "text/csv", txt: "text/plain", jpg: "image/jpeg", jpeg: "image/jpeg", png: "image/png", gif: "image/gif", webp: "image/webp", heic: "image/heic",
+};
+const mimeFor = (f) => EXT_MIME[(f.name.split(".").pop() || "").toLowerCase()] || f.type || "";
+const KINDS = {
+  pdf: ["PDF", "PDF"], word: ["W", "Word document"], excel: ["X", "Excel spreadsheet"], ppt: ["P", "PowerPoint"], image: ["IMG", "Photo"], text: ["TXT", "Text file"],
+  gdoc: ["Docs", "Google Doc"], gsheet: ["Sheets", "Google Sheet"], gslide: ["Slides", "Google Slides"], gform: ["Forms", "Google Form"],
+  gfolder: ["Folder", "Drive folder"], gdrive: ["Drive", "Google Drive file"], link: ["Link", "Link"], file: ["File", "File"],
+};
+function kindOfType(type) {
+  if (!type) return "file";
+  if (type.startsWith("image/")) return "image";
+  if (type === "application/pdf") return "pdf";
+  if (/word/.test(type)) return "word";
+  if (/sheet|excel|csv/.test(type)) return "excel";
+  if (/presentation|powerpoint/.test(type)) return "ppt";
+  if (type === "text/plain") return "text";
+  return "file";
+}
+function kindOfUrl(url) {
+  if (/docs\.google\.com\/document/.test(url)) return "gdoc";
+  if (/docs\.google\.com\/spreadsheets/.test(url)) return "gsheet";
+  if (/docs\.google\.com\/presentation/.test(url)) return "gslide";
+  if (/docs\.google\.com\/forms|forms\.gle\//.test(url)) return "gform";
+  if (/drive\.google\.com\/drive\/(u\/\d+\/)?folders/.test(url)) return "gfolder";
+  if (/drive\.google\.com\//.test(url)) return "gdrive";
+  return "link";
+}
+const badge = (kind) => h("span", { class: "ft ft-" + kind, "aria-hidden": "true", text: KINDS[kind][0] });
+function linkNode(url, label) {
+  const kind = kindOfUrl(url);
+  if (kind === "link") return h("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: label || url });
+  return h("a", { class: "drive-chip", href: url, target: "_blank", rel: "noopener noreferrer", title: KINDS[kind][1] }, badge(kind), h("span", { text: label || KINDS[kind][1] }));
+}
+// Every file and link in a post, for the Files tab.
+const LINK_RE = /\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<>()]+[^\s<>().,;:!?'"])/g;
+function filesIn(p) {
+  const out = (p.attachments || []).map((a) => ({ url: a.url, name: a.name || "File", kind: kindOfType(a.type), post: p }));
+  String(p.body || "").replace(LINK_RE, (m, label, named, bare) => {
+    const url = named || bare;
+    out.push({ url, name: label || (kindOfUrl(url) === "link" ? url.replace(/^https?:\/\//, "").slice(0, 60) : KINDS[kindOfUrl(url)][1]), kind: kindOfUrl(url), post: p });
+    return m;
+  });
+  return out;
+}
+
 // ---------- rich text ----------
-const INLINE = /\*\*([^*\n]+)\*\*|<@([A-Za-z0-9_\-]+)>|(https?:\/\/[^\s<>]+[^\s<>().,;:!?'"])|(\(?\b\d{3}\)?[\s.-]?\d{3}[-.\s]\d{4}\b)/g;
+const INLINE = /\*\*([^*\n]+)\*\*|<@([A-Za-z0-9_\-]+)>|\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)|(https?:\/\/[^\s<>()]+[^\s<>().,;:!?'"])|(\(?\b\d{3}\)?[\s.-]?\d{3}[-.\s]\d{4}\b)/g;
 function inline(s) {
   const out = []; let last = 0;
-  s.replace(INLINE, (m, b, mid, url, ph, idx) => {
+  s.replace(INLINE, (m, b, mid, label, named, url, ph, idx) => {
     if (idx > last) out.push(s.slice(last, idx));
     if (b != null) out.push(h("strong", null, inline(b)));
     else if (mid) out.push(h("span", { class: "mention" + (mid === S.uid ? " self" : ""), text: "@" + (mid === S.uid ? (S.me.name || "You") : nameOf(mid)) }));
-    else if (url) out.push(h("a", { href: url, target: "_blank", rel: "noopener noreferrer", text: url }));
+    else if (named) out.push(linkNode(named, label));
+    else if (url) out.push(linkNode(url));
     else out.push(h("a", { class: "phone", href: "tel:" + m.replace(/[^\d+]/g, ""), text: m }));
     last = idx + m.length; return m;
   });
@@ -143,7 +194,7 @@ function richText(text) {
   }
   return frag;
 }
-const plainText = (text) => (text || "").replace(/<@([^>]+)>/g, (m, id) => "@" + nameOf(id)).replace(/\*\*([^*\n]+)\*\*/g, "$1");
+const plainText = (text) => (text || "").replace(/<@([^>]+)>/g, (m, id) => "@" + nameOf(id)).replace(/\*\*([^*\n]+)\*\*/g, "$1").replace(/\[([^\]\n]+)\]\((https?:\/\/[^\s)]+)\)/g, "$1");
 function encodeMentions(text, map) {
   let out = text; const ids = new Set();
   Object.keys(map || {}).sort((a, b) => b.length - a.length).forEach((name) => {
@@ -270,6 +321,7 @@ function renderHead() {
   const tools = $("chActions"); tools.replaceChildren();
   const set = (tile, eyebrow, title, topic) => { $("chTile").textContent = tile; $("chEyebrow").textContent = eyebrow; $("chTitle").textContent = title; $("chTopic").textContent = topic; };
   $("search").hidden = SPECIAL.includes(S.view);
+  $("search").placeholder = S.tab === "files" ? "Search files" : "Search this channel";
   if (S.view === "activity") return set("🔔", "", "Activity", "Posts that need your acknowledgement and places you were mentioned.");
   if (S.view === "me") return set("⚙", "", "My settings", "Notifications, your work schedule and your account.");
   if (S.view === "team") return set("👥", "Managers", "Team", "Invite staff, set roles and work schedules.");
@@ -277,6 +329,10 @@ function renderHead() {
   if (!ch || !c) return set("✦", "", "Staff Hub", "");
   if (ch.general) set(c.icon || "✦", c.group !== "all" ? "Private community" : "Community", c.name, c.topic || "");
   else set(ch.icon || "#", c.name, ch.name, ch.topic || "");
+  const nFiles = new Set(allPosts().filter((p) => p.channelId === ch.id).flatMap((p) => filesIn(p).map((f) => f.url))).size;
+  tools.append(h("span", { class: "tabs", role: "tablist" },
+    h("button", { type: "button", role: "tab", "aria-selected": S.tab === "posts" ? "true" : "false", onclick: () => { S.tab = "posts"; schedule(); } }, "Posts"),
+    h("button", { type: "button", role: "tab", "aria-selected": S.tab === "files" ? "true" : "false", onclick: () => { S.tab = "files"; schedule(); } }, `Files${nFiles ? ` (${nFiles})` : ""}`)));
   if (isAdmin()) {
     const key = "del:" + ch.id, what = ch.general ? "community" : "channel";
     if (S.confirm === key) {
@@ -293,7 +349,7 @@ function renderHead() {
 function renderFeed() {
   const feed = $("feed");
   const ch = SPECIAL.includes(S.view) ? null : chan(S.view);
-  const postable = canPostIn(ch);
+  const postable = canPostIn(ch) && S.tab === "posts";
   $("newPostBtn").hidden = !postable || S.composing;
   $("composer").hidden = !(postable && S.composing);
   $("breakWrap").hidden = !$("pri-urgent").checked;
@@ -327,6 +383,7 @@ function renderFeed() {
     feed.replaceChildren(...out); return;
   }
 
+  if (S.tab === "files" && ch) { feed.replaceChildren(...filesPanel(ch)); return; }
   const q = S.query.trim().toLowerCase();
   let posts = allPosts().filter((p) => p.channelId === S.view);
   if (posts.length) markSeen(S.view, Math.max(...posts.map((p) => p.createdAt)));
@@ -349,7 +406,7 @@ function renderFeed() {
 
 function renderPending() {
   $("cFiles").replaceChildren(...S.pending.map((f) => h("span", { class: "pending-item" },
-    (f.type || "").startsWith("image/") ? "🖼" : "📄", h("span", { text: f.uploading ? `Uploading ${f.name}…` : f.name }),
+    badge(kindOfType(f.type)), h("span", { text: f.uploading ? `Uploading ${f.name}…` : f.name }),
     f.uploading ? null : h("button", { class: "link-btn", type: "button", "aria-label": "Remove " + f.name, onclick: () => { S.pending = S.pending.filter((x) => x !== f); renderPending(); } }, "✕"))));
 }
 
@@ -357,7 +414,7 @@ function attNodes(list) {
   if (!list || !list.length) return null;
   return h("div", { class: "atts" }, list.map((a) => (a.type || "").startsWith("image/")
     ? h("a", { href: a.url, target: "_blank", rel: "noopener" }, h("img", { class: "att-img", src: a.url, alt: a.name || "Photo", loading: "lazy" }))
-    : h("a", { class: "att-file", href: a.url, target: "_blank", rel: "noopener" }, "📄 ", h("span", { text: a.name || "File" }))));
+    : h("a", { class: "att-file", href: a.url, target: "_blank", rel: "noopener" }, badge(kindOfType(a.type)), h("span", { text: a.name || "File" }))));
 }
 
 function postNode(p, opt) {
@@ -675,9 +732,53 @@ function staffModal(u) {
   });
 }
 
+function linkModal(ta) {
+  const s = ta.selectionStart, e = ta.selectionEnd, sel = ta.value.slice(s, e);
+  openModal("Add a link", [
+    field("Link (Google Drive, a website, anything)", input("fUrl", "", { type: "url", required: true, placeholder: "https://docs.google.com/…" })),
+    field("Name to show (optional)", input("fLabel", sel, { maxlength: 80, placeholder: "e.g. SkinMedica training guide" })),
+    h("p", { class: "mini", text: "For Google Drive files, check sharing first: in Drive tap Share, then under General access choose Enchanted Medical Aesthetics (or Anyone with the link). Otherwise staff will see \"Request access\"." }),
+  ], "Add link", async () => {
+    let url = $("fUrl").value.trim();
+    if (!/^https?:\/\//i.test(url)) url = "https://" + url;
+    if (!/^https?:\/\/[^\s]+\.[^\s]+/.test(url)) throw new Error("Enter a full link, like https://docs.google.com/…");
+    const label = $("fLabel").value.trim().replace(/[\[\]]/g, "");
+    const text = label ? `[${label}](${url})` : url;
+    ta.value = ta.value.slice(0, s) + text + ta.value.slice(e);
+    setTimeout(() => { ta.focus(); ta.setSelectionRange(s + text.length, s + text.length); }, 0);
+  });
+}
+
+function filesPanel(ch) {
+  const q = S.query.trim().toLowerCase();
+  let items = [];
+  const seen = new Set();
+  allPosts().filter((p) => p.channelId === ch.id).sort((a, b) => b.createdAt - a.createdAt).forEach((p) => {
+    for (const f of filesIn(p)) { if (!seen.has(f.url)) { seen.add(f.url); items.push(f); } }
+  });
+  if (q) items = items.filter((f) => `${f.name} ${KINDS[f.kind][1]}`.toLowerCase().includes(q));
+  if (!items.length) return [h("div", { class: "empty" }, h("h2", { text: q ? "No matching files" : "No files yet" }),
+    h("p", { text: q ? "Try a different word." : "Photos, PDFs, documents and Google Drive links posted in this channel will be collected here." }))];
+  const photos = items.filter((f) => f.kind === "image"), docs = items.filter((f) => f.kind !== "image");
+  const out = [];
+  if (docs.length) {
+    out.push(h("div", { class: "section-label", text: `Documents and links (${docs.length})` }));
+    out.push(h("div", { class: "file-list" }, docs.map((f) => h("div", { class: "file-row" },
+      badge(f.kind),
+      h("div", { class: "file-main" }, h("a", { href: f.url, target: "_blank", rel: "noopener noreferrer", text: f.name }),
+        h("span", { class: "mini", text: `${KINDS[f.kind][1]} · ${nameOf(f.post.author)} · ${when(f.post.createdAt)}` })),
+      h("button", { class: "link-btn", type: "button", onclick: () => { S.tab = "posts"; S.flash = f.post.id; schedule(); } }, "View post")))));
+  }
+  if (photos.length) {
+    out.push(h("div", { class: "section-label", text: `Photos (${photos.length})` }));
+    out.push(h("div", { class: "photo-grid" }, photos.map((f) => h("a", { href: f.url, target: "_blank", rel: "noopener", title: f.name }, h("img", { src: f.url, alt: f.name, loading: "lazy" })))));
+  }
+  return out;
+}
+
 // ---------- actions ----------
 function go(view) {
-  S.view = view; S.query = ""; $("search").value = ""; S.confirm = null; S.editing = null; S.picking = null; delete S.drafts.mySched;
+  S.view = view; S.tab = "posts"; S.query = ""; $("search").value = ""; S.confirm = null; S.editing = null; S.picking = null; delete S.drafts.mySched;
   $("app").classList.add("show-main");
   $("feedWrap").scrollTop = 0; schedule();
 }
@@ -738,14 +839,16 @@ async function seed() {
 async function addFiles(files) {
   for (const f of files) {
     if (f.size > 20 * 1024 * 1024) { toast(`${f.name} is over 20 MB. Choose a smaller file.`); continue; }
-    const item = { name: f.name, type: f.type, uploading: true };
+    const type = mimeFor(f);
+    if (!Object.values(EXT_MIME).includes(type) && !type.startsWith("image/")) { toast(`${f.name} can't be attached. Use a photo, PDF, Word, Excel or PowerPoint file.`); continue; }
+    const item = { name: f.name, type, uploading: true };
     S.pending.push(item); renderPending();
     try {
       const path = `uploads/${S.uid}/${Date.now()}-${f.name.replace(/[^\w.\-]+/g, "_")}`;
       const r = storageRef(storage, path);
-      await uploadBytes(r, f, { contentType: f.type });
+      await uploadBytes(r, f, { contentType: type });
       Object.assign(item, { url: await getDownloadURL(r), path, uploading: false });
-    } catch (e) { S.pending = S.pending.filter((x) => x !== item); oops(e, `Couldn't upload ${f.name}. Photos and PDFs work best.`); }
+    } catch (e) { S.pending = S.pending.filter((x) => x !== item); oops(e, `Couldn't upload ${f.name}. Check your connection and try again.`); }
     renderPending();
   }
 }
@@ -880,6 +983,7 @@ function wire() {
     const ta = $("cBody"), f = b.dataset.fmt, s = ta.selectionStart, e = ta.selectionEnd;
     if (f === "bold") { const sel = ta.value.slice(s, e) || "bold text"; ta.value = ta.value.slice(0, s) + "**" + sel + "**" + ta.value.slice(e); ta.focus(); ta.setSelectionRange(s + 2, s + 2 + sel.length); }
     else if (f === "heading" || f === "list") { const pre = f === "heading" ? "# " : "- "; const ls = ta.value.lastIndexOf("\n", s - 1) + 1; ta.value = ta.value.slice(0, ls) + pre + ta.value.slice(ls); ta.focus(); ta.setSelectionRange(s + 2, s + 2); }
+    else if (f === "link") linkModal(ta);
     else { ta.value = ta.value.slice(0, s) + "@" + ta.value.slice(e); ta.focus(); ta.setSelectionRange(s + 1, s + 1); onMentionInput(ta, "compose"); }
   }));
   wireMentions($("cBody"), "compose");
