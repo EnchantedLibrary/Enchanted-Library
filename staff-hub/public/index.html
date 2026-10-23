@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Enchanted Staff Hub</title>
+<meta name="description" content="Team updates for Enchanted Medical Aesthetics.">
+<meta name="theme-color" content="#1a1a1a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Staff Hub">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icons/icon-192.png">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+
+<!-- Loading -->
+<div class="splash" id="splash"><span class="brand-title">Staff Hub</span><span class="muted">Loading…</span></div>
+
+<!-- Sign in -->
+<section class="gate" id="gate" hidden>
+  <form class="gate-card" id="loginForm">
+    <img class="gate-logo" src="/icons/logo.png" alt="Enchanted Medical Aesthetics">
+    <h1 class="gate-title">Staff Hub</h1>
+    <p class="muted" id="gateMsg">Sign in with the email your manager invited.</p>
+    <label class="field"><span>Email</span><input id="loginEmail" type="email" autocomplete="username" required></label>
+    <label class="field"><span>Password</span><input id="loginPass" type="password" autocomplete="current-password" required></label>
+    <button class="btn primary wide" type="submit" id="loginBtn">Sign in</button>
+    <button class="link-btn" type="button" id="forgotBtn">Forgot or need to set your password?</button>
+    <p class="error" id="loginErr" role="alert" hidden></p>
+  </form>
+</section>
+
+<!-- App -->
+<div class="app" id="app" hidden>
+  <aside class="side" aria-label="Communities">
+    <div class="brand">
+      <span class="brand-eyebrow">Enchanted Medical Aesthetics</span>
+      <span class="brand-title">Staff Hub</span>
+    </div>
+    <div class="side-scroll">
+      <button class="nav-item" id="activityBtn" type="button">
+        <span class="emo" aria-hidden="true">🔔</span><span class="label">Activity</span><span class="count alert" id="activityCount" hidden></span>
+      </button>
+      <div class="side-label"><span>Communities</span><button class="icon-btn" id="addCommBtn" type="button" aria-label="Create a community" title="Create a community" hidden>+</button></div>
+      <div id="commList"></div>
+    </div>
+    <div class="me" id="meBox"></div>
+  </aside>
+
+  <main class="main">
+    <header class="chan-head">
+      <div class="head-left">
+        <button class="back" id="backBtn" type="button" aria-label="Back to communities">‹</button>
+        <div class="head-tile" id="chTile" aria-hidden="true">✦</div>
+        <div class="titles">
+          <div class="chan-eyebrow" id="chEyebrow"></div>
+          <h1 class="chan-title" id="chTitle">Staff Hub</h1>
+          <p class="chan-topic" id="chTopic"></p>
+        </div>
+      </div>
+      <div class="head-tools">
+        <input class="search" id="search" type="search" placeholder="Search this channel" aria-label="Search posts">
+        <span id="chActions" class="row-gap"></span>
+      </div>
+    </header>
+    <div class="feed-wrap" id="feedWrap">
+      <div class="feed">
+        <div class="notice" id="pushNudge" hidden></div>
+        <button class="btn gold new-post" id="newPostBtn" type="button" hidden>＋ New post</button>
+        <section class="composer" id="composer" hidden>
+          <input class="subject" id="cSubject" maxlength="140" placeholder="Add a subject" aria-label="Subject">
+          <div class="toolbar" role="toolbar" aria-label="Formatting">
+            <button class="tool" type="button" data-fmt="bold" title="Bold"><b>B</b></button>
+            <button class="tool" type="button" data-fmt="heading" title="Section heading">H</button>
+            <button class="tool" type="button" data-fmt="list" title="Bulleted list">• List</button>
+            <button class="tool" type="button" data-fmt="mention" title="Mention someone">@</button>
+            <button class="tool" type="button" id="attachBtn" title="Attach photo or PDF">📎 Photo / file</button>
+            <input type="file" id="fileIn" accept="image/*,application/pdf" multiple hidden>
+          </div>
+          <textarea id="cBody" placeholder="Share an update. Type @ to mention someone." aria-label="Post text"></textarea>
+          <div class="pending" id="cFiles"></div>
+          <span class="hint">**bold** · # heading · - list item · No patient information here. Use Weave for patient follow-ups.</span>
+          <div class="composer-bar">
+            <div class="seg" role="radiogroup" aria-label="Priority">
+              <input type="radio" name="pri" id="pri-update" value="update" checked><label for="pri-update">Update</label>
+              <input type="radio" name="pri" id="pri-important" value="important"><label for="pri-important">Important</label>
+              <input type="radio" name="pri" id="pri-urgent" value="urgent"><label for="pri-urgent">Urgent</label>
+            </div>
+            <div class="bar-right">
+              <label class="check" id="breakWrap" hidden><input type="checkbox" id="cBreak"> <span>Notify people who are off too</span></label>
+              <button class="btn" id="cancelPost" type="button">Cancel</button>
+              <button class="btn primary" id="postBtn" type="button">Post</button>
+            </div>
+          </div>
+        </section>
+        <div class="feed-list" id="feed"></div>
+      </div>
+    </div>
+  </main>
+</div>
+
+<div class="modal-bg" id="modal" hidden>
+  <form class="modal" id="modalForm"></form>
+</div>
+<div class="mention-pop" id="mentionPop" role="listbox" aria-label="Mention someone" hidden></div>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+name: Deploy Staff Hub
+
+on:
+  push:
+    branches: [main, staff-hub-app]
+    paths: ["staff-hub/**", ".github/workflows/staff-hub.yml"]
+  workflow_dispatch:
+
+concurrency:
+  group: staff-hub-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: staff-hub
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Check that Firebase is connected
+        id: check
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          if [ -z "$SA" ] || [ -z "$PROJECT" ]; then
+            echo "::warning::Firebase isn't connected yet. Add the FIREBASE_PROJECT_ID and FIREBASE_SERVICE_ACCOUNT repository secrets, then re-run this workflow."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the app
+        if: steps.check.outputs.ready == 'true'
+        env:
+          VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
+        run: |
+          [ -n "$VAPID_KEY" ] || echo "::warning::FIREBASE_VAPID_KEY is not set, so push notifications will be off."
+          cd web && npm ci --no-audit --no-fund && npm run build
+
+      - name: Install server dependencies
+        if: steps.check.outputs.ready == 'true'
+        run: cd functions && npm ci --no-audit --no-fund --omit=dev
+
+      - name: Set hub owners
+        if: steps.check.outputs.ready == 'true'
+        env:
+          OWNERS: ${{ secrets.HUB_OWNER_EMAILS }}
+        run: echo "OWNER_EMAILS=${OWNERS:-info@enchantedmedicalaesthetics.com}" > functions/.env
+
+      - name: Deploy to Firebase
+        if: steps.check.outputs.ready == 'true'
+        env:
+          SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT: ${{ secrets.FIREBASE_PROJECT_ID }}
+        run: |
+          printf '%s' "$SA" > "$RUNNER_TEMP/sa.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/sa.json"
+          npx --yes firebase-tools@15.34.1 deploy --project "$PROJECT" --non-interactive --force
+          echo "### Staff Hub is live at https://$PROJECT.web.app" >> "$GITHUB_STEP_SUMMARY"
+          rm -f "$RUNNER_TEMP/sa.json"

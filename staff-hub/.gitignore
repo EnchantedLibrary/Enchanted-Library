@@ -1,0 +1,6 @@
+node_modules/
+functions/.env
+web/node_modules/
+*.log
+.firebase/
+public/app.js

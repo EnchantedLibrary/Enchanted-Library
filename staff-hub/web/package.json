@@ -1,0 +1,13 @@
+{
+  "name": "enchanted-staff-hub-web",
+  "private": true,
+  "scripts": {
+    "build": "esbuild src/app.js --bundle --minify --format=esm --target=es2020 --outfile=../public/app.js --define:__VAPID_KEY__=\\\"$VAPID_KEY\\\""
+  },
+  "dependencies": {
+    "firebase": "12.0.0"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0"
+  }
+}

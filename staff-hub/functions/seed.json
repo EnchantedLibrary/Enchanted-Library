@@ -1,0 +1,31 @@
+[
+  { "name": "TRACKING LOGS", "icon": "💋" },
+  { "name": "GROWTH METRICS", "icon": "🎯", "channels": [
+    { "name": "Botox Pre-Booking", "icon": "😊" },
+    { "name": "Diamond Glow Pre-Booking", "icon": "💎" },
+    { "name": "Non-Booked/Cancellation Tracking", "icon": "🔴" },
+    { "name": "Skincare Sales Goals", "icon": "🧴" }
+  ] },
+  { "name": "ALLE FLASH GOALS", "icon": "📱", "channels": [
+    { "name": "Monthly ALLE Flash Metrics", "icon": "📊" }
+  ] },
+  { "name": "Front Office Updates", "icon": "📣", "channels": [
+    { "name": "Weekend Coverage", "icon": "🐱" }
+  ] },
+  { "name": "Specials-Promos", "icon": "💰", "channels": [
+    { "name": "2026 Ongoing Specials", "icon": "🏷️" },
+    { "name": "Deland Specials-Promos", "icon": "🏷️" },
+    { "name": "Ormond Specials-Promos", "icon": "🏷️" }
+  ] },
+  { "name": "Educational Resources-Trainings", "icon": "🎓", "channels": [
+    { "name": "Aesthetic Record Training", "icon": "🏷️" },
+    { "name": "SkinMedica Training Required", "icon": "🧪" },
+    { "name": "Staff Portal", "icon": "🧑‍💻" }
+  ] },
+  { "name": "Back Office Operations", "icon": "📝" },
+  { "name": "Weekly Updates", "icon": "🔊", "postPolicy": "admins", "channels": [
+    { "name": "Deland Marketing", "icon": "🛍️" },
+    { "name": "Marketing Plan 2026", "icon": "🏷️" }
+  ] },
+  { "name": "Providers Only", "icon": "👩‍⚕️", "group": "providers" }
+]

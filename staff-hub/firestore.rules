@@ -1,0 +1,88 @@
+rules_version = '2';
+
+// Enchanted Staff Hub data rules.
+// Only invited, active staff can read anything. Managers ("admin") run communities,
+// channels and staff. "providers" group content is visible only to providers and managers.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function userDoc() { return get(/databases/$(database)/documents/users/$(request.auth.uid)); }
+    function active() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && userDoc().data.active == true;
+    }
+    function isAdmin() { return active() && userDoc().data.role == 'admin'; }
+    function inGroup(g) {
+      return active() && (g == 'all' || userDoc().data.role == 'admin' || g in userDoc().data.get('groups', []));
+    }
+    function changed() { return request.resource.data.diff(resource.data).affectedKeys(); }
+    // A person may only change their own entry inside the acks and reactions maps.
+    function ownMapKeysOnly() {
+      return (!('acks' in changed())
+               || request.resource.data.get('acks', {}).diff(resource.data.get('acks', {})).affectedKeys().hasOnly([request.auth.uid]))
+          && (!('reactions' in changed())
+               || request.resource.data.get('reactions', {}).diff(resource.data.get('reactions', {})).affectedKeys().hasOnly([request.auth.uid]));
+    }
+    function channel(id) { return get(/databases/$(database)/documents/channels/$(id)).data; }
+
+    match /users/{uid} {
+      allow read: if active();
+      allow update: if isAdmin()
+        || (request.auth.uid == uid && active()
+            && changed().hasOnly(['schedule', 'notify']));
+
+      match /tokens/{token} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+      match /private/{docId} {
+        allow read, write: if signedIn() && request.auth.uid == uid;
+      }
+    }
+
+    match /communities/{id} {
+      allow read: if inGroup(resource.data.group);
+      allow write: if isAdmin();
+    }
+
+    match /channels/{id} {
+      allow read: if inGroup(resource.data.group);
+      allow write: if isAdmin();
+    }
+
+    match /posts/{postId} {
+      allow read: if inGroup(resource.data.group);
+      allow create: if active()
+        && request.resource.data.author == request.auth.uid
+        && channel(request.resource.data.channelId).group == request.resource.data.group
+        && channel(request.resource.data.channelId).communityId == request.resource.data.communityId
+        && inGroup(request.resource.data.group)
+        && (channel(request.resource.data.channelId).get('postPolicy', 'everyone') != 'admins' || isAdmin())
+        && request.resource.data.get('acks', {}).size() == 0
+        && request.resource.data.get('reactions', {}).size() == 0
+        && request.resource.data.get('replyCount', 0) == 0
+        && (request.resource.data.get('pinned', false) == false || isAdmin());
+      allow update: if isAdmin()
+        || (inGroup(resource.data.group) && ownMapKeysOnly() && (
+              changed().hasOnly(['acks', 'reactions'])
+              || (resource.data.author == request.auth.uid
+                  && changed().hasOnly(['subject', 'body', 'mentions', 'attachments', 'editedAt', 'acks', 'reactions']))
+           ));
+      allow delete: if isAdmin() || (active() && resource.data.author == request.auth.uid);
+
+      match /replies/{replyId} {
+        function postGroup() { return get(/databases/$(database)/documents/posts/$(postId)).data.group; }
+        allow read: if inGroup(postGroup());
+        allow create: if inGroup(postGroup()) && request.resource.data.author == request.auth.uid;
+        allow update: if active() && resource.data.author == request.auth.uid
+          && changed().hasOnly(['body', 'mentions', 'editedAt']);
+        allow delete: if isAdmin() || (active() && resource.data.author == request.auth.uid);
+      }
+    }
+
+    // Notifications waiting for someone's next shift: server only.
+    match /queue/{id} {
+      allow read, write: if false;
+    }
+  }
+}
