@@ -1,5 +1,44 @@
 [
   {
+    "key": "tracking-staff-treatment-protocol",
+    "community": "TRACKING LOGS",
+    "channel": "General",
+    "author": "Julie Weiss",
+    "at": "2026-05-27T11:56:00-04:00",
+    "priority": "update",
+    "subject": "Staff Treatment Protocol",
+    "body": "**Step 1: Submit Staff Treatment Request in Talent.** You will have 1 treatment request per quarter. If there are trainings or other opportunities, then other treatments may be possible. Treatments are at cost; if samples are available, then there may be opportunities for no-cost treatments. When submitting a request in Talent, go to “time off” request. Be very specific on what treatment you’re requesting. If it’s Botox, please indicate the areas you want treated.\n\n**Step 2:** Management will approve in Talent HR.\n\n**Step 3:** Management will book the appointment with an available provider during non-working and non-peak hours.\n\n**Step 4:** The staff member is responsible for documenting the treatment in the Google Sheets document ([2026 Staff Treatment Log](https://docs.google.com/spreadsheets/d/1U6u7L1bUjf7r6ev-gN58kFFI6sGbkKTIvuPdxP9Z0Sc/edit)). This document will be shared with all staff; please place it on your iPad home page. This is a critical step that must not be skipped. If you skip this step, you will be at risk of losing your staff treatment privileges.\n\n**Step 5:** If it’s an Allergan product, you must document on the reimbursement sheet on staff fridge the name and amount of the product used.",
+    "attachments": [
+      {
+        "name": "Staff Treatment Protocol.docx",
+        "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "url": "https://drive.google.com/file/d/1U3LDnSwiFegZIYnac3Nfz2h8r9LJGifK/view"
+      }
+    ],
+    "replies": [
+      {
+        "author": "__owner__",
+        "at": "2026-05-27T14:37:00-04:00",
+        "body": "Thank you"
+      },
+      {
+        "author": "Emma Toto",
+        "at": "2026-05-27T15:07:00-04:00",
+        "body": "Got it"
+      },
+      {
+        "author": "Anissa Mort",
+        "at": "2026-05-31T10:30:00-04:00",
+        "body": "Got it"
+      },
+      {
+        "author": "Cheryl Kimmel",
+        "at": "2026-06-03T09:48:00-04:00",
+        "body": "Got it"
+      }
+    ]
+  },
+  {
     "key": "specials-revised-q4-promotions",
     "community": "Specials-Promos",
     "channel": "General",
@@ -9,13 +48,33 @@
     "subject": "Revised Q4 Promotions",
     "body": "Good morning! Attached are the revised Q4 promotions and cheat sheet for front desk & medical providers. Most specials are the same with one change: the Skinvive promotion has been removed and replaced with a DeLand-exclusive Baby Lip Plump promotion.\n\nThese promotions are for Q4 but are already live on the booking portal and in Aesthetic Record for prebooking and filling upcoming schedules. Our first email blast featuring these promotions will be sent Monday, 9/21!",
     "attachments": [
-      { "name": "Q4 Promos - Front Desk Cheat Sheet.pdf", "type": "application/pdf", "url": "https://drive.google.com/file/d/1w_AB3OKzUYrFsoZPlDlRBeG7BJhMJgVK/view" },
-      { "name": "Fall Promotions.pdf", "type": "application/pdf", "url": "https://drive.google.com/file/d/15-bBEQyRM3oj15SvjtIMA9n7IdWiKe4j/view" }
+      {
+        "name": "Q4 Promos - Front Desk Cheat Sheet.pdf",
+        "type": "application/pdf",
+        "url": "https://drive.google.com/file/d/1w_AB3OKzUYrFsoZPlDlRBeG7BJhMJgVK/view"
+      },
+      {
+        "name": "Fall Promotions.pdf",
+        "type": "application/pdf",
+        "url": "https://drive.google.com/file/d/15-bBEQyRM3oj15SvjtIMA9n7IdWiKe4j/view"
+      }
     ],
     "replies": [
-      { "author": "Emma Toto", "at": "2026-09-18T11:16:00-04:00", "body": "got it" },
-      { "author": "angie hughes", "at": "2026-09-18T11:33:00-04:00", "body": "Got it!!" },
-      { "author": "Kaitlyn Kellem", "at": "2026-09-18T11:54:00-04:00", "body": "Got it!" }
+      {
+        "author": "Emma Toto",
+        "at": "2026-09-18T11:16:00-04:00",
+        "body": "got it"
+      },
+      {
+        "author": "angie hughes",
+        "at": "2026-09-18T11:33:00-04:00",
+        "body": "Got it!!"
+      },
+      {
+        "author": "Kaitlyn Kellem",
+        "at": "2026-09-18T11:54:00-04:00",
+        "body": "Got it!"
+      }
     ]
   },
   {
@@ -29,12 +88,42 @@
     "body": "Starting 10/1, we'll be launching a New Patient Botox Offer! New patients will receive 10 FREE units of Botox ($120 value) when treated with 40+ units.\n\nPatients can also stack this offer with $65 OFF Botox through Alle Rewards, bringing their total savings to $185 off their first treatment!\n\nSince this is a manufacturer sponsored promotion, this offer is exclusive to Botox and cannot be applied toward Dysport or Xeomin treatments.\n\nThis service will be booked in AR as \"Botox New Patient Offer: 10 Free Units\". Our current \"Botox,Dysport,Xeomin (New Patient)\" service will be renamed to just \"Dysport, Xeomin (New Patient)\"\n\n**Providers are responsible for adding this promotion to the Allergan Reimbursement Log for tracking!**",
     "attachments": [],
     "replies": [
-      { "author": "Amanda Nahon", "at": "2026-09-24T09:44:00-04:00", "body": "Got it" },
-      { "author": "Cheryl Kimmel", "at": "2026-09-24T10:24:00-04:00", "body": "Perfect thank you Julie!!" },
-      { "author": "Julie Weiss", "at": "2026-10-01T09:33:00-04:00", "body": "This can be stacked with the $50 off first service in Deland offer as well", "mentions": ["Emma Toto", "Anneliese Miller", "Allie DelSonno", "Emma Epperly"] },
-      { "author": "Emma Toto", "at": "2026-10-01T09:36:00-04:00", "body": "Thank you" },
-      { "author": "Allie DelSonno", "at": "2026-10-01T11:49:00-04:00", "body": "Got it!" },
-      { "author": "Julie Weiss", "at": "2026-10-01T14:54:00-04:00", "body": "[Botox New Patient Offer - Automations & Outreach Plan](https://drive.google.com/file/d/1W0m7DK4iKNxe31fAcTJLYPb-DfUvrkOG/view)" }
+      {
+        "author": "Amanda Nahon",
+        "at": "2026-09-24T09:44:00-04:00",
+        "body": "Got it"
+      },
+      {
+        "author": "Cheryl Kimmel",
+        "at": "2026-09-24T10:24:00-04:00",
+        "body": "Perfect thank you Julie!!"
+      },
+      {
+        "author": "Julie Weiss",
+        "at": "2026-10-01T09:33:00-04:00",
+        "body": "This can be stacked with the $50 off first service in Deland offer as well",
+        "mentions": [
+          "Emma Toto",
+          "Anneliese Miller",
+          "Allie DelSonno",
+          "Emma Epperly"
+        ]
+      },
+      {
+        "author": "Emma Toto",
+        "at": "2026-10-01T09:36:00-04:00",
+        "body": "Thank you"
+      },
+      {
+        "author": "Allie DelSonno",
+        "at": "2026-10-01T11:49:00-04:00",
+        "body": "Got it!"
+      },
+      {
+        "author": "Julie Weiss",
+        "at": "2026-10-01T14:54:00-04:00",
+        "body": "[Botox New Patient Offer - Automations & Outreach Plan](https://drive.google.com/file/d/1W0m7DK4iKNxe31fAcTJLYPb-DfUvrkOG/view)"
+      }
     ]
   },
   {
@@ -47,12 +136,28 @@
     "subject": "Botox Cosmetic Day 2026",
     "body": "Hi everyone! Botox Cosmetic Day 2026 is right around the corner! On **Wednesday, November 18 at 12 PM EST**, patients can purchase a $50 Botox Cosmetic Day Gift Card through Alle Rewards and receive a second $50 gift card FREE!\n\n**Alle is making the promotion even sweeter this year!** If a patient refers a friend to Alle Rewards and that friend receives their first Alle treatment during November, both the referring patient and their friend will receive a $50 Alle Credit.",
     "attachments": [
-      { "name": "Botox Cosmetic Day flyer - DeLand (free Diamond Glow facial).png", "type": "image/png", "url": "https://drive.google.com/file/d/1AtWKVocvEGDTihN5-D4tvyu20zo7pHVR/view" },
-      { "name": "Botox Cosmetic Day flyer - Ormond Beach.png", "type": "image/png", "url": "https://drive.google.com/file/d/1Ia6P5yiMUjHzN3oK8t8vi2kJExcj1gai/view" }
+      {
+        "name": "Botox Cosmetic Day flyer - DeLand (free Diamond Glow facial).png",
+        "type": "image/png",
+        "url": "https://drive.google.com/file/d/1AtWKVocvEGDTihN5-D4tvyu20zo7pHVR/view"
+      },
+      {
+        "name": "Botox Cosmetic Day flyer - Ormond Beach.png",
+        "type": "image/png",
+        "url": "https://drive.google.com/file/d/1Ia6P5yiMUjHzN3oK8t8vi2kJExcj1gai/view"
+      }
     ],
     "replies": [
-      { "author": "Cheryl Kimmel", "at": "2026-10-23T13:38:00-04:00", "body": "Thanks Julie!" },
-      { "author": "Emma Toto", "at": "2026-10-23T13:38:30-04:00", "body": "Got it thank you" }
+      {
+        "author": "Cheryl Kimmel",
+        "at": "2026-10-23T13:38:00-04:00",
+        "body": "Thanks Julie!"
+      },
+      {
+        "author": "Emma Toto",
+        "at": "2026-10-23T13:38:30-04:00",
+        "body": "Got it thank you"
+      }
     ]
   }
 ]

@@ -359,7 +359,8 @@ exports.importTeamsPosts = onCall(async (req) => {
   const me = await requireUser(req, true);
   const users = (await db.collection("users").get()).docs.map((d) => ({ id: d.id, name: String(d.get("name") || "").trim().toLowerCase() }));
   const uidFor = (name) => (users.find((u) => u.name && u.name === String(name).trim().toLowerCase()) || {}).id || null;
-  const who = (name) => { const id = uidFor(name); return id ? { author: id } : { author: me.id, displayAuthor: name }; };
+  // "__owner__" marks something the person running the import wrote themselves ("You" in Teams).
+  const who = (name) => { if (name === "__owner__") return { author: me.id }; const id = uidFor(name); return id ? { author: id } : { author: me.id, displayAuthor: name }; };
   const comms = (await db.collection("communities").get()).docs;
   const chans = (await db.collection("channels").get()).docs;
   let posts = 0, replies = 0, skipped = 0;
