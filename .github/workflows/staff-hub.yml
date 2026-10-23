@@ -52,17 +52,15 @@ jobs:
         if: steps.check.outputs.ready == 'true'
         env:
           OWNERS: ${{ secrets.HUB_OWNER_EMAILS }}
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-          TWILIO_FROM: ${{ secrets.TWILIO_FROM }}
+          MAIL_USER: ${{ secrets.MAIL_USER }}
+          MAIL_APP_PASSWORD: ${{ secrets.MAIL_APP_PASSWORD }}
         run: |
           {
             echo "OWNER_EMAILS=${OWNERS:-info@enchantedmedicalaesthetics.com}"
-            echo "TWILIO_ACCOUNT_SID=${TWILIO_ACCOUNT_SID}"
-            echo "TWILIO_AUTH_TOKEN=${TWILIO_AUTH_TOKEN}"
-            echo "TWILIO_FROM=${TWILIO_FROM}"
+            echo "MAIL_USER=${MAIL_USER}"
+            echo "MAIL_APP_PASSWORD=${MAIL_APP_PASSWORD}"
           } > functions/.env
-          [ -n "$TWILIO_FROM" ] && echo "Text alerts: on" || echo "Text alerts: off (Twilio secrets not set)"
+          [ -n "$MAIL_APP_PASSWORD" ] && echo "Email alerts: on" || echo "Email alerts: off (MAIL_USER / MAIL_APP_PASSWORD not set)"
 
       - name: Deploy to Firebase
         if: steps.check.outputs.ready == 'true'

@@ -30,7 +30,7 @@ service cloud.firestore {
       allow read: if active();
       allow update: if isAdmin()
         || (request.auth.uid == uid && active()
-            && changed().hasOnly(['schedule', 'notify']));
+            && changed().hasOnly(['schedule', 'notify', 'emailNotify']));
 
       match /tokens/{token} {
         allow read, write: if signedIn() && request.auth.uid == uid;

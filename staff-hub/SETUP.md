@@ -1,7 +1,7 @@
 # Enchanted Staff Hub
 
 A Teams-style app for office updates: communities and channels, posts with @mentions, photos, reactions,
-replies, **Acknowledge** with "Seen by" and "Not yet" lists, and push notifications that respect each
+replies, **Acknowledge** with "Seen by" and "Not yet" lists, and push notifications and emails that respect each
 person's work days and hours (Florida time). Staff install it on their phones from the browser. No app
 store and no per-person fees.
 
@@ -15,7 +15,7 @@ Patient information does not go here. Use Weave Team Chat for patient follow-ups
 | Logins | Firebase Authentication (email + password, invite only) |
 | Posts, channels, staff | Cloud Firestore, protected by `firestore.rules` |
 | Photos and PDFs | Cloud Storage, protected by `storage.rules` |
-| Notifications, quiet hours, invites, reminders (`functions/`) | Cloud Functions |
+| Notifications, emails, quiet hours, invites, reminders (`functions/`) | Cloud Functions |
 
 Pushing changes under `staff-hub/` runs `.github/workflows/staff-hub.yml`, which builds the app and
 deploys everything to Firebase.
@@ -74,21 +74,21 @@ app's address: `https://<project-id>.web.app`.
 Optional: Authentication → **Templates → Password reset**, set the sender name to "Enchanted Staff Hub" and the
 subject to "Set your Staff Hub password".
 
-## Text message alerts (optional)
+## Email alerts
 
-Staff who opt in under **My settings → Text messages** get a text for urgent alerts (or important and urgent,
-their choice), following their work schedule. Texts go out through **Twilio**. Texting stays off until these
-three repository secrets exist:
+Every post is also emailed to staff (each person chooses all posts, only important/urgent/@mentions, or nothing
+under **My settings → Email**). Emails follow the same work schedule as notifications: anything posted while
+someone is off is emailed at the start of their next shift, unless it's an Urgent post sent to everyone.
+Replies to an email go to the person who posted.
+
+Emails are sent from the office Gmail. Email stays off until these repository secrets exist:
 
 | Name | Value |
 |---|---|
-| `TWILIO_ACCOUNT_SID` | Twilio Console → Account Info → Account SID (starts with `AC`) |
-| `TWILIO_AUTH_TOKEN` | Twilio Console → Account Info → Auth Token |
-| `TWILIO_FROM` | the approved toll-free number in `+18885551234` form, or a Messaging Service SID (`MG…`) |
+| `MAIL_USER` | the sending address, e.g. `info@enchantedmedicalaesthetics.com` |
+| `MAIL_APP_PASSWORD` | a Google **app password** for that account (myaccount.google.com/apppasswords, requires 2-Step Verification) |
 
-US carriers require the number to be verified before it can text: use a **toll-free number** and submit
-**Toll-Free Verification** in Twilio. The opt-in proof is the Text messages screen in the app plus
-`https://<project-id>.web.app/sms-terms.html`. After adding the secrets, re-run the deploy workflow.
+After adding them, re-run the deploy workflow. Google Workspace allows about 2,000 emails a day per account.
 
 ## Installing on phones
 

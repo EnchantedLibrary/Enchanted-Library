@@ -11,6 +11,7 @@ const { setGlobalOptions } = require("firebase-functions/v2");
 const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { onDocumentCreated, onDocumentDeleted } = require("firebase-functions/v2/firestore");
 const { onSchedule } = require("firebase-functions/v2/scheduler");
+const nodemailer = require("nodemailer");
 const sched = require("./schedule");
 const SEED = require("./seed.json");
 
@@ -22,9 +23,16 @@ const OWNER_EMAILS = (process.env.OWNER_EMAILS || "info@enchantedmedicalaestheti
   .toLowerCase().split(/[\s,;]+/).filter(Boolean);
 const GROUPS = ["all", "providers"];
 const APP_URL = process.env.APP_URL || `https://${process.env.GCLOUD_PROJECT || "staff-hub"}.web.app`;
-// Text messages go out through Twilio once these are set (see SETUP.md). Until then texting stays off.
-const TW = { sid: process.env.TWILIO_ACCOUNT_SID || "", token: process.env.TWILIO_AUTH_TOKEN || "", from: process.env.TWILIO_FROM || "" };
-const textingOn = () => !!(TW.sid && TW.token && TW.from);
+// Email alerts go out from the office Gmail once these are set (see SETUP.md). Until then email stays off.
+const MAIL = {
+  user: process.env.MAIL_USER || "", pass: process.env.MAIL_APP_PASSWORD || "",
+  host: process.env.MAIL_HOST || "smtp.gmail.com", port: Number(process.env.MAIL_PORT || 465),
+};
+const mailOn = () => !!(MAIL.user && MAIL.pass);
+let transport = null;
+const mailer = () => transport || (transport = nodemailer.createTransport({
+  host: MAIL.host, port: MAIL.port, secure: MAIL.port === 465, auth: { user: MAIL.user, pass: MAIL.pass },
+}));
 
 // ---------- helpers ----------
 async function requireUser(req, managersOnly) {
@@ -87,30 +95,72 @@ async function pushTo(uid, msg) {
   return res.successCount;
 }
 
-// Send a text if the person opted in and the alert is at the level they chose.
-async function textTo(uid, msg, force) {
-  if (!textingOn()) return false;
-  const c = (await db.doc(`users/${uid}/private/contact`).get()).data();
-  if (!c || !c.phone || !c.consentAt) return false;
-  const pref = c.sms || "urgent", lvl = msg.level;
-  const wanted = force || (pref === "urgent" && lvl === "urgent") || (pref === "important" && (lvl === "urgent" || lvl === "important"));
-  if (!wanted) return false;
-  // Plain characters only, so carriers bill each text as one standard message.
-  const gsm = (t) => String(t).replace(/[·•]/g, "-").replace(/[›»]/g, ">").replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...").replace(/[^\x20-\x7E]/g, "");
-  const body = gsm(`Enchanted Staff Hub: ${clip(msg.title, 90)}${msg.smsText ? " - " + clip(msg.smsText, 90) : ""} ${APP_URL}${msg.link || "/"}`);
-  const params = { To: c.phone, Body: body };
-  if (TW.from.startsWith("MG")) params.MessagingServiceSid = TW.from; else params.From = TW.from;
-  const r = await fetch(`${process.env.TWILIO_API_BASE || "https://api.twilio.com"}/2010-04-01/Accounts/${TW.sid}/Messages.json`, {
-    method: "POST",
-    headers: { Authorization: "Basic " + Buffer.from(`${TW.sid}:${TW.token}`).toString("base64"), "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams(params),
+const esc = (t) => String(t || "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+
+// Turn a post's simple formatting (**bold**, # heading, - list, @mentions, links) into email HTML.
+function postHtml(text, names) {
+  const inline = (line) => esc(line)
+    .replace(/&lt;@([A-Za-z0-9_-]+)&gt;/g, (m, id) => `<span style="color:#5b4eb0;font-weight:600">@${esc(names[id] || "someone")}</span>`)
+    .replace(/\*\*([^*\n]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(https?:\/\/[^\s<]+[^\s<.,;:!?)])/g, '<a href="$1" style="color:#5b4eb0">$1</a>');
+  const out = []; let list = false;
+  for (const line of String(text || "").split("\n")) {
+    const li = line.match(/^\s*[-•*]\s+(.*)$/);
+    if (li) { if (!list) { out.push('<ul style="margin:4px 0;padding-left:20px">'); list = true; } out.push(`<li>${inline(li[1])}</li>`); continue; }
+    if (list) { out.push("</ul>"); list = false; }
+    const hd = line.match(/^#{1,3}\s+(.*)$/);
+    if (hd) out.push(`<div style="color:#b3263e;font-weight:700;margin-top:8px">${inline(hd[1])}</div>`);
+    else if (!line.trim()) out.push('<div style="height:8px"></div>');
+    else out.push(`<div>${inline(line)}</div>`);
+  }
+  if (list) out.push("</ul>");
+  return out.join("\n");
+}
+
+async function buildEmail(post, postId, place, authorName, authorEmail) {
+  const ids = [...new Set((String(post.body || "").match(/<@([A-Za-z0-9_-]+)>/g) || []).map((t) => t.slice(2, -1)))];
+  const names = {};
+  await Promise.all(ids.map(async (id) => { names[id] = await nameOf(id); }));
+  const label = post.priority === "urgent" ? "URGENT" : post.priority === "important" ? "Important" : "";
+  const badge = label ? `<span style="display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;background:${post.priority === "urgent" ? "#fbecee;color:#b3263e" : "#fbf1e1;color:#a8670e"}">${label}</span>` : "";
+  const link = `${APP_URL}/#post-${postId}`;
+  const subject = `${label ? label + ": " : ""}${post.subject || clip(plain(post.body), 70) || "New post"} [${place}]`;
+  const html = `<!doctype html><html><body style="margin:0;background:#f0ede6;font-family:-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;color:#1a1a1a">
+<div style="max-width:600px;margin:0 auto;padding:20px 12px">
+<div style="background:#1a1a1a;border-bottom:3px solid #c9a84c;padding:14px 20px;border-radius:12px 12px 0 0">
+<div style="font-size:10px;letter-spacing:.3em;color:#c9a84c;text-transform:uppercase">Enchanted Medical Aesthetics</div>
+<div style="font-family:Georgia,serif;font-size:22px;color:#c9a84c">Staff Hub</div></div>
+<div style="background:#fff;border:1px solid #ddd8ce;border-top:0;border-radius:0 0 12px 12px;padding:20px">
+<div style="font-size:13px;color:#6b6357;margin-bottom:8px">${esc(authorName)} posted in <strong>${esc(place)}</strong> ${badge}</div>
+${post.subject ? `<h2 style="margin:6px 0 10px;font-size:20px">${esc(post.subject)}</h2>` : ""}
+<div style="font-size:15px;line-height:1.6">${postHtml(post.body, names)}</div>
+${(post.attachments || []).length ? `<div style="margin-top:10px;font-size:13px;color:#6b6357">📎 ${post.attachments.length} attachment${post.attachments.length > 1 ? "s" : ""} in the post</div>` : ""}
+<div style="margin-top:20px"><a href="${link}" style="display:inline-block;background:#1a1a1a;color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-weight:600">${post.priority === "update" ? "Open in Staff Hub" : "Open and acknowledge"}</a></div>
+</div>
+<p style="font-size:11.5px;color:#6b6357;margin:14px 4px;line-height:1.5">You're getting this because you're on the Enchanted Staff Hub. To change which emails you get, open Staff Hub → ⚙ My settings. Replies go to ${esc(authorName)}. Please don't include patient information.</p>
+</div></body></html>`;
+  const text = `${authorName} posted in ${place}${label ? " (" + label + ")" : ""}\n\n${post.subject ? post.subject + "\n\n" : ""}${String(post.body || "").replace(/<@([A-Za-z0-9_-]+)>/g, (m, id) => "@" + (names[id] || "someone")).replace(/\*\*([^*\n]+)\*\*/g, "$1")}\n\nOpen in Staff Hub: ${link}\n\nTo change which emails you get, open Staff Hub > My settings.`;
+  return { subject, html, text, replyTo: authorEmail || undefined };
+}
+
+// Email one person if they want this kind of alert.
+async function emailTo(uid, msg, force) {
+  if (!mailOn() || !msg.email) return false;
+  const u = (await db.doc(`users/${uid}`).get()).data();
+  if (!u || !u.email) return false;
+  const pref = u.emailNotify || "all";
+  const wanted = force || (msg.level !== "reply" && pref === "all") || msg.mentioned
+    || (pref === "important" && (msg.level === "urgent" || msg.level === "important"));
+  if (!wanted || (pref === "off" && !force)) return false;
+  await mailer().sendMail({
+    from: `"Enchanted Staff Hub" <${MAIL.user}>`, to: u.email, replyTo: msg.email.replyTo,
+    subject: msg.email.subject, html: msg.email.html, text: msg.email.text,
   });
-  if (!r.ok) console.error("text failed", uid, r.status, (await r.text()).slice(0, 300));
-  return r.ok;
+  return true;
 }
 
 async function notifyNow(uid, msg) {
-  const results = await Promise.allSettled([pushTo(uid, msg), textTo(uid, msg)]);
+  const results = await Promise.allSettled([msg.push === false ? 0 : pushTo(uid, msg), emailTo(uid, msg)]);
   results.forEach((r) => { if (r.status === "rejected") console.error("notify failed", uid, r.reason && r.reason.message); });
 }
 
@@ -215,14 +265,20 @@ exports.onPostCreated = onDocumentCreated("posts/{postId}", async (event) => {
   const label = post.priority === "urgent" ? "URGENT · " : post.priority === "important" ? "Important · " : "";
   const text = clip(`${author}: ${post.subject ? post.subject + " — " : ""}${plain(post.body)}`, 180);
   const link = `/#post-${postId}`;
+  const authorEmail = ((await db.doc(`users/${post.author}`).get()).data() || {}).email;
+  const email = mailOn() ? await buildEmail(post, postId, place, author, authorEmail) : null;
   await Promise.all(people.map((u) => {
     const mentioned = (post.mentions || []).includes(u.id);
-    if (!wants(u, { important, mentioned })) return null;
+    const pushOk = wants(u, { important, mentioned });
+    const mailPref = u.emailNotify || "all";
+    const mailOk = !!email && mailPref !== "off" && (mailPref === "all" || important || mentioned);
+    if (!pushOk && !mailOk) return null;
     const msg = {
       title: mentioned ? `${author} mentioned you · ${place}` : `${label}${place}`, body: text, link, tag: `post-${postId}`,
-      urgent: post.priority === "urgent", level: post.priority || "update", smsText: post.subject || clip(plain(post.body), 80),
+      urgent: post.priority === "urgent", level: post.priority || "update", mentioned, push: pushOk, email: mailOk ? email : null,
     };
-    return deliver(u, msg, { force: post.priority === "urgent" && post.reachAll === true, holdIfOff: important || mentioned, key: `post-${postId}` });
+    // Everything waits for the person's next shift if they're off, unless an urgent post is sent to everyone.
+    return deliver(u, msg, { force: post.priority === "urgent" && post.reachAll === true, holdIfOff: true, key: `post-${postId}` });
   }));
 });
 
@@ -248,7 +304,7 @@ exports.onReplyCreated = onDocumentCreated("posts/{postId}/replies/{replyId}", a
     if (!wants(u, { important: false, mentioned: mentioned || u.id === post.author })) return null;
     const msg = {
       title: mentioned ? `${author} mentioned you · ${place}` : `${author} replied · ${place}`,
-      body: clip(plain(reply.body), 180), link, tag: `post-${postId}`,
+      body: clip(plain(reply.body), 180), link, tag: `post-${postId}`, level: "reply", mentioned, email: null,
     };
     return deliver(u, msg, { holdIfOff: mentioned, key: `reply-${event.params.replyId}` });
   }));
@@ -269,9 +325,15 @@ exports.remindUnacknowledged = onCall(async (req) => {
   const acked = post.acks || {};
   const people = (await audience(post.group || "all", post.author)).filter((u) => !acked[u.id]);
   const place = await where(post);
+  let email = null;
+  if (mailOn()) {
+    const a = (await db.doc(`users/${post.author}`).get()).data() || {};
+    email = await buildEmail(post, postId, place, a.name || "A manager", a.email);
+    email.subject = `Reminder, please acknowledge: ${email.subject}`;
+  }
   const msg = {
     title: `Please acknowledge · ${place}`, body: clip(post.subject || plain(post.body), 180), link: `/#post-${postId}`, tag: `post-${postId}`,
-    level: post.priority || "important", smsText: post.subject || clip(plain(post.body), 80),
+    level: post.priority || "important", mentioned: false, email,
   };
   let now = 0, later = 0;
   for (const u of people) {
@@ -287,17 +349,18 @@ exports.sendTestNotification = onCall(async (req) => {
   return { sent };
 });
 
-exports.textingStatus = onCall(async (req) => {
+exports.emailStatus = onCall(async (req) => {
   await requireUser(req, false);
-  return { enabled: textingOn() };
+  return { enabled: mailOn() };
 });
 
-exports.sendTestText = onCall(async (req) => {
+exports.sendTestEmail = onCall(async (req) => {
   const me = await requireUser(req, false);
-  if (!textingOn()) throw new HttpsError("failed-precondition", "Text alerts aren't switched on yet.");
-  const ok = await textTo(me.id, { title: "Text alerts are on", smsText: "You'll get texts like this for the alerts you chose.", link: "/" }, true);
-  if (!ok) throw new HttpsError("failed-precondition", "Save your mobile number and agree to texts first, then try again.");
-  return { sent: true };
+  if (!mailOn()) throw new HttpsError("failed-precondition", "Email alerts aren't switched on yet.");
+  const email = await buildEmail({ subject: "Email alerts are working", body: "You'll get emails like this when something is posted in the **Staff Hub**.", priority: "update" }, "", "Test", "Staff Hub", MAIL.user);
+  email.subject = "Test: Staff Hub email alerts are working";
+  await emailTo(me.id, { level: "update", email }, true);
+  return { sent: true, to: me.email };
 });
 
 exports.sendQueued = onSchedule({ schedule: "every 10 minutes", timeZone: sched.TZ }, async () => {
@@ -305,7 +368,7 @@ exports.sendQueued = onSchedule({ schedule: "every 10 minutes", timeZone: sched.
   for (const d of due.docs) {
     const { uid, msg } = d.data();
     const u = (await db.doc(`users/${uid}`).get()).data();
-    if (u && u.active && (u.notify || "all") !== "off" && !sched.isPaused(u.schedule, Date.now())) {
+    if (u && u.active && !sched.isPaused(u.schedule, Date.now())) {
       await notifyNow(uid, msg);
     }
     await d.ref.delete();

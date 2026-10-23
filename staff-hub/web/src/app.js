@@ -23,9 +23,8 @@ const S = {
   threads: {}, threadUnsubs: {}, lastSeen: {},
   view: null, query: "", open: new Set(), picking: null, editing: null, confirm: null,
   drafts: {}, maps: { compose: {} }, composing: false, pending: [], busy: false,
-  flash: null, showNotYet: new Set(), contact: null, texting: null,
+  flash: null, showNotYet: new Set(), mail: null,
 };
-const CONSENT = "I agree to receive work alert text messages from Enchanted Medical Aesthetics at this number. Message frequency varies. Message and data rates may apply. Reply STOP to opt out or HELP for help.";
 
 // ---------- small helpers ----------
 function h(tag, attrs, ...kids) {
@@ -525,7 +524,7 @@ function settingsPanel() {
   const schedStatus = isPaused(S.me.schedule, now) ? "Paused" : onShift(S.me.schedule, now) ? "Working now: notifications on" : "Off shift: notifications held";
   return h("div", { class: "staff-list" },
     h("section", { class: "panel" },
-      h("h2", { text: "Notifications" }),
+      h("h2", { text: "App notifications" }),
       h("p", null, "This device: ", h("strong", { text: status })),
       st === "off" ? h("button", { class: "btn gold", type: "button", onclick: () => enablePush(true) }, "Turn on notifications") : null,
       st === "on" ? h("div", { class: "row-gap" },
@@ -545,7 +544,7 @@ function settingsPanel() {
       schedEditor(o, "my"),
       h("div", { class: "row-gap" },
         h("button", { class: "btn primary", type: "button", onclick: () => { let s; try { s = cleanSched(o); } catch (e) { toast(e.message); return; } updateDoc(doc(db, "users", S.uid), { schedule: s }).then(() => { delete S.drafts.mySched; toast("Schedule saved"); }).catch(oops); } }, "Save schedule"))),
-    textPanel(),
+    emailPanel(),
     h("section", { class: "panel" },
       h("h2", { text: "Account" }),
       h("p", null, "Signed in as ", h("strong", { text: S.me.email || "" })),
@@ -554,48 +553,18 @@ function settingsPanel() {
         h("button", { class: "btn danger", type: "button", onclick: () => signOut(auth) }, "Sign out"))));
 }
 
-function e164(raw) {
-  const d = String(raw || "").replace(/[^\d+]/g, "");
-  if (/^\+\d{10,15}$/.test(d)) return d;
-  const n = d.replace(/\D/g, "");
-  if (n.length === 10) return "+1" + n;
-  if (n.length === 11 && n.startsWith("1")) return "+" + n;
-  return null;
-}
-function prettyPhone(p) { const m = /^\+1(\d{3})(\d{3})(\d{4})$/.exec(p || ""); return m ? `(${m[1]}) ${m[2]}-${m[3]}` : (p || ""); }
-
-function textPanel() {
-  const saved = S.contact || {};
-  const o = S.drafts.contact = S.drafts.contact || { phone: prettyPhone(saved.phone), sms: saved.sms || "urgent", agree: !!saved.consentAt };
-  const phone = h("input", { id: "smsPhone", type: "tel", inputmode: "tel", autocomplete: "tel", placeholder: "(386) 555-0100", oninput: (e) => { o.phone = e.target.value; } });
-  phone.value = o.phone || "";
-  const radio = (val, label) => h("label", { class: "check" }, h("input", { type: "radio", name: "smsLevel", value: val, checked: o.sms === val, onchange: () => { o.sms = val; } }), label);
-  const agree = h("input", { type: "checkbox", id: "smsAgree", checked: o.agree, onchange: (e) => { o.agree = e.target.checked; } });
-  const live = saved.phone && saved.consentAt && saved.sms !== "off";
+function emailPanel() {
+  const pref = S.me.emailNotify || "all";
+  const radio = (val, label) => h("label", { class: "check" }, h("input", { type: "radio", name: "emailNotify", value: val, checked: pref === val,
+    onchange: () => updateDoc(doc(db, "users", S.uid), { emailNotify: val }).then(() => toast("Saved")).catch(oops) }), label);
   return h("section", { class: "panel" },
-    h("div", { class: "row-gap", style: "align-items:center" }, h("h2", { text: "Text messages" }),
-      h("span", { class: "status-pill" + (live && S.texting ? "" : " off"), text: live ? (S.texting ? "On" : "Saved, waiting for texting to be switched on") : "Off" })),
-    h("p", { text: "Get a text for urgent alerts, even if you don't open the app. Texts follow your work schedule, just like notifications." }),
-    S.texting === false ? h("p", { class: "mini", text: "Your manager hasn't switched texting on yet. You can save your number now and texts will start once it's on." }) : null,
-    h("label", { class: "field" }, h("span", { text: "Mobile number" }), phone),
-    h("div", { class: "field" }, h("span", { text: "Text me for" }),
-      h("div", { class: "radio-row" }, radio("urgent", "Urgent only"), radio("important", "Important and urgent"), radio("off", "Never"))),
-    h("label", { class: "check", style: "align-items:flex-start" }, agree, h("span", { class: "mini" }, CONSENT, " ", h("a", { href: "/sms-terms.html", target: "_blank", rel: "noopener", text: "Text message terms" }))),
-    h("div", { class: "row-gap" },
-      h("button", { class: "btn primary", type: "button", onclick: saveContact }, "Save"),
-      live && S.texting ? h("button", { class: "btn", type: "button", onclick: () => call("sendTestText").then(() => toast("Test text sent.")).catch(oops) }, "Send me a test text") : null));
-}
-async function saveContact() {
-  const o = S.drafts.contact, saved = S.contact || {};
-  const phone = o.phone.trim() ? e164(o.phone) : "";
-  if (phone === null) { toast("Enter a 10-digit mobile number."); return; }
-  if (phone && o.sms !== "off" && !o.agree) { toast("Tick the box to agree to text messages, or choose Never."); return; }
-  try {
-    await setDoc(doc(db, `users/${S.uid}/private/contact`), {
-      phone, sms: o.sms, consentAt: o.agree && phone ? (saved.consentAt || Date.now()) : null, consentText: o.agree ? CONSENT : null, updatedAt: Date.now(),
-    });
-    delete S.drafts.contact; toast(phone && o.sms !== "off" ? "Saved. You'll get texts for the alerts you chose." : "Saved. Text messages are off.");
-  } catch (e) { oops(e); }
+    h("div", { class: "row-gap", style: "align-items:center" }, h("h2", { text: "Email" }),
+      h("span", { class: "status-pill" + (S.mail && pref !== "off" ? "" : " off"), text: S.mail === false ? "Not switched on yet" : pref === "off" ? "Off" : "On" })),
+    h("p", null, "Posts are emailed to ", h("strong", { text: S.me.email || "your email" }), ". Emails follow your work schedule, so anything posted while you're off arrives at the start of your next shift."),
+    S.mail === false ? h("p", { class: "mini", text: "Your manager hasn't switched email alerts on yet. Your choice below is saved for when they do." }) : null,
+    h("div", { class: "field" }, h("span", { text: "Email me about" }),
+      h("div", { class: "radio-row" }, radio("all", "All posts"), radio("important", "Important, urgent and @mentions"), radio("off", "Nothing"))),
+    S.mail ? h("div", { class: "row-gap" }, h("button", { class: "btn", type: "button", onclick: () => call("sendTestEmail").then((r) => toast(`Test email sent to ${r.to}.`)).catch(oops) }, "Send me a test email")) : null);
 }
 
 function teamPanel() {
@@ -708,7 +677,7 @@ function staffModal(u) {
 
 // ---------- actions ----------
 function go(view) {
-  S.view = view; S.query = ""; $("search").value = ""; S.confirm = null; S.editing = null; S.picking = null; delete S.drafts.mySched; delete S.drafts.contact;
+  S.view = view; S.query = ""; $("search").value = ""; S.confirm = null; S.editing = null; S.picking = null; delete S.drafts.mySched;
   $("app").classList.add("show-main");
   $("feedWrap").scrollTop = 0; schedule();
 }
@@ -867,8 +836,7 @@ function start(uid) {
   }, (e) => { oops(e, "Couldn't load your account."); }));
   S.unsubs.push(onSnapshot(doc(db, `users/${uid}/private/state`), (d) => { S.lastSeen = Object.assign({}, (d.data() || {}).lastSeen, S.lastSeen); schedule(); }, () => {}));
   S.unsubs.push(() => { groupUnsubs.forEach((u) => u()); groupUnsubs = []; });
-  S.unsubs.push(onSnapshot(doc(db, `users/${uid}/private/contact`), (d) => { S.contact = d.data() || null; schedule(); }, () => {}));
-  call("textingStatus").then((r) => { S.texting = !!r.enabled; schedule(); }).catch(() => { S.texting = false; });
+  call("emailStatus").then((r) => { S.mail = !!r.enabled; schedule(); }).catch(() => { S.mail = false; });
   if (pushState() === "on" || (("Notification" in window) && Notification.permission === "granted")) enablePush(false);
 }
 
