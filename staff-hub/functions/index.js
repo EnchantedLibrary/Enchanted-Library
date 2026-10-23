@@ -21,6 +21,10 @@ setGlobalOptions({ region: "us-central1", maxInstances: 5 });
 const OWNER_EMAILS = (process.env.OWNER_EMAILS || "info@enchantedmedicalaesthetics.com")
   .toLowerCase().split(/[\s,;]+/).filter(Boolean);
 const GROUPS = ["all", "providers"];
+const APP_URL = process.env.APP_URL || `https://${process.env.GCLOUD_PROJECT || "staff-hub"}.web.app`;
+// Text messages go out through Twilio once these are set (see SETUP.md). Until then texting stays off.
+const TW = { sid: process.env.TWILIO_ACCOUNT_SID || "", token: process.env.TWILIO_AUTH_TOKEN || "", from: process.env.TWILIO_FROM || "" };
+const textingOn = () => !!(TW.sid && TW.token && TW.from);
 
 // ---------- helpers ----------
 async function requireUser(req, managersOnly) {
@@ -83,10 +87,37 @@ async function pushTo(uid, msg) {
   return res.successCount;
 }
 
+// Send a text if the person opted in and the alert is at the level they chose.
+async function textTo(uid, msg, force) {
+  if (!textingOn()) return false;
+  const c = (await db.doc(`users/${uid}/private/contact`).get()).data();
+  if (!c || !c.phone || !c.consentAt) return false;
+  const pref = c.sms || "urgent", lvl = msg.level;
+  const wanted = force || (pref === "urgent" && lvl === "urgent") || (pref === "important" && (lvl === "urgent" || lvl === "important"));
+  if (!wanted) return false;
+  // Plain characters only, so carriers bill each text as one standard message.
+  const gsm = (t) => String(t).replace(/[·•]/g, "-").replace(/[›»]/g, ">").replace(/[‘’]/g, "'").replace(/[“”]/g, '"').replace(/[–—]/g, "-").replace(/…/g, "...").replace(/[^\x20-\x7E]/g, "");
+  const body = gsm(`Enchanted Staff Hub: ${clip(msg.title, 90)}${msg.smsText ? " - " + clip(msg.smsText, 90) : ""} ${APP_URL}${msg.link || "/"}`);
+  const params = { To: c.phone, Body: body };
+  if (TW.from.startsWith("MG")) params.MessagingServiceSid = TW.from; else params.From = TW.from;
+  const r = await fetch(`${process.env.TWILIO_API_BASE || "https://api.twilio.com"}/2010-04-01/Accounts/${TW.sid}/Messages.json`, {
+    method: "POST",
+    headers: { Authorization: "Basic " + Buffer.from(`${TW.sid}:${TW.token}`).toString("base64"), "Content-Type": "application/x-www-form-urlencoded" },
+    body: new URLSearchParams(params),
+  });
+  if (!r.ok) console.error("text failed", uid, r.status, (await r.text()).slice(0, 300));
+  return r.ok;
+}
+
+async function notifyNow(uid, msg) {
+  const results = await Promise.allSettled([pushTo(uid, msg), textTo(uid, msg)]);
+  results.forEach((r) => { if (r.status === "rejected") console.error("notify failed", uid, r.reason && r.reason.message); });
+}
+
 // Deliver now if the person is working, otherwise hold it for their next shift (when allowed).
 async function deliver(user, msg, { force = false, holdIfOff = true, key } = {}) {
   const now = Date.now();
-  if (force || sched.onShift(user.schedule, now)) { await pushTo(user.id, msg); return "now"; }
+  if (force || sched.onShift(user.schedule, now)) { await notifyNow(user.id, msg); return "now"; }
   if (!holdIfOff) return "skipped";
   const due = sched.nextShift(user.schedule, now);
   if (!due) return "skipped";
@@ -187,7 +218,10 @@ exports.onPostCreated = onDocumentCreated("posts/{postId}", async (event) => {
   await Promise.all(people.map((u) => {
     const mentioned = (post.mentions || []).includes(u.id);
     if (!wants(u, { important, mentioned })) return null;
-    const msg = { title: mentioned ? `${author} mentioned you · ${place}` : `${label}${place}`, body: text, link, tag: `post-${postId}`, urgent: post.priority === "urgent" };
+    const msg = {
+      title: mentioned ? `${author} mentioned you · ${place}` : `${label}${place}`, body: text, link, tag: `post-${postId}`,
+      urgent: post.priority === "urgent", level: post.priority || "update", smsText: post.subject || clip(plain(post.body), 80),
+    };
     return deliver(u, msg, { force: post.priority === "urgent" && post.reachAll === true, holdIfOff: important || mentioned, key: `post-${postId}` });
   }));
 });
@@ -235,7 +269,10 @@ exports.remindUnacknowledged = onCall(async (req) => {
   const acked = post.acks || {};
   const people = (await audience(post.group || "all", post.author)).filter((u) => !acked[u.id]);
   const place = await where(post);
-  const msg = { title: `Please acknowledge · ${place}`, body: clip(post.subject || plain(post.body), 180), link: `/#post-${postId}`, tag: `post-${postId}` };
+  const msg = {
+    title: `Please acknowledge · ${place}`, body: clip(post.subject || plain(post.body), 180), link: `/#post-${postId}`, tag: `post-${postId}`,
+    level: post.priority || "important", smsText: post.subject || clip(plain(post.body), 80),
+  };
   let now = 0, later = 0;
   for (const u of people) {
     const r = await deliver(u, msg, { holdIfOff: true, key: `remind-${postId}` });
@@ -250,13 +287,26 @@ exports.sendTestNotification = onCall(async (req) => {
   return { sent };
 });
 
+exports.textingStatus = onCall(async (req) => {
+  await requireUser(req, false);
+  return { enabled: textingOn() };
+});
+
+exports.sendTestText = onCall(async (req) => {
+  const me = await requireUser(req, false);
+  if (!textingOn()) throw new HttpsError("failed-precondition", "Text alerts aren't switched on yet.");
+  const ok = await textTo(me.id, { title: "Text alerts are on", smsText: "You'll get texts like this for the alerts you chose.", link: "/" }, true);
+  if (!ok) throw new HttpsError("failed-precondition", "Save your mobile number and agree to texts first, then try again.");
+  return { sent: true };
+});
+
 exports.sendQueued = onSchedule({ schedule: "every 10 minutes", timeZone: sched.TZ }, async () => {
   const due = await db.collection("queue").where("dueAt", "<=", Date.now()).limit(300).get();
   for (const d of due.docs) {
     const { uid, msg } = d.data();
     const u = (await db.doc(`users/${uid}`).get()).data();
     if (u && u.active && (u.notify || "all") !== "off" && !sched.isPaused(u.schedule, Date.now())) {
-      try { await pushTo(uid, msg); } catch (e) { console.error("push failed", uid, e.message); }
+      await notifyNow(uid, msg);
     }
     await d.ref.delete();
   }

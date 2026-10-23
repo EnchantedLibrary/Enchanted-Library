@@ -4,3 +4,4 @@ web/node_modules/
 *.log
 .firebase/
 public/app.js
+functions/.env.local

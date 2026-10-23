@@ -74,6 +74,22 @@ app's address: `https://<project-id>.web.app`.
 Optional: Authentication → **Templates → Password reset**, set the sender name to "Enchanted Staff Hub" and the
 subject to "Set your Staff Hub password".
 
+## Text message alerts (optional)
+
+Staff who opt in under **My settings → Text messages** get a text for urgent alerts (or important and urgent,
+their choice), following their work schedule. Texts go out through **Twilio**. Texting stays off until these
+three repository secrets exist:
+
+| Name | Value |
+|---|---|
+| `TWILIO_ACCOUNT_SID` | Twilio Console → Account Info → Account SID (starts with `AC`) |
+| `TWILIO_AUTH_TOKEN` | Twilio Console → Account Info → Auth Token |
+| `TWILIO_FROM` | the approved toll-free number in `+18885551234` form, or a Messaging Service SID (`MG…`) |
+
+US carriers require the number to be verified before it can text: use a **toll-free number** and submit
+**Toll-Free Verification** in Twilio. The opt-in proof is the Text messages screen in the app plus
+`https://<project-id>.web.app/sms-terms.html`. After adding the secrets, re-run the deploy workflow.
+
 ## Installing on phones
 
 **iPhone / iPad** (iOS 16.4 or newer): open the address in **Safari** → **Share** → **Add to Home Screen** → open
