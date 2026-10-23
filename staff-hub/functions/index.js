@@ -14,6 +14,7 @@ const { onSchedule } = require("firebase-functions/v2/scheduler");
 const nodemailer = require("nodemailer");
 const sched = require("./schedule");
 const SEED = require("./seed.json");
+const TEAMS_POSTS = require("./import/teams-posts.json");
 
 initializeApp();
 const db = getFirestore();
@@ -260,7 +261,7 @@ exports.seedDefaults = onCall(async (req) => {
 // ---------- notifications ----------
 exports.onPostCreated = onDocumentCreated("posts/{postId}", async (event) => {
   const post = event.data && event.data.data();
-  if (!post) return;
+  if (!post || post.imported) return; // posts brought over from Teams don't notify anyone
   const postId = event.params.postId;
   const [place, author, people] = await Promise.all([where(post), nameOf(post.author), audience(post.group || "all", post.author)]);
   const important = post.priority === "important" || post.priority === "urgent";
@@ -293,6 +294,7 @@ exports.onReplyCreated = onDocumentCreated("posts/{postId}/replies/{replyId}", a
   if (!postSnap.exists) return;
   const post = postSnap.data();
   await postRef.update({ replyCount: FieldValue.increment(1), lastReplyAt: reply.createdAt || Date.now() });
+  if (reply.imported) return;
 
   // Notify the post's author, anyone mentioned, and earlier people in the thread.
   const earlier = await postRef.collection("replies").select("author").get();
@@ -349,6 +351,43 @@ exports.sendTestNotification = onCall(async (req) => {
   const me = await requireUser(req, false);
   const sent = await pushTo(me.id, { title: "Staff Hub notifications are on", body: "You'll get alerts like this during your work hours.", link: "/" });
   return { sent };
+});
+
+// Recreate saved Teams posts (functions/import/teams-posts.json) with their original authors, dates and replies.
+// Authors are linked to staff accounts by name when one exists; otherwise their name is shown as written.
+exports.importTeamsPosts = onCall(async (req) => {
+  const me = await requireUser(req, true);
+  const users = (await db.collection("users").get()).docs.map((d) => ({ id: d.id, name: String(d.get("name") || "").trim().toLowerCase() }));
+  const uidFor = (name) => (users.find((u) => u.name && u.name === String(name).trim().toLowerCase()) || {}).id || null;
+  const who = (name) => { const id = uidFor(name); return id ? { author: id } : { author: me.id, displayAuthor: name }; };
+  const comms = (await db.collection("communities").get()).docs;
+  const chans = (await db.collection("channels").get()).docs;
+  let posts = 0, replies = 0, skipped = 0;
+  const missing = new Set();
+  for (const item of TEAMS_POSTS) {
+    const done = await db.collection("posts").where("importKey", "==", item.key).limit(1).get();
+    if (!done.empty) { skipped++; continue; }
+    const c = comms.find((d) => d.get("name").toLowerCase() === item.community.toLowerCase());
+    const ch = c && chans.find((d) => d.get("communityId") === c.id && (item.channel === "General" ? d.get("general") : d.get("name").toLowerCase() === item.channel.toLowerCase()));
+    if (!ch) { missing.add(`${item.community} › ${item.channel}`); continue; }
+    const ref = db.collection("posts").doc();
+    await ref.set(Object.assign({
+      channelId: ch.id, communityId: c.id, group: ch.get("group") || "all",
+      subject: item.subject || "", body: item.body || "", priority: item.priority || "update", mentions: [],
+      attachments: item.attachments || [], pinned: !!item.pinned, reachAll: false, acks: {}, reactions: {}, replyCount: 0,
+      createdAt: Date.parse(item.at), imported: true, importKey: item.key,
+    }, who(item.author)));
+    posts++;
+    for (const r of item.replies || []) {
+      const mentionIds = [];
+      const tags = (r.mentions || []).map((n) => { const id = uidFor(n); if (id) { mentionIds.push(id); return `<@${id}>`; } return `**@${n}**`; });
+      await ref.collection("replies").add(Object.assign({
+        body: tags.length ? `${r.body} ${tags.join(" ")}` : r.body, mentions: mentionIds, createdAt: Date.parse(r.at), imported: true,
+      }, who(r.author)));
+      replies++;
+    }
+  }
+  return { posts, replies, skipped, missing: [...missing] };
 });
 
 exports.emailStatus = onCall(async (req) => {

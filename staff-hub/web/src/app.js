@@ -67,11 +67,12 @@ const isAdmin = () => !!S.me && S.me.role === "admin";
 const myGroups = () => (isAdmin() ? ["all", "providers"] : ["all", ...((S.me && S.me.groups) || [])]);
 const user = (id) => S.users[id] || { name: "Former staff member" };
 const nameOf = (id) => (id === S.uid ? "You" : user(id).name || "Team member");
+const authorName = (d) => d.displayAuthor || nameOf(d.author);
 function hue(id) { let x = 0; for (const c of String(id)) x = (x * 31 + c.charCodeAt(0)) % 360; return x; }
-function avatar(id, sm) {
-  const n = user(id).name || "?";
+function avatar(id, sm, label) {
+  const n = label || user(id).name || "?";
   const ini = n.split(/\s+/).filter(Boolean).slice(0, 2).map((w) => w[0].toUpperCase()).join("");
-  return h("span", { class: "initials" + (sm ? " sm" : ""), style: `background:hsl(${hue(id)} 35% 42%)`, title: n, "aria-hidden": "true", text: ini });
+  return h("span", { class: "initials" + (sm ? " sm" : ""), style: `background:hsl(${hue(label || id)} 35% 42%)`, title: n, "aria-hidden": "true", text: ini });
 }
 
 // ---------- data access ----------
@@ -412,7 +413,9 @@ function renderPending() {
 
 function attNodes(list) {
   if (!list || !list.length) return null;
-  return h("div", { class: "atts" }, list.map((a) => (a.type || "").startsWith("image/")
+  return h("div", { class: "atts" }, list.map((a) => /drive\.google\.com|docs\.google\.com/.test(a.url || "")
+    ? h("a", { class: "att-file", href: a.url, target: "_blank", rel: "noopener noreferrer", title: "Opens in Google Drive" }, badge(kindOfType(a.type)), h("span", { text: a.name || "File" }))
+    : (a.type || "").startsWith("image/")
     ? h("a", { href: a.url, target: "_blank", rel: "noopener" }, h("img", { class: "att-img", src: a.url, alt: a.name || "Photo", loading: "lazy" }))
     : h("a", { class: "att-file", href: a.url, target: "_blank", rel: "noopener" }, badge(kindOfType(a.type)), h("span", { text: a.name || "File" }))));
 }
@@ -425,18 +428,19 @@ function postNode(p, opt) {
 
   const actions = h("div", { class: "post-actions" });
   if (isAdmin() && !opt.showWhere) actions.append(h("button", { class: "link-btn", type: "button", onclick: () => updatePost(p, { pinned: !p.pinned }) }, p.pinned ? "Unpin" : "Pin"));
-  if (p.author === S.uid) actions.append(h("button", { class: "link-btn", type: "button", onclick: () => { S.editing = p.id; S.maps["edit-" + p.id] = {}; delete S.drafts["edit-" + p.id]; delete S.drafts["edit-s-" + p.id]; schedule(); } }, "Edit"));
+  if (canModify(p)) actions.append(h("button", { class: "link-btn", type: "button", onclick: () => { S.editing = p.id; S.maps["edit-" + p.id] = {}; delete S.drafts["edit-" + p.id]; delete S.drafts["edit-s-" + p.id]; schedule(); } }, "Edit"));
   if (canModify(p)) actions.append(h("button", { class: "link-btn", type: "button", onclick: () => { S.confirm = "post:" + p.id; schedule(); } }, "Delete"));
 
   const meta = h("div", { class: "post-meta" },
-    h("span", { class: "author", text: nameOf(p.author) }),
+    h("span", { class: "author", text: authorName(p) }),
     h("span", { class: "time", text: when(p.createdAt), title: new Date(p.createdAt).toLocaleString() }),
+    p.imported ? h("span", { class: "chip off", text: "From Teams" }) : null,
     opt.showWhere && ch && c ? h("span", { class: "where" }, "in ", h("button", { type: "button", onclick: () => go(ch.id), text: ch.general ? c.name : `${c.name} › ${ch.name}` })) : null,
     pr !== "update" ? h("span", { class: "chip " + pr, text: pr }) : null,
     p.pinned ? h("span", { class: "chip pin", text: "Pinned" }) : null);
 
   const node = h("article", { class: `post pr-${pr}` + ((p.mentions || []).includes(S.uid) ? " mentions-me" : ""), "data-post": p.id },
-    h("div", { class: "post-head" }, avatar(p.author), meta, actions));
+    h("div", { class: "post-head" }, avatar(p.author, false, p.displayAuthor), meta, actions));
 
   if (S.confirm === "post:" + p.id) node.append(h("div", { class: "confirm" }, "Delete this post and its replies?",
     h("button", { class: "btn danger solid sm", type: "button", onclick: () => { S.confirm = null; deleteDoc(doc(db, "posts", p.id)).then(() => toast("Post deleted")).catch(oops); } }, "Delete"),
@@ -502,9 +506,9 @@ function postNode(p, opt) {
     const replies = S.threads[p.id];
     if (!replies) th.append(h("span", { class: "mini", text: "Loading replies…" }));
     for (const r of replies || []) {
-      th.append(h("div", { class: "reply" }, avatar(r.author, true),
+      th.append(h("div", { class: "reply" }, avatar(r.author, true, r.displayAuthor),
         h("div", { class: "r-main" },
-          h("div", null, h("span", { class: "author", text: nameOf(r.author) }), " ", h("span", { class: "time", text: when(r.createdAt) }),
+          h("div", null, h("span", { class: "author", text: authorName(r) }), " ", h("span", { class: "time", text: when(r.createdAt) }),
             canModify(r) ? h("button", { class: "link-btn", type: "button", onclick: () => { S.confirm = "reply:" + r.id; schedule(); } }, "Delete") : null),
           S.confirm === "reply:" + r.id ? h("div", { class: "confirm" }, "Delete this reply?",
             h("button", { class: "btn danger solid sm", type: "button", onclick: () => { S.confirm = null; deleteDoc(doc(db, `posts/${p.id}/replies/${r.id}`)).catch(oops); } }, "Delete"),
@@ -628,7 +632,9 @@ function teamPanel() {
   const people = Object.entries(S.users).map(([id, u]) => Object.assign({ id }, u)).sort((a, b) => (b.active ? 1 : 0) - (a.active ? 1 : 0) || (a.name || "").localeCompare(b.name || ""));
   return h("section", { class: "panel", style: "max-width:760px" },
     h("div", { class: "row-gap", style: "justify-content:space-between;align-items:center" }, h("h2", { text: `Team (${people.filter((p) => p.active).length})` }),
-      h("button", { class: "btn gold", type: "button", onclick: () => staffModal(null) }, "＋ Invite staff")),
+      h("span", { class: "row-gap" },
+        h("button", { class: "btn", type: "button", onclick: importTeams }, "Import posts from Teams"),
+        h("button", { class: "btn gold", type: "button", onclick: () => staffModal(null) }, "＋ Invite staff"))),
     h("p", { text: "Invited staff get an email to set their password. Managers can create channels, pin posts, see who hasn't acknowledged and manage staff." }),
     h("div", { class: "staff-list" }, people.map((u) => h("div", { class: "staff-row" },
       avatar(u.id),
@@ -759,14 +765,15 @@ function filesPanel(ch) {
   if (q) items = items.filter((f) => `${f.name} ${KINDS[f.kind][1]}`.toLowerCase().includes(q));
   if (!items.length) return [h("div", { class: "empty" }, h("h2", { text: q ? "No matching files" : "No files yet" }),
     h("p", { text: q ? "Try a different word." : "Photos, PDFs, documents and Google Drive links posted in this channel will be collected here." }))];
-  const photos = items.filter((f) => f.kind === "image"), docs = items.filter((f) => f.kind !== "image");
+  const inDrive = (f) => /drive\.google\.com|docs\.google\.com/.test(f.url);
+  const photos = items.filter((f) => f.kind === "image" && !inDrive(f)), docs = items.filter((f) => !photos.includes(f));
   const out = [];
   if (docs.length) {
     out.push(h("div", { class: "section-label", text: `Documents and links (${docs.length})` }));
     out.push(h("div", { class: "file-list" }, docs.map((f) => h("div", { class: "file-row" },
       badge(f.kind),
       h("div", { class: "file-main" }, h("a", { href: f.url, target: "_blank", rel: "noopener noreferrer", text: f.name }),
-        h("span", { class: "mini", text: `${KINDS[f.kind][1]} · ${nameOf(f.post.author)} · ${when(f.post.createdAt)}` })),
+        h("span", { class: "mini", text: `${KINDS[f.kind][1]} · ${authorName(f.post)} · ${when(f.post.createdAt)}` })),
       h("button", { class: "link-btn", type: "button", onclick: () => { S.tab = "posts"; S.flash = f.post.id; schedule(); } }, "View post")))));
   }
   if (photos.length) {
@@ -831,6 +838,13 @@ async function removeChannelOrCommunity(ch, c) {
     S.view = ch.general ? "activity" : (generalOf(c.id) || {}).id || "activity";
     toast(ch.general ? "Community deleted" : "Channel deleted");
   } catch (e) { oops(e); }
+}
+async function importTeams(e) {
+  const btn = e && e.currentTarget; if (btn) btn.disabled = true;
+  try {
+    const r = await call("importTeamsPosts");
+    toast(`Imported ${r.posts} post${r.posts === 1 ? "" : "s"} and ${r.replies} repl${r.replies === 1 ? "y" : "ies"}` + (r.skipped ? `, ${r.skipped} already imported` : "") + (r.missing.length ? `. Couldn't find: ${r.missing.join(", ")}` : "."), 7000);
+  } catch (err) { oops(err); } finally { if (btn) btn.disabled = false; }
 }
 async function seed() {
   try { const r = await call("seedDefaults"); toast(r.created ? `Loaded ${r.created} communities.` : "Communities already exist."); } catch (e) { oops(e); }

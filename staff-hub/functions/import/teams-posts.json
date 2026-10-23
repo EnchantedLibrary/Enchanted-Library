@@ -1,0 +1,58 @@
+[
+  {
+    "key": "specials-revised-q4-promotions",
+    "community": "Specials-Promos",
+    "channel": "General",
+    "author": "Julie Weiss",
+    "at": "2026-09-18T11:03:00-04:00",
+    "priority": "update",
+    "subject": "Revised Q4 Promotions",
+    "body": "Good morning! Attached are the revised Q4 promotions and cheat sheet for front desk & medical providers. Most specials are the same with one change: the Skinvive promotion has been removed and replaced with a DeLand-exclusive Baby Lip Plump promotion.\n\nThese promotions are for Q4 but are already live on the booking portal and in Aesthetic Record for prebooking and filling upcoming schedules. Our first email blast featuring these promotions will be sent Monday, 9/21!",
+    "attachments": [
+      { "name": "Q4 Promos - Front Desk Cheat Sheet.pdf", "type": "application/pdf", "url": "https://drive.google.com/file/d/1w_AB3OKzUYrFsoZPlDlRBeG7BJhMJgVK/view" },
+      { "name": "Fall Promotions.pdf", "type": "application/pdf", "url": "https://drive.google.com/file/d/15-bBEQyRM3oj15SvjtIMA9n7IdWiKe4j/view" }
+    ],
+    "replies": [
+      { "author": "Emma Toto", "at": "2026-09-18T11:16:00-04:00", "body": "got it" },
+      { "author": "angie hughes", "at": "2026-09-18T11:33:00-04:00", "body": "Got it!!" },
+      { "author": "Kaitlyn Kellem", "at": "2026-09-18T11:54:00-04:00", "body": "Got it!" }
+    ]
+  },
+  {
+    "key": "specials-new-patient-botox-offer",
+    "community": "Specials-Promos",
+    "channel": "General",
+    "author": "Julie Weiss",
+    "at": "2026-09-18T14:14:00-04:00",
+    "priority": "update",
+    "subject": "New Patient Botox Offer",
+    "body": "Starting 10/1, we'll be launching a New Patient Botox Offer! New patients will receive 10 FREE units of Botox ($120 value) when treated with 40+ units.\n\nPatients can also stack this offer with $65 OFF Botox through Alle Rewards, bringing their total savings to $185 off their first treatment!\n\nSince this is a manufacturer sponsored promotion, this offer is exclusive to Botox and cannot be applied toward Dysport or Xeomin treatments.\n\nThis service will be booked in AR as \"Botox New Patient Offer: 10 Free Units\". Our current \"Botox,Dysport,Xeomin (New Patient)\" service will be renamed to just \"Dysport, Xeomin (New Patient)\"\n\n**Providers are responsible for adding this promotion to the Allergan Reimbursement Log for tracking!**",
+    "attachments": [],
+    "replies": [
+      { "author": "Amanda Nahon", "at": "2026-09-24T09:44:00-04:00", "body": "Got it" },
+      { "author": "Cheryl Kimmel", "at": "2026-09-24T10:24:00-04:00", "body": "Perfect thank you Julie!!" },
+      { "author": "Julie Weiss", "at": "2026-10-01T09:33:00-04:00", "body": "This can be stacked with the $50 off first service in Deland offer as well", "mentions": ["Emma Toto", "Anneliese Miller", "Allie DelSonno", "Emma Epperly"] },
+      { "author": "Emma Toto", "at": "2026-10-01T09:36:00-04:00", "body": "Thank you" },
+      { "author": "Allie DelSonno", "at": "2026-10-01T11:49:00-04:00", "body": "Got it!" },
+      { "author": "Julie Weiss", "at": "2026-10-01T14:54:00-04:00", "body": "[Botox New Patient Offer - Automations & Outreach Plan](https://drive.google.com/file/d/1W0m7DK4iKNxe31fAcTJLYPb-DfUvrkOG/view)" }
+    ]
+  },
+  {
+    "key": "specials-botox-cosmetic-day-2026",
+    "community": "Specials-Promos",
+    "channel": "General",
+    "author": "Julie Weiss",
+    "at": "2026-10-23T09:47:00-04:00",
+    "priority": "update",
+    "subject": "Botox Cosmetic Day 2026",
+    "body": "Hi everyone! Botox Cosmetic Day 2026 is right around the corner! On **Wednesday, November 18 at 12 PM EST**, patients can purchase a $50 Botox Cosmetic Day Gift Card through Alle Rewards and receive a second $50 gift card FREE!\n\n**Alle is making the promotion even sweeter this year!** If a patient refers a friend to Alle Rewards and that friend receives their first Alle treatment during November, both the referring patient and their friend will receive a $50 Alle Credit.",
+    "attachments": [
+      { "name": "Botox Cosmetic Day flyer - DeLand (free Diamond Glow facial).png", "type": "image/png", "url": "https://drive.google.com/file/d/1AtWKVocvEGDTihN5-D4tvyu20zo7pHVR/view" },
+      { "name": "Botox Cosmetic Day flyer - Ormond Beach.png", "type": "image/png", "url": "https://drive.google.com/file/d/1Ia6P5yiMUjHzN3oK8t8vi2kJExcj1gai/view" }
+    ],
+    "replies": [
+      { "author": "Cheryl Kimmel", "at": "2026-10-23T13:38:00-04:00", "body": "Thanks Julie!" },
+      { "author": "Emma Toto", "at": "2026-10-23T13:38:30-04:00", "body": "Got it thank you" }
+    ]
+  }
+]
