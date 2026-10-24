@@ -579,7 +579,7 @@
     "at": "2026-09-01T09:00:00-04:00",
     "priority": "update",
     "subject": "August 2026 ALLE Flash Metrics (Deland)",
-    "body": "# Scan rate\n- Total transactions: **84**\n- Total scans: **3**\n- Scan rate: **3.57%** 🔻 (benchmark 34.35% · our goal 95-100%)\n\n# Redemption\n- Offers issued: **3**\n- Offers redeemed: **13**\n- Redemption rate: **433.33%** 🟢 (benchmark 43.21% · our goal 25%)\n\nActive in Flash (last two weeks): **Yes**\n\nWe need to scan every ALLE patient at checkout so we get credit. Please review the ALLE Flash SOP pinned in the General channel.",
+    "body": "# Scan rate\n- Total transactions: **84**\n- Total scans: **3**\n- Scan rate: **3.57%** 🔻 (benchmark 34.35% · our goal 95-100%)\n\n# Redemption\n- Offers issued: **3**\n- Offers redeemed: **13**\n- Redemption rate: **433.33%** 🟢 (benchmark 43.21% · our goal 25%)\n\nActive in Flash (last two weeks): **Yes**",
     "attachments": [],
     "replies": []
   }
