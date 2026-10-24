@@ -545,5 +545,42 @@
         "body": "Thanks Anna!"
       }
     ]
+  },
+  {
+    "key": "alle-flash-goals-intro",
+    "community": "ALLE FLASH GOALS",
+    "channel": "General",
+    "author": "__owner__",
+    "at": "2026-04-25T05:27:00-04:00",
+    "priority": "important",
+    "pinned": true,
+    "subject": "ALLE FLASH GOALS",
+    "body": "All ALLE flash scan rates and redemption rates are monitored on a weekly basis. Monthly updates will be posted here.\n\nThe target for ALLE scan rates is above **95-100%**, and the goal for redemption rates is above **25%**.",
+    "attachments": [
+      {
+        "name": "SOP-Alle Flash Scan Rate Redemption Rate.docx",
+        "type": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+        "url": "https://drive.google.com/file/d/1KSfzj3G9dKwXas_iM4H7e5zpbRH2A6yg/view"
+      }
+    ],
+    "replies": [
+      {
+        "author": "Cheryl Kimmel",
+        "at": "2026-05-03T06:45:00-04:00",
+        "body": "Our rates keep getting better and better! Keep up the good work everyone!! Last week we were over 100% scan rate and had hit our 25% redemption goal! 🎉🥳"
+      }
+    ]
+  },
+  {
+    "key": "alle-flash-deland-2026-08",
+    "community": "ALLE FLASH GOALS",
+    "channel": "Monthly ALLE Flash Metrics Deland",
+    "author": "__owner__",
+    "at": "2026-09-01T09:00:00-04:00",
+    "priority": "update",
+    "subject": "August 2026 ALLE Flash Metrics (Deland)",
+    "body": "# Scan rate\n- Total transactions: **84**\n- Total scans: **3**\n- Scan rate: **3.57%** 🔻 (benchmark 34.35% · our goal 95-100%)\n\n# Redemption\n- Offers issued: **3**\n- Offers redeemed: **13**\n- Redemption rate: **433.33%** 🟢 (benchmark 43.21% · our goal 25%)\n\nActive in Flash (last two weeks): **Yes**\n\nWe need to scan every ALLE patient at checkout so we get credit. Please review the ALLE Flash SOP pinned in the General channel.",
+    "attachments": [],
+    "replies": []
   }
 ]
