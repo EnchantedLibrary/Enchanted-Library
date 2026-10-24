@@ -123,13 +123,14 @@ const EXT_MIME = {
 };
 const mimeFor = (f) => EXT_MIME[(f.name.split(".").pop() || "").toLowerCase()] || f.type || "";
 const KINDS = {
-  pdf: ["PDF", "PDF"], word: ["W", "Word document"], excel: ["X", "Excel spreadsheet"], ppt: ["P", "PowerPoint"], image: ["IMG", "Photo"], text: ["TXT", "Text file"],
+  pdf: ["PDF", "PDF"], word: ["W", "Word document"], excel: ["X", "Excel spreadsheet"], ppt: ["P", "PowerPoint"], image: ["IMG", "Photo"], video: ["VID", "Video"], text: ["TXT", "Text file"],
   gdoc: ["Docs", "Google Doc"], gsheet: ["Sheets", "Google Sheet"], gslide: ["Slides", "Google Slides"], gform: ["Forms", "Google Form"],
   gfolder: ["Folder", "Drive folder"], gdrive: ["Drive", "Google Drive file"], link: ["Link", "Link"], file: ["File", "File"],
 };
 function kindOfType(type) {
   if (!type) return "file";
   if (type.startsWith("image/")) return "image";
+  if (type.startsWith("video/")) return "video";
   if (type === "application/pdf") return "pdf";
   if (/word/.test(type)) return "word";
   if (/sheet|excel|csv/.test(type)) return "excel";
